@@ -14,12 +14,17 @@ import org.slf4j.LoggerFactory;
 /**
  *
  * @author Akinwale Agbaje
+ * Properties loaded from the notifiers.properties file.
  */
 public class NotifierProperties extends Properties {
     private final String AUTHORISER_NOTIFIER_QUEUE_NAME = "authoriser.notifier.queue.name";
     private final String AUTHORISER_NOTIFIER_QUEUE_FACTORY = "authoriser.notifier.queue.factory";
     private static final Logger logger = LoggerFactory.getLogger(NotifierProperties.class);
     
+    /**
+     * Loads the notifiers.properties file.
+     * @param clz the class whose classloader will be used to load the notifiers properties file
+     */
     public NotifierProperties(Class clz) {
         String config_file = "notifiers.properties";
         InputStream input = clz.getClassLoader().getResourceAsStream(config_file);
@@ -32,10 +37,18 @@ public class NotifierProperties extends Properties {
         }
     }
     
+    /**
+     * Gets the queue name.
+     * @return the notifier's queue name
+     */
     public String getAuthoriserNotifierQueueName() {
         return getProperty(AUTHORISER_NOTIFIER_QUEUE_NAME);
     }
     
+    /**
+     * Gets the queue factory.
+     * @return the notifier's queue factory
+     */
     public String getAuthoriserNotifierQueueFactory() {
         return getProperty(AUTHORISER_NOTIFIER_QUEUE_FACTORY);
     }
