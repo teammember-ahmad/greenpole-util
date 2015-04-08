@@ -17,6 +17,7 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -32,8 +33,24 @@ public class EmailClient implements Runnable {
     private final EmailProperties prop = new EmailProperties(EmailClient.class);
     private Session mailSession;
     private MimeMessage msg;
+    private final String from;
+    private final String to;
+    private final String subject;
+    private final String template;
     
-    public EmailClient(String from, String to, String template) {
+    /**
+     * Initialises all necessary components before email is sent via thread.
+     * @param from the address the email will be sent to
+     * @param to the address the email is coming from
+     * @param subject the subject of the email
+     * @param template the template which will serve as the email body, typically a html file
+     */
+    public EmailClient(String from, String to, String subject, String template) {
+        this.from = from;
+        this.to = to;
+        this.subject = subject;
+        this.template = template;
+        
         initialiseProperties();
     }
     
@@ -45,23 +62,29 @@ public class EmailClient implements Runnable {
 
     @Override
     public void run() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        sendMail();
     }
     
-    private void sendMail(String from, String to, String subject, String template) {
+    private void sendMail() {
         try {
             msg.setFrom(new InternetAddress(from));
             msg.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
             msg.setSubject(subject);
+            msg.setContent(getTemplateContent(template), "text/html");
+            Transport.send(msg);
+            logger.info("email sent");
         } catch (AddressException ex) {
-            Logger.getLogger(EmailClient.class.getName()).log(Level.SEVERE, null, ex);
+            logger.info("failed to recognise email address - see error log");
+            logger.error("error parsing email address:", ex);
         } catch (MessagingException ex) {
-            Logger.getLogger(EmailClient.class.getName()).log(Level.SEVERE, null, ex);
+            logger.info("failed to send email - see error log");
+            logger.error("error sending email:", ex);
         }
         
     }
     
     private String getTemplateContent(String template) {
+        //read template into string format, java 8 style
         StringBuilder sb = new StringBuilder();
         logger.info("loading email template - [{}]", template);
         try {
