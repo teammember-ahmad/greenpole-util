@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 /**
  *
  * @author Akinwale.Agbaje
- * Properties loaded from the notifiers.properties file.
+ * Properties loaded from the email.properties file.
  */
 public class EmailProperties extends Properties {
     private final String MAIL_TRANSPORT_PROTOCOL = "mail.transport.protocol";
@@ -25,10 +25,11 @@ public class EmailProperties extends Properties {
     private final String MAIL_USER = "mail.user";
     private final String MAIL_PASSWORD = "mail.password";
     private final String MAIL_SENDER = "mail.sender";
+    private final String MAIL_TEMPLATE = "mail.template";
     private static final Logger logger = LoggerFactory.getLogger(EmailProperties.class);
 
     /**
-     * Loads the notifiers.properties file.
+     * Loads the email.properties file.
      * @param clz the class whose classloader will be used to load the email properties file
      */
     public EmailProperties(Class clz) {
@@ -105,5 +106,13 @@ public class EmailProperties extends Properties {
      */
     public String getMailSender() {
         return getProperty(MAIL_SENDER);
+    }
+    
+    /**
+     * Gets the default email template.
+     * @return the email template
+     */
+    public String getMailTemplate() {
+        return getProperty(MAIL_TEMPLATE);
     }
 }
