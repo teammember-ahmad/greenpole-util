@@ -41,7 +41,7 @@ public class ThreadPoolProperties extends Properties {
      * @return the pool size
      */
     public String getAuthoriserNotifierPoolSize() {
-        return getProperty("");
+        return getProperty("threadpool.size.authoriser.notifier");
     }
     
     /**
@@ -49,6 +49,6 @@ public class ThreadPoolProperties extends Properties {
      * @return the pool size
      */
     public String getAuthoriserNotifierQueuePoolSize() {
-        return getProperty(null);
+        return getProperty("threadpool.size.authoriser.queue");
     }
 }
