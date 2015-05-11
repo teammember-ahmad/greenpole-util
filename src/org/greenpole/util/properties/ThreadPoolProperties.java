@@ -17,7 +17,8 @@ import org.slf4j.LoggerFactory;
  * Properties loaded from the threadpool_notifiers.properties file.
  */
 public class ThreadPoolProperties extends Properties {
-    //private final String
+    private final String THREADPOOL_SIZE_AUTHORISER_NOTIFIER = "threadpool.size.authoriser.notifier";
+    private final String THREADPOOL_SIZE_AUTHORISER_QUEUE = "threadpool.size.authoriser.queue";
     private static final Logger logger = LoggerFactory.getLogger(ThreadPoolProperties.class);
     
     /**
@@ -41,7 +42,7 @@ public class ThreadPoolProperties extends Properties {
      * @return the pool size
      */
     public String getAuthoriserNotifierPoolSize() {
-        return getProperty("threadpool.size.authoriser.notifier");
+        return getProperty(THREADPOOL_SIZE_AUTHORISER_NOTIFIER);
     }
     
     /**
@@ -49,6 +50,6 @@ public class ThreadPoolProperties extends Properties {
      * @return the pool size
      */
     public String getAuthoriserNotifierQueuePoolSize() {
-        return getProperty("threadpool.size.authoriser.queue");
+        return getProperty(THREADPOOL_SIZE_AUTHORISER_QUEUE);
     }
 }

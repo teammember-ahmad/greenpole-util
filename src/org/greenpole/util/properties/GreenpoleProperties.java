@@ -17,6 +17,10 @@ import org.slf4j.LoggerFactory;
  * Properties loaded from the greenpole_engine.properties file.
  */
 public class GreenpoleProperties extends Properties {
+    private final String DATE_FORMAT = "date.format";
+    private final String HOLDER_SIGNATURE_PATH = "holder.signature.dir";
+    private final String POWER_OF_ATTORNEY_PATH = "holder.powerofattorney.dir";
+    private final String ATTORNEY_SIZE = "attorney.size";
     private static final Logger logger = LoggerFactory.getLogger(ThreadPoolProperties.class);
 
     /**
@@ -31,7 +35,7 @@ public class GreenpoleProperties extends Properties {
             load(input);
         } catch (IOException ex) {
             logger.info("failed to load configuration file - see error log");
-            logger.error("error loading notifier config file:", ex);
+            logger.error("error loading greenpole engine config file:", ex);
         }
     }
     
@@ -40,7 +44,30 @@ public class GreenpoleProperties extends Properties {
      * @return the date format
      */
     public String getDateFormat() {
-        return getProperty("date.format");
+        return getProperty(DATE_FORMAT);
     }
     
+    /**
+     * Gets the signature path.
+     * @return Gets the signature path
+     */
+    public String getSignaturePath() {
+        return getProperty(HOLDER_SIGNATURE_PATH);
+    }
+    
+    /**
+     * Gets the power of attorney path.
+     * @return the power of attorney path
+     */
+    public String getPowerOfAttorneyPath() {
+        return getProperty(POWER_OF_ATTORNEY_PATH);
+    }
+    
+    /**
+     * Gets the default size of the power of attorney.
+     * @return the default size of the power of attorney
+     */
+    public String getPowerOfAttorneySize() {
+        return getProperty(ATTORNEY_SIZE);
+    }
 }
