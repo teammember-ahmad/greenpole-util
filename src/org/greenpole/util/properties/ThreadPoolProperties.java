@@ -33,7 +33,7 @@ public class ThreadPoolProperties extends Properties {
             load(input);
         } catch (IOException ex) {
             logger.info("failed to load configuration file - see error log");
-            logger.error("error loading notifier config file:", ex);
+            logger.error("error loading threadpool config file:", ex);
         }
     }
     

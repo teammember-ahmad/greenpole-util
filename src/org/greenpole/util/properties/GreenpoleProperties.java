@@ -21,7 +21,8 @@ public class GreenpoleProperties extends Properties {
     private final String HOLDER_SIGNATURE_PATH = "holder.signature.dir";
     private final String POWER_OF_ATTORNEY_PATH = "holder.powerofattorney.dir";
     private final String ATTORNEY_SIZE = "attorney.size";
-    private static final Logger logger = LoggerFactory.getLogger(ThreadPoolProperties.class);
+    private final String SIGNATURE_SIZE = "signature.size";
+    private static final Logger logger = LoggerFactory.getLogger(GreenpoleProperties.class);
 
     /**
      * Loads the greenpole_engine.properties file.
@@ -69,5 +70,13 @@ public class GreenpoleProperties extends Properties {
      */
     public String getPowerOfAttorneySize() {
         return getProperty(ATTORNEY_SIZE);
+    }
+    
+    /**
+     * Gets the default size of the signature.
+     * @return the default size of the signature
+     */
+    public String getSignatureSize() {
+        return getProperty(SIGNATURE_SIZE);
     }
 }
