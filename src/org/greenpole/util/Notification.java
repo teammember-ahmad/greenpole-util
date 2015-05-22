@@ -12,6 +12,8 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import org.greenpole.entity.notification.NotificationWrapper;
 import org.greenpole.entity.security.Login;
+import org.greenpole.hibernate.query.GeneralComponentQuery;
+import org.greenpole.hibernate.query.factory.ComponentQueryFactory;
 
 /**
  *
@@ -19,7 +21,8 @@ import org.greenpole.entity.security.Login;
  * Responsible for common notification functions.
  */
 public class Notification {
-
+    private static final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
+    
     /**
      * Creates a notification code from the user's login details.
      * @param login the user's login details
@@ -59,6 +62,7 @@ public class Notification {
      * @param wrapper the notification object containing updated notification information
      * @throws JAXBException if xml file cannot be found, or file does not map to
      * {@link NotificationWrapper}
+     * @deprecated no need to persist notification at this point in development. Ignore method.
      */
     public static void persistNotificationFile(String folderPath, String notificationCode, NotificationWrapper wrapper) throws JAXBException {
         File file = new File(folderPath + notificationCode + ".xml");
@@ -66,5 +70,36 @@ public class Notification {
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         jaxbMarshaller.marshal(wrapper, file);
+    }
+    
+    /**
+     * Writes off a notification in the database that has no corresponding xml file.
+     * @param notificationCode the notification code
+     */
+    public static void writeOffNotification(String notificationCode) {
+        org.greenpole.hibernate.entity.Notification notification = gq.getNotification(notificationCode);
+        notification.setWriteOff(true);
+        gq.createUpdateNotification(notification);
+    }
+    
+    /**
+     * Marks a notification as attended to on the database.
+     * @param notificationCode the notification code
+     */
+    public static void markAttended(String notificationCode) {
+        org.greenpole.hibernate.entity.Notification notification = gq.getNotification(notificationCode);
+        notification.setAttendedTo(true);
+        gq.createUpdateNotification(notification);
+    }
+    
+    /**
+     * Checks if notification file exists.
+     * @param folderPath the notification's folder path
+     * @param notificationCode the notification code
+     * @return true, if the notification file exists
+     */
+    public static boolean checkFile(String folderPath, String notificationCode) {
+        File file = new File(folderPath + notificationCode + ".xml");
+        return file.isFile();
     }
 }
