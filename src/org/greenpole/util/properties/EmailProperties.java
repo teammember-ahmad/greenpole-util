@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
  * Properties loaded from the email.properties file.
  */
 public class EmailProperties extends Properties {
+    private InputStream input;
     private final String MAIL_TRANSPORT_PROTOCOL = "mail.transport.protocol";
     private final String MAIL_HOST = "mail.host";
     private final String MAIL_SMTP_PORT = "mail.smtp.port";
@@ -34,10 +35,11 @@ public class EmailProperties extends Properties {
      */
     public EmailProperties(Class clz) {
         String config_file = "email.properties";
-        InputStream input = clz.getClassLoader().getResourceAsStream(config_file);
+        input = clz.getClassLoader().getResourceAsStream(config_file);
         logger.info("Loading configuration file - {}", config_file);
         try {
             load(input);
+            close();
         } catch (IOException ex) {
             logger.info("failed to load configuration file - see error log");
             logger.error("error loading email config file:", ex);
@@ -114,5 +116,18 @@ public class EmailProperties extends Properties {
      */
     public String getMailTemplate() {
         return getProperty(MAIL_TEMPLATE);
+    }
+    
+    /**
+     * Close input stream.
+     */
+    private void close() {
+        try {
+            if (input != null)
+                    input.close();
+        } catch (IOException ex) {
+            logger.info("failed to close configuration file input stream - see error log");
+            logger.error("error closing email config file input stream:", ex);
+        }
     }
 }

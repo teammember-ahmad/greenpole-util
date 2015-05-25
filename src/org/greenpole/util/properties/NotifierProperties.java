@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
  * Properties loaded from the notifiers.properties file.
  */
 public class NotifierProperties extends Properties {
+    private InputStream input;
     private final String AUTHORISER_NOTIFIER_QUEUE_NAME = "authoriser.notifier.queue.name";
     private final String AUTHORISER_NOTIFIER_QUEUE_FACTORY = "authoriser.notifier.queue.factory";
     private static final Logger logger = LoggerFactory.getLogger(NotifierProperties.class);
@@ -27,10 +28,11 @@ public class NotifierProperties extends Properties {
      */
     public NotifierProperties(Class clz) {
         String config_file = "notifiers.properties";
-        InputStream input = clz.getClassLoader().getResourceAsStream(config_file);
+        input = clz.getClassLoader().getResourceAsStream(config_file);
         logger.info("Loading configuration file - {}", config_file);
         try {
             load(input);
+            close();
         } catch (IOException ex) {
             logger.info("failed to load configuration file - see error log");
             logger.error("error loading notifier config file:", ex);
@@ -51,5 +53,18 @@ public class NotifierProperties extends Properties {
      */
     public String getAuthoriserNotifierQueueFactory() {
         return getProperty(AUTHORISER_NOTIFIER_QUEUE_FACTORY);
+    }
+    
+    /**
+     * Close input stream.
+     */
+    private void close() {
+        try {
+            if (input != null)
+                    input.close();
+        } catch (IOException ex) {
+            logger.info("failed to close configuration file input stream - see error log");
+            logger.error("error closing notifier config file input stream:", ex);
+        }
     }
 }

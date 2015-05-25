@@ -10,8 +10,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -22,6 +20,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import org.greenpole.util.properties.EmailProperties;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -29,7 +28,7 @@ import org.slf4j.LoggerFactory;
  * @author Akinwale Agbaje
  */
 public class EmailClient implements Runnable {
-    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(EmailClient.class);
+    private static final Logger logger = LoggerFactory.getLogger(EmailClient.class);
     private final EmailProperties prop = new EmailProperties(EmailClient.class);
     private Session mailSession;
     private MimeMessage msg;

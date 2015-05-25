@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
  * Properties loaded from notifications.properties
  */
 public class NotificationProperties extends Properties {
+    private InputStream input;
     private final String NOTIFICATION_LOCATION = "notification.location";
     private static final Logger logger = LoggerFactory.getLogger(org.greenpole.util.properties.NotifierProperties.class);
     
@@ -26,10 +27,11 @@ public class NotificationProperties extends Properties {
      */
     public NotificationProperties(Class clz) {
         String config_file = "notifications.properties";
-        InputStream input = clz.getClassLoader().getResourceAsStream(config_file);
+        input = clz.getClassLoader().getResourceAsStream(config_file);
         logger.info("Loading configuration file - {}", config_file);
         try {
             load(input);
+            close();
         } catch (IOException ex) {
             logger.info("failed to load configuration file - see error log");
             logger.error("error loading notification config file:", ex);
@@ -42,5 +44,18 @@ public class NotificationProperties extends Properties {
      */
     public String getNotificationLocation() {
         return getProperty(NOTIFICATION_LOCATION);
+    }
+    
+    /**
+     * Close input stream.
+     */
+    private void close() {
+        try {
+            if (input != null)
+                    input.close();
+        } catch (IOException ex) {
+            logger.info("failed to close configuration file input stream - see error log");
+            logger.error("error closing notification config file input stream:", ex);
+        }
     }
 }

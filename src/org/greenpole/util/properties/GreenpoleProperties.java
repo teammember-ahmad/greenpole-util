@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
  * Properties loaded from the greenpole_engine.properties file.
  */
 public class GreenpoleProperties extends Properties {
+    private InputStream input;
     private final String DATE_FORMAT = "date.format";
     private final String HOLDER_SIGNATURE_PATH = "holder.signature.dir";
     private final String POWER_OF_ATTORNEY_PATH = "holder.powerofattorney.dir";
@@ -30,10 +31,11 @@ public class GreenpoleProperties extends Properties {
      */
     public GreenpoleProperties(Class clz) {
         String config_file = "greenpole_engine.properties";
-        InputStream input = clz.getClassLoader().getResourceAsStream(config_file);
+        input = clz.getClassLoader().getResourceAsStream(config_file);
         logger.info("Loading configuration file - {}", config_file);
         try {
             load(input);
+            close();
         } catch (IOException ex) {
             logger.info("failed to load configuration file - see error log");
             logger.error("error loading greenpole engine config file:", ex);
@@ -78,5 +80,18 @@ public class GreenpoleProperties extends Properties {
      */
     public String getSignatureSize() {
         return getProperty(SIGNATURE_SIZE);
+    }
+    
+    /**
+     * Close input stream.
+     */
+    private void close() {
+        try {
+            if (input != null)
+                    input.close();
+        } catch (IOException ex) {
+            logger.info("failed to close configuration file input stream - see error log");
+            logger.error("error closing greenpole config file input stream:", ex);
+        }
     }
 }

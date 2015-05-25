@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
  * Properties loaded from the threadpool_notifiers.properties file.
  */
 public class ThreadPoolProperties extends Properties {
+    private InputStream input;
     private final String THREADPOOL_SIZE_AUTHORISER_NOTIFIER = "threadpool.size.authoriser.notifier";
     private final String THREADPOOL_SIZE_AUTHORISER_QUEUE = "threadpool.size.authoriser.queue";
     private static final Logger logger = LoggerFactory.getLogger(ThreadPoolProperties.class);
@@ -27,10 +28,11 @@ public class ThreadPoolProperties extends Properties {
      */
     public ThreadPoolProperties(Class clz) {
         String config_file = "threadpool_notifiers.properties";
-        InputStream input = clz.getClassLoader().getResourceAsStream(config_file);
+        input = clz.getClassLoader().getResourceAsStream(config_file);
         logger.info("Loading configuration file - {}", config_file);
         try {
             load(input);
+            close();
         } catch (IOException ex) {
             logger.info("failed to load configuration file - see error log");
             logger.error("error loading threadpool config file:", ex);
@@ -51,5 +53,18 @@ public class ThreadPoolProperties extends Properties {
      */
     public String getAuthoriserNotifierQueuePoolSize() {
         return getProperty(THREADPOOL_SIZE_AUTHORISER_QUEUE);
+    }
+    
+    /**
+     * Close input stream.
+     */
+    private void close() {
+        try {
+            if (input != null)
+                input.close();
+        } catch (IOException ex) {
+            logger.info("failed to close configuration file input stream - see error log");
+            logger.error("error closing threadpool config file input stream:", ex);
+        }
     }
 }
