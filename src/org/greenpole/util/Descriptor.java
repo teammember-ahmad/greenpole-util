@@ -20,7 +20,7 @@ public class Descriptor {
      * @param descriptor the search description
      * @return a map of the individual search descriptions
      */
-    public static Map<String, String> decipherDescriptor(String descriptor) {
+    public Map<String, String> decipherDescriptor(String descriptor) {
         Map<String, String> descriptorSplits = new HashMap<>();
         String[] individualSplit = descriptor.split(";");
         for (String singleDescriptor : individualSplit) {

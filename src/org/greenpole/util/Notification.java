@@ -21,14 +21,14 @@ import org.greenpole.hibernate.query.factory.ComponentQueryFactory;
  * Responsible for common notification functions.
  */
 public class Notification {
-    private static final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
+    private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
     
     /**
      * Creates a notification code from the user's login details.
      * @param login the user's login details
      * @return the notification code
      */
-    public static String createCode(Login login) {
+    public String createCode(Login login) {
         Date date = new Date();
         Manipulator manipulate = new Manipulator();
         String[] names = manipulate.separateNameFromEmail(login.getUserId());
@@ -45,7 +45,7 @@ public class Notification {
      * @throws JAXBException if xml file cannot be found, or file does not map to
      * {@link NotificationWrapper}
      */
-    public static NotificationWrapper loadNotificationFile(String folderPath, String notificationCode) throws JAXBException {
+    public NotificationWrapper loadNotificationFile(String folderPath, String notificationCode) throws JAXBException {
         File file = new File(folderPath + notificationCode + ".xml");
         JAXBContext jaxbContext = JAXBContext.newInstance(NotificationWrapper.class);
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
@@ -64,7 +64,7 @@ public class Notification {
      * {@link NotificationWrapper}
      * @deprecated no need to persist notification at this point in development. Ignore method.
      */
-    public static void persistNotificationFile(String folderPath, String notificationCode, NotificationWrapper wrapper) throws JAXBException {
+    public void persistNotificationFile(String folderPath, String notificationCode, NotificationWrapper wrapper) throws JAXBException {
         File file = new File(folderPath + notificationCode + ".xml");
         JAXBContext jaxbContext = JAXBContext.newInstance(NotificationWrapper.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -76,7 +76,7 @@ public class Notification {
      * Writes off a notification in the database that has no corresponding xml file.
      * @param notificationCode the notification code
      */
-    public static void writeOffNotification(String notificationCode) {
+    public void writeOffNotification(String notificationCode) {
         org.greenpole.hibernate.entity.Notification notification = gq.getNotification(notificationCode);
         notification.setWriteOff(true);
         gq.createUpdateNotification(notification);
@@ -86,7 +86,7 @@ public class Notification {
      * Marks a notification as attended to on the database.
      * @param notificationCode the notification code
      */
-    public static void markAttended(String notificationCode) {
+    public void markAttended(String notificationCode) {
         org.greenpole.hibernate.entity.Notification notification = gq.getNotification(notificationCode);
         notification.setAttendedTo(true);
         gq.createUpdateNotification(notification);
@@ -98,7 +98,7 @@ public class Notification {
      * @param notificationCode the notification code
      * @return true, if the notification file exists
      */
-    public static boolean checkFile(String folderPath, String notificationCode) {
+    public boolean checkFile(String folderPath, String notificationCode) {
         File file = new File(folderPath + notificationCode + ".xml");
         return file.isFile();
     }

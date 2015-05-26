@@ -19,7 +19,7 @@ public class BytesConverter {
      * @param fileContents the byte contents of a file in string format
      * @return the byte array representation
      */
-    public static byte[] decodeToBytes(String fileContents) {
+    public byte[] decodeToBytes(String fileContents) {
         return Base64.getUrlDecoder().decode(fileContents);
     }
     
@@ -28,7 +28,7 @@ public class BytesConverter {
      * @param bytes the byte content of a file
      * @return the string representation
      */
-    public static String encodeToString(byte[] bytes) {
+    public String encodeToString(byte[] bytes) {
         return Base64.getUrlEncoder().encodeToString(bytes);
     }
 }
