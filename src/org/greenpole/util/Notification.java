@@ -46,10 +46,17 @@ public class Notification {
      * {@link NotificationWrapper}
      */
     public NotificationWrapper loadNotificationFile(String folderPath, String notificationCode) throws JAXBException {
+        //load notification xml file
         File file = new File(folderPath + notificationCode + ".xml");
         JAXBContext jaxbContext = JAXBContext.newInstance(NotificationWrapper.class);
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
         NotificationWrapper wrapper = (NotificationWrapper) jaxbUnmarshaller.unmarshal(file);
+        
+        //load wrapper from bytes
+        /*byte[] notificationData = Base64.getDecoder().decode(wrapper.getEnigma());
+        ObjectInputStream objectInStream = new ObjectInputStream(new ByteArrayInputStream(notificationData));
+        NotificationWrapper returnWrapper = (NotificationWrapper) objectInStream.readObject();
+        objectInStream.close();*/
         return wrapper;
     }
     
