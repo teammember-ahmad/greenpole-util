@@ -20,7 +20,8 @@ public class BytesConverter {
      * @return the byte array representation
      */
     public byte[] decodeToBytes(String fileContents) {
-        return Base64.getUrlDecoder().decode(fileContents);
+        //return Base64.getUrlDecoder().decode(fileContents);
+        return Base64.getDecoder().decode(fileContents);
     }
     
     /**
@@ -29,6 +30,7 @@ public class BytesConverter {
      * @return the string representation
      */
     public String encodeToString(byte[] bytes) {
-        return Base64.getUrlEncoder().encodeToString(bytes);
+        //return Base64.getUrlEncoder().encodeToString(bytes);
+        return Base64.getEncoder().encodeToString(bytes);
     }
 }
