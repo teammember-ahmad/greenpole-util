@@ -100,6 +100,17 @@ public class Notification {
     }
     
     /**
+     * Marks a notification as rejected on the database.
+     * @param notificationCode the notification code
+     */
+    public void markRejected(String notificationCode) {
+        org.greenpole.hibernate.entity.Notification notification = gq.getNotification(notificationCode);
+        notification.setAttendedTo(true);
+        notification.setRejected(true);
+        gq.createUpdateNotification(notification);
+    }
+    
+    /**
      * Checks if notification file exists.
      * @param folderPath the notification's folder path
      * @param notificationCode the notification code
