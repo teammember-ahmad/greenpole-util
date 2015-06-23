@@ -13,8 +13,9 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import org.greenpole.entity.exception.ConfigNotFoundException;
 import org.greenpole.hibernate.entity.EnvironmentalVariables;
-import org.greenpole.hibernate.entity.PropertySms;
+import org.greenpole.hibernate.entity.PropertyQueueConfig;
 import org.greenpole.hibernate.query.GeneralComponentQuery;
 import org.greenpole.hibernate.query.factory.ComponentQueryFactory;
 import org.slf4j.Logger;
@@ -24,26 +25,19 @@ import org.slf4j.LoggerFactory;
  *
  * @author Akinwale Agbaje
  */
-public class SMSProperties extends Properties {
-    private static SMSProperties INSTANCE;
+public class QueueConfigProperties extends Properties {
+    private static QueueConfigProperties INSTANCE;
     private InputStream input;
-    private final String SMS_API_USERNAME = "sms.api.username";
-    private final String SMS_API_PASSWORD = "sms.api.password";
-    private final String TEXT_MERGE = "text.merge";
-    private final String TEXT_CHANGE_ADDRESS = "text.change.address";
-    private final String TEXT_CHANGE_NAME = "text.change.name";
-    private final String TEXT_CHANGE_CHN = "text.change.chn";
-    private final String TEXT_RATE = "text.rate";
-    private static final Logger logger = LoggerFactory.getLogger(SMSProperties.class);
+    private static final Logger logger = LoggerFactory.getLogger(QueueConfigProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
     
-    private SMSProperties() {
+    private QueueConfigProperties() {
         load();
     }
 
-    public static SMSProperties getInstance() {
+    public static QueueConfigProperties getInstance() {
         if (INSTANCE == null)
-            INSTANCE = new SMSProperties();
+            INSTANCE = new QueueConfigProperties();
         return INSTANCE;
     }
     
@@ -52,7 +46,7 @@ public class SMSProperties extends Properties {
      */
     public final void load() {
         try {
-            String config_file = "sms.properties";
+            String config_file = "queue_config.properties";
             EnvironmentalVariables ev = gq.getVariable("property.path");
             String prop_path = ev.getPath();
             logger.info("Loading configuration file - {}", config_file);
@@ -74,10 +68,10 @@ public class SMSProperties extends Properties {
                 //ensure that all property keys have not been tampered with
                 for (Map.Entry pairs : entrySet()) {
                     String key = (String) pairs.getKey();
-                    List<PropertySms> all = gq.getAllSmsProperty();
+                    List<PropertyQueueConfig> all = gq.getAllQueueConfigProperty();
                     boolean found = false;
-                    for (PropertySms s : all) {
-                        if (key.equals(s.getPropertyName())) {
+                    for (PropertyQueueConfig q : all) {
+                        if (key.equals(q.getPropertyName())) {
                             found = true;
                             break;
                         }
@@ -100,12 +94,12 @@ public class SMSProperties extends Properties {
      */
     public final void reload() {
         try {
-            String config_file = "sms.properties";
+            String config_file = "queue_config.properties";
             EnvironmentalVariables ev = gq.getVariable("property.path");
             String prop_path = ev.getPath();
             logger.info("Reloading configuration file - {}", config_file);
             
-            File defaultFile = new File(SMSProperties.class.getClassLoader().getResource(config_file).getPath());
+            File defaultFile = new File(QueueConfigProperties.class.getClassLoader().getResource(config_file).getPath());
             File propFile = new File(prop_path + config_file);
             propFile.delete();
             //if property file does not exist in designated location, create file using default file within system classpath
@@ -132,13 +126,9 @@ public class SMSProperties extends Properties {
             
             FileOutputStream changestream = new FileOutputStream(propFile);
             
-            setProperty(SMS_API_USERNAME, gq.getSmsProperty(SMS_API_USERNAME).getPropertyValue());
-            setProperty(SMS_API_PASSWORD, gq.getSmsProperty(SMS_API_PASSWORD).getPropertyValue());
-            setProperty(TEXT_MERGE, gq.getSmsProperty(TEXT_MERGE).getPropertyValue());
-            setProperty(TEXT_CHANGE_ADDRESS, gq.getSmsProperty(TEXT_CHANGE_ADDRESS).getPropertyValue());
-            setProperty(TEXT_CHANGE_NAME, gq.getSmsProperty(TEXT_CHANGE_NAME).getPropertyValue());
-            setProperty(TEXT_CHANGE_CHN, gq.getSmsProperty(TEXT_CHANGE_CHN).getPropertyValue());
-            setProperty(TEXT_RATE, gq.getSmsProperty(TEXT_RATE).getPropertyValue());
+            setProperty("java.naming.factory.initial", gq.getQueueConfigProperty("java.naming.factory.initial").getPropertyValue());
+            setProperty("java.naming.factory.url.pkgs", gq.getQueueConfigProperty("java.naming.factory.url.pkgs").getPropertyValue());
+            setProperty("java.naming.provider.url", gq.getQueueConfigProperty("java.naming.provider.url").getPropertyValue());
             
             store(changestream, null);
             changestream.close();
@@ -147,81 +137,29 @@ public class SMSProperties extends Properties {
             logger.error("error reloading email config file:", ex);
         }
     }
-
-    /**
-     * Loads the sms.properties file.
-     * @param clz the class whose classloader will be used to load the sms properties file
+    
+     /**
+     * Loads the queue config.properties file.
+     * @param clz the class whose classloader will be used to load the notifiers properties file
      */
-    /*public SMSProperties(Class clz) {
-    String config_file = "sms.properties";
+    /*public QueueConfigProperties(Class clz) {
+    String config_file = "queue_config.properties";
     input = clz.getClassLoader().getResourceAsStream(config_file);
     logger.info("Loading configuration file - {}", config_file);
     try {
+    if (input == null) {
+    logger.info("Failure to load configuration file - {}", config_file);
+    throw new ConfigNotFoundException("queue_config.properties file missing from classpath");
+    }
     load(input);
     close();
-    } catch (IOException ex) {
+    } catch (IOException | ConfigNotFoundException ex) {
     logger.info("failed to load configuration file - see error log");
-    logger.error("error loading sms config file:", ex);
+    logger.error("error loading notifier config file:", ex);
     }
     }*/
     
-    /**
-     * Gets the sms api username.
-     * @return the sms api username
-     */
-    public String getAPIUsername() {
-        return getProperty(SMS_API_USERNAME);
-    }
-    
-    /**
-     * Gets the sms api password.
-     * @return the sms api password
-     */
-    public String getAPIPassword() {
-        return getProperty(SMS_API_PASSWORD);
-    }
-    
-    /**
-     * Gets the merge text.
-     * @return the merge text
-     */
-    public String getTextMerge() {
-        return getProperty(TEXT_MERGE);
-    }
-    
-    /**
-     * Gets the change address text.
-     * @return the change address text
-     */
-    public String getTextChangeAddress() {
-        return getProperty(TEXT_CHANGE_ADDRESS);
-    }
-    
-    /**
-     * Gets the change name text.
-     * @return the change name text
-     */
-    public String getTextChangeName() {
-        return getProperty(TEXT_CHANGE_NAME);
-    }
-    
-    /**
-     * Gets the change chn text.
-     * @return the change chn text
-     */
-    public String getTextChangeChn() {
-        return getProperty(TEXT_CHANGE_CHN);
-    }
-    
-    /**
-     * Gets the price of a text.
-     * @return the price of a text
-     */
-    public String getTextRate() {
-        return getProperty(TEXT_RATE);
-    }
-    
-    /**
+    /*
      * Close input stream.
      */
     private void close() {
@@ -230,10 +168,7 @@ public class SMSProperties extends Properties {
                     input.close();
         } catch (IOException ex) {
             logger.info("failed to close configuration file input stream - see error log");
-            logger.error("error closing sms config file input stream:", ex);
+            logger.error("error closing notifier config file input stream:", ex);
         }
     }
-    
-    
-    
 }

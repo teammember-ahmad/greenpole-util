@@ -5,9 +5,18 @@
  */
 package org.greenpole.util.properties;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import org.greenpole.hibernate.entity.EnvironmentalVariables;
+import org.greenpole.hibernate.entity.PropertyThreadpool;
+import org.greenpole.hibernate.query.GeneralComponentQuery;
+import org.greenpole.hibernate.query.factory.ComponentQueryFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,27 +26,137 @@ import org.slf4j.LoggerFactory;
  * Properties loaded from the threadpool_notifiers.properties file.
  */
 public class ThreadPoolProperties extends Properties {
+    private static ThreadPoolProperties INSTANCE;
     private InputStream input;
     private final String THREADPOOL_SIZE_AUTHORISER_NOTIFIER = "threadpool.size.authoriser.notifier";
     private final String THREADPOOL_SIZE_AUTHORISER_QUEUE = "threadpool.size.authoriser.queue";
+    private final String THREADPOOL_SIZE_TEXT_QUEUE = "threadpool.size.text.queue";
     private static final Logger logger = LoggerFactory.getLogger(ThreadPoolProperties.class);
+    private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
+    
+    private ThreadPoolProperties() {
+        load();
+    }
+
+    public static ThreadPoolProperties getInstance() {
+        if (INSTANCE == null)
+            INSTANCE = new ThreadPoolProperties();
+        return INSTANCE;
+    }
+    
+    /**
+     * Loads a configuration file from the disk
+     */
+    public final void load() {
+        try {
+            String config_file = "threadpool_notifiers.properties";
+            EnvironmentalVariables ev = gq.getVariable("property.path");
+            String prop_path = ev.getPath();
+            logger.info("Loading configuration file - {}", config_file);
+            
+            boolean exists = false;
+            File propFile = new File(prop_path + config_file);
+            //if property file does not exist in designated location, create file using default file within system classpath
+            if (!propFile.exists()) {
+                reload();
+            } else {
+                exists = true;
+            }
+            
+            if (exists) {
+                FileInputStream loadstream = new FileInputStream(propFile);
+                load(loadstream);
+                loadstream.close();
+                
+                //ensure that all property keys have not been tampered with
+                for (Map.Entry pairs : entrySet()) {
+                    String key = (String) pairs.getKey();
+                    List<PropertyThreadpool> all = gq.getAllThreadProperty();
+                    boolean found = false;
+                    for (PropertyThreadpool t : all) {
+                        if (key.equals(t.getPropertyName())) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    
+                    if (!found) {
+                        reload();
+                        break;
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            logger.info("failed to load configuration file - see error log");
+            logger.error("error loading email config file:", ex);
+        }
+    }
+    
+    /**
+     * Reloads a configuration file, getting all necessary variables from the database.
+     */
+    public final void reload() {
+        try {
+            String config_file = "threadpool_notifiers.properties";
+            EnvironmentalVariables ev = gq.getVariable("property.path");
+            String prop_path = ev.getPath();
+            logger.info("Reloading configuration file - {}", config_file);
+            
+            File defaultFile = new File(ThreadPoolProperties.class.getClassLoader().getResource(config_file).getPath());
+            File propFile = new File(prop_path + config_file);
+            propFile.delete();
+            //if property file does not exist in designated location, create file using default file within system classpath
+            if (!propFile.exists()) {
+                propFile.getParentFile().mkdirs();
+
+                FileInputStream instream = new FileInputStream(defaultFile);
+                FileOutputStream outstream = new FileOutputStream(propFile);
+
+                byte[] buffer = new byte[1024];
+
+                int length;
+                while ((length = instream.read(buffer)) > 0) {
+                    outstream.write(buffer, 0, length);
+                }
+
+                instream.close();
+                outstream.close();
+            }
+            
+            FileInputStream loadstream = new FileInputStream(propFile);
+            load(loadstream);
+            loadstream.close();
+            
+            FileOutputStream changestream = new FileOutputStream(propFile);
+            
+            setProperty(THREADPOOL_SIZE_AUTHORISER_NOTIFIER, gq.getSmsProperty(THREADPOOL_SIZE_AUTHORISER_NOTIFIER).getPropertyValue());
+            setProperty(THREADPOOL_SIZE_AUTHORISER_QUEUE, gq.getSmsProperty(THREADPOOL_SIZE_AUTHORISER_QUEUE).getPropertyValue());
+            setProperty(THREADPOOL_SIZE_TEXT_QUEUE, gq.getSmsProperty(THREADPOOL_SIZE_TEXT_QUEUE).getPropertyValue());
+            
+            store(changestream, null);
+            changestream.close();
+        } catch (Exception ex) {
+            logger.info("failed to reload configuration file - see error log");
+            logger.error("error reloading email config file:", ex);
+        }
+    }
     
     /**
      * Loads the threadpool_notifiers.properties file.
      * @param clz the class whose classloader will be used to load the threadpool notifiers properties file
      */
-    public ThreadPoolProperties(Class clz) {
-        String config_file = "threadpool_notifiers.properties";
-        input = clz.getClassLoader().getResourceAsStream(config_file);
-        logger.info("Loading configuration file - {}", config_file);
-        try {
-            load(input);
-            close();
-        } catch (IOException ex) {
-            logger.info("failed to load configuration file - see error log");
-            logger.error("error loading threadpool config file:", ex);
-        }
+    /*public ThreadPoolProperties(Class clz) {
+    String config_file = "threadpool_notifiers.properties";
+    input = clz.getClassLoader().getResourceAsStream(config_file);
+    logger.info("Loading configuration file - {}", config_file);
+    try {
+    load(input);
+    close();
+    } catch (IOException ex) {
+    logger.info("failed to load configuration file - see error log");
+    logger.error("error loading threadpool config file:", ex);
     }
+    }*/
     
     /**
      * Gets the pool size to be used in the thread executor within the Authoriser notifier.
@@ -53,6 +172,14 @@ public class ThreadPoolProperties extends Properties {
      */
     public String getAuthoriserNotifierQueuePoolSize() {
         return getProperty(THREADPOOL_SIZE_AUTHORISER_QUEUE);
+    }
+    
+    /**
+     * Gets the pool size to be used in the thread executor within the text notifier queue.
+     * @return the pool size
+     */
+    public String getTextNotifierQueuePoolSize() {
+        return getProperty(THREADPOOL_SIZE_TEXT_QUEUE);
     }
     
     /**

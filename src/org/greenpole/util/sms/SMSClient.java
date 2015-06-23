@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -22,6 +23,7 @@ import org.greenpole.entity.sms.Message;
 import org.greenpole.entity.sms.Recipients;
 import org.greenpole.entity.sms.Results;
 import org.greenpole.entity.sms.Sms;
+import org.greenpole.entity.sms.TextSend;
 
 /**
  *
@@ -30,10 +32,13 @@ import org.greenpole.entity.sms.Sms;
  */
 public class SMSClient {
     private final WebTarget webTarget;
+    private final WebTarget creditTarget;
     private final Client client;
+    private final Client creditClient;
     private final String username;
     private final String password;
     private static final String BASE_URI = "http://api.infobip.com/api/v3/sendsms";
+    private static final String CREDIT_URI = "http://api.infobip.com/api/command";
 
     /**
      * Sets up the username and password for the sms api.
@@ -43,22 +48,22 @@ public class SMSClient {
     public SMSClient(String username, String password) {
         this.username = username;
         this.password = password;
+        
         client = javax.ws.rs.client.ClientBuilder.newClient();
+        creditClient = javax.ws.rs.client.ClientBuilder.newClient();
+        
         webTarget = client.target(BASE_URI).path("xml");
+        creditTarget = creditClient.target(CREDIT_URI);
     }
     
     /**
      * Processes and sends an sms to a single recipient.
-     * @param sender the sender
-     * @param text the text message
-     * @param phoneNumber the recipient phone number
-     * @param id the message id
-     * @param isFlash if the text message should be a flash message
+     * @param toSend the object containing the text message to send
      * @return the response from the sms server
      * @throws ClientErrorException if REST client encounters error while trying to connect to api
      * @throws JAXBException if jaxb encounters error while transforming sms object to xml file
      */
-    public Results processSendTextSingle(String sender, String text, String phoneNumber, String id, boolean isFlash) throws ClientErrorException, JAXBException {
+    public Results processSendTextSingle(TextSend toSend) throws ClientErrorException, JAXBException {
         Authentication auth = new Authentication();
         Message msg = new Message();
         Recipients recipient = new Recipients();
@@ -67,18 +72,18 @@ public class SMSClient {
         List<Gsm> gsms = new ArrayList<>();
         
         //set contents for gsm recipient
-        gsm.setContent(phoneNumber);
-        gsm.setMessageId(id);
+        gsm.setContent(toSend.getPhoneNumber());
+        gsm.setMessageId(toSend.getMessage_id());
         gsms.add(gsm);
         recipient.setGsm(gsms);
         
         //sent content for text and sender
-        msg.setSender(sender);
-        msg.setText(text);
+        msg.setSender(toSend.getSender());
+        msg.setText(toSend.getText());
         msg.setRecipients(recipient);
         
         //if message is a flash message
-        if (isFlash)
+        if (toSend.isIsFlash())
             msg.setFlash("1");
         
         //set authentication content
@@ -94,22 +99,19 @@ public class SMSClient {
     
     /**
      * Processes and sends an sms to multiple recipients.
-     * @param sender the sender
-     * @param text the text message
-     * @param numbersAndIds the recipients' phone numbers and message ids
-     * @param isFlash if the text message should be a flash message
+     * @param toSend the object containing the text message to send
      * @return the response from the sms server
      * @throws ClientErrorException if REST client encounters error while trying to connect to api
      * @throws JAXBException if jaxb encounters error while transforming sms object to xml file 
      */
-    public Results processSendTextBulk(String sender, String text, Map<String, String> numbersAndIds, boolean isFlash) throws ClientErrorException, JAXBException {
+    public Results processSendTextBulk(TextSend toSend) throws ClientErrorException, JAXBException {
         Authentication auth = new Authentication();
         Message msg = new Message();
         Recipients recipient = new Recipients();
         Sms sms = new Sms();
         List<Gsm> gsms = new ArrayList<>();
         
-        for (Map.Entry pairs : numbersAndIds.entrySet()) {
+        for (Map.Entry pairs : toSend.getNumbersAndIds().entrySet()) {
             Gsm gsm = new Gsm();
             
             String phoneNumber = (String) pairs.getKey();
@@ -125,12 +127,12 @@ public class SMSClient {
         recipient.setGsm(gsms);
         
         //sent content for text and sender
-        msg.setSender(sender);
-        msg.setText(text);
+        msg.setSender(toSend.getSender());
+        msg.setText(toSend.getText());
         msg.setRecipients(recipient);
         
         //if message is a flash message
-        if (isFlash)
+        if (toSend.isIsFlash())
             msg.setFlash("1");
         
         //set authentication content
@@ -142,6 +144,18 @@ public class SMSClient {
         sms.setMessage(msg);
         
         return sendText(sms);
+    }
+    
+    /**
+     * Gets the account's credit balance.
+     * @return the account's credit balance
+     */
+    public String getCreditBalance() {
+        WebTarget resource = creditTarget;
+        resource = resource.queryParam("username", username);
+        resource = resource.queryParam("password", password);
+        resource = resource.queryParam("cmd", "credits");
+        return resource.request(MediaType.TEXT_PLAIN).get(String.class);
     }
     
     private Results sendText(Sms sms) throws ClientErrorException, PropertyException, JAXBException {
