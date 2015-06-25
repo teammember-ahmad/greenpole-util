@@ -16,6 +16,7 @@ import java.util.Properties;
 import org.greenpole.hibernate.entity.EnvironmentalVariables;
 import org.greenpole.hibernate.entity.PropertyEmail;
 import org.greenpole.hibernate.entity.PropertyGreenpoleEngine;
+import org.greenpole.hibernate.entity.PropertyNotifications;
 import org.greenpole.hibernate.query.GeneralComponentQuery;
 import org.greenpole.hibernate.query.factory.ComponentQueryFactory;
 import org.slf4j.Logger;
@@ -28,12 +29,13 @@ import org.slf4j.LoggerFactory;
  */
 public class GreenpoleProperties extends Properties {
     private static GreenpoleProperties INSTANCE;
-    private InputStream input;
+    private InputStream instream;
     private final String DATE_FORMAT = "date.format";
     private final String HOLDER_SIGNATURE_PATH = "holder.signature.dir";
     private final String POWER_OF_ATTORNEY_PATH = "holder.powerofattorney.dir";
     private final String ATTORNEY_SIZE = "attorney.size";
     private final String SIGNATURE_SIZE = "signature.size";
+    private final String REGISTRAR_CODE = "registrar.code";
     private static final Logger logger = LoggerFactory.getLogger(GreenpoleProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
     
@@ -72,12 +74,12 @@ public class GreenpoleProperties extends Properties {
                 loadstream.close();
                 
                 //ensure that all property keys have not been tampered with
-                for (Map.Entry pairs : entrySet()) {
-                    String key = (String) pairs.getKey();
-                    List<PropertyGreenpoleEngine> all = gq.getAllEngineProperty();
+                List<PropertyGreenpoleEngine> all = gq.getAllEngineProperty();
+                for (PropertyGreenpoleEngine g : all) {
                     boolean found = false;
-                    for (PropertyGreenpoleEngine g : all) {
-                        if (key.equals(g.getPropertyName())) {
+                    for (Map.Entry pairs : entrySet()) {
+                        String key = (String) pairs.getKey();
+                        if (g.getPropertyName().equals(key)) {
                             found = true;
                             break;
                         }
@@ -105,14 +107,13 @@ public class GreenpoleProperties extends Properties {
             String prop_path = ev.getPath();
             logger.info("Reloading configuration file - {}", config_file);
             
-            File defaultFile = new File(GreenpoleProperties.class.getClassLoader().getResource(config_file).getPath());
             File propFile = new File(prop_path + config_file);
             propFile.delete();
             //if property file does not exist in designated location, create file using default file within system classpath
             if (!propFile.exists()) {
                 propFile.getParentFile().mkdirs();
 
-                FileInputStream instream = new FileInputStream(defaultFile);
+                instream = GreenpoleProperties.class.getClassLoader().getResourceAsStream(config_file);
                 FileOutputStream outstream = new FileOutputStream(propFile);
 
                 byte[] buffer = new byte[1024];
@@ -137,6 +138,7 @@ public class GreenpoleProperties extends Properties {
             setProperty(POWER_OF_ATTORNEY_PATH, gq.getEngineProperty(POWER_OF_ATTORNEY_PATH).getPropertyValue());
             setProperty(ATTORNEY_SIZE, gq.getEngineProperty(ATTORNEY_SIZE).getPropertyValue());
             setProperty(SIGNATURE_SIZE, gq.getEngineProperty(SIGNATURE_SIZE).getPropertyValue());
+            setProperty(REGISTRAR_CODE, gq.getEngineProperty(REGISTRAR_CODE).getPropertyValue());
             
             store(changestream, null);
             changestream.close();
@@ -204,12 +206,20 @@ public class GreenpoleProperties extends Properties {
     }
     
     /**
+     * Gets the registrar's code.
+     * @return the registrar's code
+     */
+    public String getRegistarCode() {
+        return getProperty(REGISTRAR_CODE);
+    }
+    
+    /**
      * Close input stream.
      */
     private void close() {
         try {
-            if (input != null)
-                    input.close();
+            if (instream != null)
+                    instream.close();
         } catch (IOException ex) {
             logger.info("failed to close configuration file input stream - see error log");
             logger.error("error closing greenpole config file input stream:", ex);

@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
  */
 public class SMSProperties extends Properties {
     private static SMSProperties INSTANCE;
-    private InputStream input;
+    private InputStream instream;
     private final String SMS_API_USERNAME = "sms.api.username";
     private final String SMS_API_PASSWORD = "sms.api.password";
     private final String TEXT_MERGE = "text.merge";
@@ -72,12 +72,12 @@ public class SMSProperties extends Properties {
                 loadstream.close();
                 
                 //ensure that all property keys have not been tampered with
-                for (Map.Entry pairs : entrySet()) {
-                    String key = (String) pairs.getKey();
-                    List<PropertySms> all = gq.getAllSmsProperty();
+                List<PropertySms> all = gq.getAllSmsProperty();
+                for (PropertySms s : all) {
                     boolean found = false;
-                    for (PropertySms s : all) {
-                        if (key.equals(s.getPropertyName())) {
+                    for (Map.Entry pairs : entrySet()) {
+                        String key = (String) pairs.getKey();
+                        if (s.getPropertyName().equals(key)) {
                             found = true;
                             break;
                         }
@@ -105,14 +105,13 @@ public class SMSProperties extends Properties {
             String prop_path = ev.getPath();
             logger.info("Reloading configuration file - {}", config_file);
             
-            File defaultFile = new File(SMSProperties.class.getClassLoader().getResource(config_file).getPath());
             File propFile = new File(prop_path + config_file);
             propFile.delete();
             //if property file does not exist in designated location, create file using default file within system classpath
             if (!propFile.exists()) {
                 propFile.getParentFile().mkdirs();
 
-                FileInputStream instream = new FileInputStream(defaultFile);
+                instream = SMSProperties.class.getClassLoader().getResourceAsStream(config_file);
                 FileOutputStream outstream = new FileOutputStream(propFile);
 
                 byte[] buffer = new byte[1024];
@@ -226,8 +225,8 @@ public class SMSProperties extends Properties {
      */
     private void close() {
         try {
-            if (input != null)
-                    input.close();
+            if (instream != null)
+                    instream.close();
         } catch (IOException ex) {
             logger.info("failed to close configuration file input stream - see error log");
             logger.error("error closing sms config file input stream:", ex);

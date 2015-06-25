@@ -69,7 +69,6 @@ public class Notification {
      * @param wrapper the notification object containing updated notification information
      * @throws JAXBException if xml file cannot be found, or file does not map to
      * {@link NotificationWrapper}
-     * @deprecated no need to persist notification at this point in development. Ignore method.
      */
     public void persistNotificationFile(String folderPath, String notificationCode, NotificationWrapper wrapper) throws JAXBException {
         File file = new File(folderPath + notificationCode + ".xml");
@@ -96,6 +95,7 @@ public class Notification {
     public void markAttended(String notificationCode) {
         org.greenpole.hibernate.entity.Notification notification = gq.getNotification(notificationCode);
         notification.setAttendedTo(true);
+        notification.setAttendedDate(new java.util.Date());
         gq.createUpdateNotification(notification);
     }
     
@@ -106,6 +106,7 @@ public class Notification {
     public void markRejected(String notificationCode) {
         org.greenpole.hibernate.entity.Notification notification = gq.getNotification(notificationCode);
         notification.setAttendedTo(true);
+        notification.setAttendedDate(new java.util.Date());
         notification.setRejected(true);
         gq.createUpdateNotification(notification);
     }

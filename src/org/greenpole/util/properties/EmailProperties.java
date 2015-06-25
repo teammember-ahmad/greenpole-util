@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
  * Properties loaded from the email.properties file.
  */
 public class EmailProperties extends Properties {
-    private InputStream input;
+    private InputStream instream;
     private static EmailProperties INSTANCE;
     private final String MAIL_TRANSPORT_PROTOCOL = "mail.transport.protocol";
     private final String MAIL_HOST = "mail.host";
@@ -77,12 +77,12 @@ public class EmailProperties extends Properties {
                 loadstream.close();
                 
                 //ensure that all property keys have not been tampered with
-                for (Map.Entry pairs : entrySet()) {
-                    String key = (String) pairs.getKey();
-                    List<PropertyEmail> all = gq.getAllEmailProperty();
+                List<PropertyEmail> all = gq.getAllEmailProperty();
+                for (PropertyEmail e : all) {
                     boolean found = false;
-                    for (PropertyEmail e : all) {
-                        if (key.equals(e.getPropertyName())) {
+                    for (Map.Entry pairs : entrySet()) {
+                        String key = (String) pairs.getKey();
+                        if (e.getPropertyName().equals(key)) {
                             found = true;
                             break;
                         }
@@ -110,14 +110,13 @@ public class EmailProperties extends Properties {
             String prop_path = ev.getPath();
             logger.info("Reloading configuration file - {}", config_file);
             
-            File defaultFile = new File(EmailProperties.class.getClassLoader().getResource(config_file).getPath());
             File propFile = new File(prop_path + config_file);
             propFile.delete();
             //if property file does not exist in designated location, create file using default file within system classpath
             if (!propFile.exists()) {
                 propFile.getParentFile().mkdirs();
 
-                FileInputStream instream = new FileInputStream(defaultFile);
+                instream = EmailProperties.class.getClassLoader().getResourceAsStream(config_file);
                 FileOutputStream outstream = new FileOutputStream(propFile);
 
                 byte[] buffer = new byte[1024];
@@ -258,8 +257,8 @@ public class EmailProperties extends Properties {
      */
     private void close() {
         try {
-            if (input != null)
-                    input.close();
+            if (instream != null)
+                    instream.close();
         } catch (IOException ex) {
             logger.info("failed to close configuration file input stream - see error log");
             logger.error("error closing email config file input stream:", ex);

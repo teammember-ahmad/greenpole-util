@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
  */
 public class NotificationProperties extends Properties {
     private static NotificationProperties INSTANCE;
-    private InputStream input;
+    private InputStream instream;
     private final String NOTIFICATION_LOCATION = "notification.location";
     private static final Logger logger = LoggerFactory.getLogger(NotificationProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
@@ -68,12 +68,12 @@ public class NotificationProperties extends Properties {
                 loadstream.close();
                 
                 //ensure that all property keys have not been tampered with
-                for (Map.Entry pairs : entrySet()) {
-                    String key = (String) pairs.getKey();
-                    List<PropertyNotifications> all = gq.getAllNotificationsProperty();
+                List<PropertyNotifications> all = gq.getAllNotificationsProperty();
+                for (PropertyNotifications n : all) {
                     boolean found = false;
-                    for (PropertyNotifications n : all) {
-                        if (key.equals(n.getPropertyName())) {
+                    for (Map.Entry pairs : entrySet()) {
+                        String key = (String) pairs.getKey();
+                        if (n.getPropertyName().equals(key)) {
                             found = true;
                             break;
                         }
@@ -101,14 +101,13 @@ public class NotificationProperties extends Properties {
             String prop_path = ev.getPath();
             logger.info("Reloading configuration file - {}", config_file);
             
-            File defaultFile = new File(NotificationProperties.class.getClassLoader().getResource(config_file).getPath());
             File propFile = new File(prop_path + config_file);
             propFile.delete();
             //if property file does not exist in designated location, create file using default file within system classpath
             if (!propFile.exists()) {
                 propFile.getParentFile().mkdirs();
 
-                FileInputStream instream = new FileInputStream(defaultFile);
+                instream = NotificationProperties.class.getClassLoader().getResourceAsStream(config_file);
                 FileOutputStream outstream = new FileOutputStream(propFile);
 
                 byte[] buffer = new byte[1024];
@@ -168,8 +167,8 @@ public class NotificationProperties extends Properties {
      */
     private void close() {
         try {
-            if (input != null)
-                    input.close();
+            if (instream != null)
+                    instream.close();
         } catch (IOException ex) {
             logger.info("failed to close configuration file input stream - see error log");
             logger.error("error closing notification config file input stream:", ex);

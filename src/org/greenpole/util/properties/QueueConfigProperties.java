@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
  */
 public class QueueConfigProperties extends Properties {
     private static QueueConfigProperties INSTANCE;
-    private InputStream input;
+    private InputStream instream;
     private static final Logger logger = LoggerFactory.getLogger(QueueConfigProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
     
@@ -66,12 +66,12 @@ public class QueueConfigProperties extends Properties {
                 loadstream.close();
                 
                 //ensure that all property keys have not been tampered with
-                for (Map.Entry pairs : entrySet()) {
-                    String key = (String) pairs.getKey();
-                    List<PropertyQueueConfig> all = gq.getAllQueueConfigProperty();
+                List<PropertyQueueConfig> all = gq.getAllQueueConfigProperty();
+                for (PropertyQueueConfig q : all) {
                     boolean found = false;
-                    for (PropertyQueueConfig q : all) {
-                        if (key.equals(q.getPropertyName())) {
+                    for (Map.Entry pairs : entrySet()) {
+                        String key = (String) pairs.getKey();
+                        if (q.getPropertyName().equals(key)) {
                             found = true;
                             break;
                         }
@@ -99,14 +99,13 @@ public class QueueConfigProperties extends Properties {
             String prop_path = ev.getPath();
             logger.info("Reloading configuration file - {}", config_file);
             
-            File defaultFile = new File(QueueConfigProperties.class.getClassLoader().getResource(config_file).getPath());
             File propFile = new File(prop_path + config_file);
             propFile.delete();
             //if property file does not exist in designated location, create file using default file within system classpath
             if (!propFile.exists()) {
                 propFile.getParentFile().mkdirs();
 
-                FileInputStream instream = new FileInputStream(defaultFile);
+                instream = QueueConfigProperties.class.getClassLoader().getResourceAsStream(config_file);
                 FileOutputStream outstream = new FileOutputStream(propFile);
 
                 byte[] buffer = new byte[1024];
@@ -164,8 +163,8 @@ public class QueueConfigProperties extends Properties {
      */
     private void close() {
         try {
-            if (input != null)
-                    input.close();
+            if (instream != null)
+                    instream.close();
         } catch (IOException ex) {
             logger.info("failed to close configuration file input stream - see error log");
             logger.error("error closing notifier config file input stream:", ex);

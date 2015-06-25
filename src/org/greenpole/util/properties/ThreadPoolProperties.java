@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ThreadPoolProperties extends Properties {
     private static ThreadPoolProperties INSTANCE;
-    private InputStream input;
+    private InputStream instream;
     private final String THREADPOOL_SIZE_AUTHORISER_NOTIFIER = "threadpool.size.authoriser.notifier";
     private final String THREADPOOL_SIZE_AUTHORISER_QUEUE = "threadpool.size.authoriser.queue";
     private final String THREADPOOL_SIZE_TEXT_QUEUE = "threadpool.size.text.queue";
@@ -69,12 +69,12 @@ public class ThreadPoolProperties extends Properties {
                 loadstream.close();
                 
                 //ensure that all property keys have not been tampered with
-                for (Map.Entry pairs : entrySet()) {
-                    String key = (String) pairs.getKey();
-                    List<PropertyThreadpool> all = gq.getAllThreadProperty();
+                List<PropertyThreadpool> all = gq.getAllThreadProperty();
+                for (PropertyThreadpool t : all) {
                     boolean found = false;
-                    for (PropertyThreadpool t : all) {
-                        if (key.equals(t.getPropertyName())) {
+                    for (Map.Entry pairs : entrySet()) {
+                        String key = (String) pairs.getKey();
+                        if (t.getPropertyName().equals(key)) {
                             found = true;
                             break;
                         }
@@ -102,14 +102,13 @@ public class ThreadPoolProperties extends Properties {
             String prop_path = ev.getPath();
             logger.info("Reloading configuration file - {}", config_file);
             
-            File defaultFile = new File(ThreadPoolProperties.class.getClassLoader().getResource(config_file).getPath());
             File propFile = new File(prop_path + config_file);
             propFile.delete();
             //if property file does not exist in designated location, create file using default file within system classpath
             if (!propFile.exists()) {
                 propFile.getParentFile().mkdirs();
 
-                FileInputStream instream = new FileInputStream(defaultFile);
+                instream = ThreadPoolProperties.class.getClassLoader().getResourceAsStream(config_file);
                 FileOutputStream outstream = new FileOutputStream(propFile);
 
                 byte[] buffer = new byte[1024];
@@ -187,8 +186,8 @@ public class ThreadPoolProperties extends Properties {
      */
     private void close() {
         try {
-            if (input != null)
-                input.close();
+            if (instream != null)
+                instream.close();
         } catch (IOException ex) {
             logger.info("failed to close configuration file input stream - see error log");
             logger.error("error closing threadpool config file input stream:", ex);

@@ -28,10 +28,11 @@ import org.slf4j.LoggerFactory;
  */
 public class NotifierProperties extends Properties {
     private static NotifierProperties INSTANCE;
-    private InputStream input;
+    private InputStream instream;
     private final String AUTHORISER_NOTIFIER_QUEUE_NAME = "authoriser.notifier.queue.name";
-    private final String NOTIFIER_QUEUE_FACTORY = "authoriser.notifier.queue.factory";
+    private final String NOTIFIER_QUEUE_FACTORY = "notifier.queue.factory";
     private final String TEXT_NOTIFIER_QUEUE_NAME = "text.notifier.queue.name";
+    private final String REJECT_NOTIFIER_QUEUE_NAME = "reject.notifier.queue.name";
     private static final Logger logger = LoggerFactory.getLogger(NotifierProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
     
@@ -70,12 +71,12 @@ public class NotifierProperties extends Properties {
                 loadstream.close();
                 
                 //ensure that all property keys have not been tampered with
-                for (Map.Entry pairs : entrySet()) {
-                    String key = (String) pairs.getKey();
-                    List<PropertyNotifiers> all = gq.getAllNotifiersProperty();
+                List<PropertyNotifiers> all = gq.getAllNotifiersProperty();
+                for (PropertyNotifiers n : all) {
                     boolean found = false;
-                    for (PropertyNotifiers n : all) {
-                        if (key.equals(n.getPropertyName())) {
+                    for (Map.Entry pairs : entrySet()) {
+                        String key = (String) pairs.getKey();
+                        if (n.getPropertyName().equals(key)) {
                             found = true;
                             break;
                         }
@@ -103,14 +104,13 @@ public class NotifierProperties extends Properties {
             String prop_path = ev.getPath();
             logger.info("Reloading configuration file - {}", config_file);
             
-            File defaultFile = new File(NotifierProperties.class.getClassLoader().getResource(config_file).getPath());
             File propFile = new File(prop_path + config_file);
             propFile.delete();
             //if property file does not exist in designated location, create file using default file within system classpath
             if (!propFile.exists()) {
                 propFile.getParentFile().mkdirs();
 
-                FileInputStream instream = new FileInputStream(defaultFile);
+                instream = NotifierProperties.class.getClassLoader().getResourceAsStream(config_file);
                 FileOutputStream outstream = new FileOutputStream(propFile);
 
                 byte[] buffer = new byte[1024];
@@ -133,6 +133,7 @@ public class NotifierProperties extends Properties {
             setProperty(AUTHORISER_NOTIFIER_QUEUE_NAME, gq.getNotifiersProperty(AUTHORISER_NOTIFIER_QUEUE_NAME).getPropertyValue());
             setProperty(NOTIFIER_QUEUE_FACTORY, gq.getNotifiersProperty(NOTIFIER_QUEUE_FACTORY).getPropertyValue());
             setProperty(TEXT_NOTIFIER_QUEUE_NAME, gq.getNotifiersProperty(TEXT_NOTIFIER_QUEUE_NAME).getPropertyValue());
+            setProperty(REJECT_NOTIFIER_QUEUE_NAME, gq.getNotifiersProperty(REJECT_NOTIFIER_QUEUE_NAME).getPropertyValue());
             
             store(changestream, null);
             changestream.close();
@@ -176,6 +177,14 @@ public class NotifierProperties extends Properties {
     }
     
     /**
+     * Gets the queue name.
+     * @return the reject notifier queue name
+     */
+    public String getRejectNotifierQueueName() {
+        return getProperty(REJECT_NOTIFIER_QUEUE_NAME);
+    }
+    
+    /**
      * Gets the queue factory.
      * @return the authoriser notifier's queue factory
      */
@@ -188,8 +197,8 @@ public class NotifierProperties extends Properties {
      */
     private void close() {
         try {
-            if (input != null)
-                    input.close();
+            if (instream != null)
+                    instream.close();
         } catch (IOException ex) {
             logger.info("failed to close configuration file input stream - see error log");
             logger.error("error closing notifier config file input stream:", ex);
