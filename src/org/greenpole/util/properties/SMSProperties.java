@@ -34,6 +34,29 @@ public class SMSProperties extends Properties {
     private final String TEXT_CHANGE_NAME = "text.change.name";
     private final String TEXT_CHANGE_CHN = "text.change.chn";
     private final String TEXT_RATE = "text.rate";
+    private final String TEXT_MERGE_SEND = "text.merge.send";
+    private final String TEXT_CHANGE_ADDRESS_SEND = "text.change.address.send";
+    private final String TEXT_CHANGE_NAME_SEND = "text.change.name.send";
+    private final String TEXT_CHANGE_CHN_SEND = "text.change.chn.send";
+    private final String TEXT_IPO_PROCESSING = "text.ipo.processing";
+    private final String TEXT_IPO_PAYMENT_SUCCESS = "text.ipo.payment.success";
+    private final String TEXT_IPO_PAYMENT_FAILURE  = "text.ipo.payment.failure";
+    private final String TEXT_PLACEMENT_PROCESSING = "text.placement.processing";
+    private final String TEXT_PLACEMENT_PAYMENT_SUCCESS  = "text.placement.payment.success";
+    private final String TEXT_PLACEMENT_PAYMENT_FAILURE  = "text.placement.payment.failure";
+    private final String TEXT_RIGHTS_PROCESSING = "text.rights.processing";
+    private final String TEXT_RIGHTS_PAYMENT_SUCCESS  = "text.rights.payment.success";
+    private final String TEXT_RIGHTS_PAYMENT_FAILURE = "text.rights.payment.failure";
+    private final String TEXT_IPO_SEND = "text.ipo.send";
+    private final String TEXT_RIGHTS_SEND = "text.rights.send";
+    private final String TEXT_PLACEMENT_SEND = "text.placement.send";
+    private final String TEXT_IPO_CANCEL_PROCESSING = "text.ipo.cancel.processing";
+    private final String TEXT_IPO_CANCEL_CONFIRM = "text.ipo.cancel.confirm";
+    private final String TEXT_PLACEMENT_CANCEL_PROCESSING = "text.placement.cancel.processing";
+    private final String TEXT_PLACEMENT_CANCEL_CONFIRM = "text.placement.cancel.confirm";
+    private final String TEXT_RIGHTS_CANCEL_PROCESSING = "text.rights.cancel.processing";
+    private final String TEXT_RIGHTS_CANCEL_CONFIRM = "text.rights.cancel.confirm";
+    
     private static final Logger logger = LoggerFactory.getLogger(SMSProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
     
@@ -77,7 +100,8 @@ public class SMSProperties extends Properties {
                     boolean found = false;
                     for (Map.Entry pairs : entrySet()) {
                         String key = (String) pairs.getKey();
-                        if (s.getPropertyName().equals(key)) {
+                        String value = (String) pairs.getValue();
+                        if (s.getPropertyName().equals(key) && s.getPropertyValue().equals(value)) {
                             found = true;
                             break;
                         }
@@ -138,6 +162,28 @@ public class SMSProperties extends Properties {
             setProperty(TEXT_CHANGE_NAME, gq.getSmsProperty(TEXT_CHANGE_NAME).getPropertyValue());
             setProperty(TEXT_CHANGE_CHN, gq.getSmsProperty(TEXT_CHANGE_CHN).getPropertyValue());
             setProperty(TEXT_RATE, gq.getSmsProperty(TEXT_RATE).getPropertyValue());
+            setProperty(TEXT_MERGE_SEND, gq.getSmsProperty(TEXT_MERGE_SEND).getPropertyValue());
+            setProperty(TEXT_CHANGE_ADDRESS_SEND, gq.getSmsProperty(TEXT_CHANGE_ADDRESS_SEND).getPropertyValue());
+            setProperty(TEXT_CHANGE_NAME_SEND, gq.getSmsProperty(TEXT_CHANGE_NAME_SEND).getPropertyValue());
+            setProperty(TEXT_CHANGE_CHN_SEND, gq.getSmsProperty(TEXT_CHANGE_CHN_SEND).getPropertyValue());
+            setProperty(TEXT_IPO_PROCESSING, gq.getSmsProperty(TEXT_IPO_PROCESSING).getPropertyValue());
+            setProperty(TEXT_IPO_PAYMENT_SUCCESS, gq.getSmsProperty(TEXT_IPO_PROCESSING).getPropertyValue());
+            setProperty(TEXT_PLACEMENT_PAYMENT_FAILURE, gq.getSmsProperty(TEXT_IPO_PROCESSING).getPropertyValue());
+            setProperty(TEXT_PLACEMENT_PROCESSING, gq.getSmsProperty(TEXT_IPO_PROCESSING).getPropertyValue());
+            setProperty(TEXT_PLACEMENT_PAYMENT_SUCCESS, gq.getSmsProperty(TEXT_IPO_PROCESSING).getPropertyValue());
+            setProperty(TEXT_PLACEMENT_PAYMENT_FAILURE, gq.getSmsProperty(TEXT_IPO_PROCESSING).getPropertyValue());
+            setProperty(TEXT_IPO_PROCESSING, gq.getSmsProperty(TEXT_IPO_PROCESSING).getPropertyValue());
+            setProperty(TEXT_IPO_PROCESSING, gq.getSmsProperty(TEXT_IPO_PROCESSING).getPropertyValue());
+            setProperty(TEXT_IPO_PROCESSING, gq.getSmsProperty(TEXT_IPO_PROCESSING).getPropertyValue());
+            setProperty(TEXT_IPO_SEND, gq.getSmsProperty(TEXT_IPO_SEND).getPropertyValue());
+            setProperty(TEXT_PLACEMENT_SEND, gq.getSmsProperty(TEXT_PLACEMENT_SEND).getPropertyValue());
+            setProperty(TEXT_RIGHTS_SEND, gq.getSmsProperty(TEXT_RIGHTS_SEND).getPropertyValue());
+            setProperty(TEXT_IPO_CANCEL_PROCESSING, gq.getSmsProperty(TEXT_IPO_CANCEL_PROCESSING).getPropertyValue());
+            setProperty(TEXT_IPO_CANCEL_CONFIRM, gq.getSmsProperty(TEXT_IPO_CANCEL_CONFIRM).getPropertyValue());
+            setProperty(TEXT_PLACEMENT_CANCEL_PROCESSING, gq.getSmsProperty(TEXT_PLACEMENT_CANCEL_PROCESSING).getPropertyValue());
+            setProperty(TEXT_PLACEMENT_CANCEL_CONFIRM, gq.getSmsProperty(TEXT_PLACEMENT_CANCEL_CONFIRM).getPropertyValue());
+            setProperty(TEXT_RIGHTS_CANCEL_PROCESSING, gq.getSmsProperty(TEXT_RIGHTS_CANCEL_PROCESSING).getPropertyValue());
+            setProperty(TEXT_RIGHTS_CANCEL_CONFIRM, gq.getSmsProperty(TEXT_RIGHTS_CANCEL_CONFIRM).getPropertyValue());
             
             store(changestream, null);
             changestream.close();
@@ -218,6 +264,110 @@ public class SMSProperties extends Properties {
      */
     public String getTextRate() {
         return getProperty(TEXT_RATE);
+    }
+    
+    /**
+     * Gets the merge text send status.
+     * @return the merge text
+     */
+    public String getTextMergeSend() {
+        return getProperty(TEXT_MERGE_SEND);
+    }
+    
+    /**
+     * Gets the change address text send status.
+     * @return the change address text
+     */
+    public String getTextChangeAddressSend() {
+        return getProperty(TEXT_CHANGE_ADDRESS_SEND);
+    }
+    
+    /**
+     * Gets the change name text send status.
+     * @return the change name text
+     */
+    public String getTextChangeNameSend() {
+        return getProperty(TEXT_CHANGE_NAME_SEND);
+    }
+    
+    /**
+     * Gets the change chn text send status.
+     * @return the change chn text
+     */
+    public String getTextChangeChnSend() {
+        return getProperty(TEXT_CHANGE_CHN_SEND);
+    }
+    
+    public String getTextIpoProcessing() {
+        return getProperty(TEXT_IPO_PROCESSING);
+    }
+    
+    public String getTextIpoPaymentSuccess() {
+        return getProperty(TEXT_IPO_PAYMENT_SUCCESS);
+    }
+    
+    public String getTextIpoPaymentFailure() {
+        return getProperty(TEXT_IPO_PAYMENT_FAILURE);
+    }
+    
+    public String getTextPlacementProcessing() {
+        return getProperty(TEXT_PLACEMENT_PROCESSING);
+    }
+    
+    public String getTextPlacementPaymentSuccess() {
+        return getProperty(TEXT_PLACEMENT_PAYMENT_SUCCESS);
+    }
+    
+    public String getTextPlacementPaymentFailure() {
+        return getProperty(TEXT_PLACEMENT_PAYMENT_FAILURE);
+    }
+    
+    public String getTextRightsProcessing() {
+        return getProperty(TEXT_RIGHTS_PROCESSING);
+    }
+    
+    public String getTextRightsPaymentSuccess() {
+        return getProperty(TEXT_RIGHTS_PAYMENT_SUCCESS);
+    }
+    
+    public String getTextRightsPaymentFailure() {
+        return getProperty(TEXT_RIGHTS_PAYMENT_FAILURE);
+    }
+    
+    public String getTextIpoSend() {
+        return getProperty(TEXT_IPO_SEND);
+    }
+    
+    public String getTextRightsSend() {
+        return getProperty(TEXT_RIGHTS_SEND);
+    }
+    
+    public String getTextPlacementSend() {
+        return getProperty(TEXT_PLACEMENT_SEND);
+    }
+    
+    public String getTextIpoCancelProcessing() {
+        return getProperty(TEXT_IPO_CANCEL_PROCESSING);
+    }
+    
+    public String getTextIpoCancelConfirm() {
+        return getProperty(TEXT_IPO_CANCEL_CONFIRM);
+    }
+    
+    public String getTextPlacementCancelProcessing() {
+        return getProperty(TEXT_PLACEMENT_CANCEL_PROCESSING);
+    }
+    
+    public String getTextPlacementCancelConfirm() {
+        return getProperty(TEXT_PLACEMENT_CANCEL_CONFIRM);
+    }
+    
+    public String getTextRightsCancelProcessing() {
+        return getProperty(TEXT_RIGHTS_CANCEL_PROCESSING);
+    }
+    
+    public String getTextRightsCancelConfirm() {
+        return getProperty(TEXT_RIGHTS_CANCEL_CONFIRM);
     }
     
     /**

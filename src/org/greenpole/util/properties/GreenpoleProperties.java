@@ -79,7 +79,8 @@ public class GreenpoleProperties extends Properties {
                     boolean found = false;
                     for (Map.Entry pairs : entrySet()) {
                         String key = (String) pairs.getKey();
-                        if (g.getPropertyName().equals(key)) {
+                        String value = (String) pairs.getValue();
+                        if (g.getPropertyName().equals(key) && g.getPropertyValue().equals(value)) {
                             found = true;
                             break;
                         }

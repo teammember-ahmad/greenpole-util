@@ -71,7 +71,8 @@ public class QueueConfigProperties extends Properties {
                     boolean found = false;
                     for (Map.Entry pairs : entrySet()) {
                         String key = (String) pairs.getKey();
-                        if (q.getPropertyName().equals(key)) {
+                        String value = (String) pairs.getValue();
+                        if (q.getPropertyName().equals(key) && q.getPropertyValue().equals(value)) {
                             found = true;
                             break;
                         }

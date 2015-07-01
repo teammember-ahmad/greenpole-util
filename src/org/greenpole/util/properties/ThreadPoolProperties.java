@@ -74,7 +74,8 @@ public class ThreadPoolProperties extends Properties {
                     boolean found = false;
                     for (Map.Entry pairs : entrySet()) {
                         String key = (String) pairs.getKey();
-                        if (t.getPropertyName().equals(key)) {
+                        String value = (String) pairs.getValue();
+                        if (t.getPropertyName().equals(key) && t.getPropertyValue().equals(value)) {
                             found = true;
                             break;
                         }

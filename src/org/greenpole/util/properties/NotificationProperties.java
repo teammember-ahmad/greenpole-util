@@ -73,7 +73,8 @@ public class NotificationProperties extends Properties {
                     boolean found = false;
                     for (Map.Entry pairs : entrySet()) {
                         String key = (String) pairs.getKey();
-                        if (n.getPropertyName().equals(key)) {
+                        String value = (String) pairs.getValue();
+                        if (n.getPropertyName().equals(key) && n.getPropertyValue().equals(value)) {
                             found = true;
                             break;
                         }
