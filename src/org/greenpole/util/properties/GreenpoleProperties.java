@@ -36,6 +36,7 @@ public class GreenpoleProperties extends Properties {
     private final String ATTORNEY_SIZE = "attorney.size";
     private final String SIGNATURE_SIZE = "signature.size";
     private final String REGISTRAR_CODE = "registrar.code";
+    private final String WITHHOLDING_TAX = "withholding.tax";
     private static final Logger logger = LoggerFactory.getLogger(GreenpoleProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
     
@@ -140,6 +141,7 @@ public class GreenpoleProperties extends Properties {
             setProperty(ATTORNEY_SIZE, gq.getEngineProperty(ATTORNEY_SIZE).getPropertyValue());
             setProperty(SIGNATURE_SIZE, gq.getEngineProperty(SIGNATURE_SIZE).getPropertyValue());
             setProperty(REGISTRAR_CODE, gq.getEngineProperty(REGISTRAR_CODE).getPropertyValue());
+            setProperty(WITHHOLDING_TAX, gq.getEngineProperty(WITHHOLDING_TAX).getPropertyValue());
             
             store(changestream, null);
             changestream.close();
@@ -212,6 +214,14 @@ public class GreenpoleProperties extends Properties {
      */
     public String getRegistarCode() {
         return getProperty(REGISTRAR_CODE);
+    }
+    
+    /**
+     * Gets the withholding tax.
+     * @return the withholding tax
+     */
+    public String getWithholding() {
+        return getProperty(WITHHOLDING_TAX);
     }
     
     /**
