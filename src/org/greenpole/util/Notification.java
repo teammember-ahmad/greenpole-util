@@ -102,12 +102,14 @@ public class Notification {
     /**
      * Marks a notification as rejected on the database.
      * @param notificationCode the notification code
+     * @param rejectionReason the reason for rejection
      */
-    public void markRejected(String notificationCode) {
+    public void markRejected(String notificationCode, String rejectionReason) {
         org.greenpole.hibernate.entity.Notification notification = gq.getNotification(notificationCode);
         notification.setAttendedTo(true);
         notification.setAttendedDate(new java.util.Date());
         notification.setRejected(true);
+        notification.setRejectionReason(rejectionReason);
         gq.createUpdateNotification(notification);
     }
     
