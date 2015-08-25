@@ -36,9 +36,41 @@ public class EmailProperties extends Properties {
     private final String MAIL_SMTP_STARTTLS_ENABLE = "mail.smtp.starttls.enable";
     private final String MAIL_USER = "mail.user";
     private final String MAIL_PASSWORD = "mail.password";
-    private final String MAIL_SENDER = "mail.sender";
+    private final String INTERNAL_MAIL_USER = "internal.mail.user";
+    private final String INTERNAL_MAIL_PASSWORD = "internal.mail.password";
+    private final String EXTERNAL_MAIL_USER = "external.mail.user";
+    private final String EXTERNAL_MAIL_PASSWORD = "external.mail.password";
     private final String AUTHORISATION_MAIL_TEMPLATE = "authorisation.mail.template";
     private final String WARNING_MAIL_TEMPLATE = "warning.mail.template";
+    private final String INFORMATION_MAIL_TEMPLATE = "information.mail.template";
+    private final String EMAIL_MERGE = "email.merge";
+    private final String EMAIL_CHANGE_ADDRESS = "email.change.address";
+    private final String EMAIL_CHANGE_NAME = "email.change.name";
+    private final String EMAIL_CHANGE_CHN = "email.change.chn";
+    private final String EMAIL_MERGE_SEND = "email.merge.send";
+    private final String EMAIL_CHANGE_ADDRESS_SEND = "email.change.address.send";
+    private final String EMAIL_CHANGE_NAME_SEND = "email.change.name.send";
+    private final String EMAIL_CHANGE_CHN_SEND = "email.change.chn.send";
+    private final String EMAIL_IPO_PROCESSING = "email.ipo.processing";
+    private final String EMAIL_IPO_PAYMENT_SUCCESS = "email.ipo.payment.success";
+    private final String EMAIL_IPO_PAYMENT_FAILURE  = "email.ipo.payment.failure";
+    private final String EMAIL_PLACEMENT_PROCESSING = "email.placement.processing";
+    private final String EMAIL_PLACEMENT_PAYMENT_SUCCESS  = "email.placement.payment.success";
+    private final String EMAIL_PLACEMENT_PAYMENT_FAILURE  = "email.placement.payment.failure";
+    private final String EMAIL_RIGHTS_PROCESSING = "email.rights.processing";
+    private final String EMAIL_RIGHTS_PAYMENT_SUCCESS  = "email.rights.payment.success";
+    private final String EMAIL_RIGHTS_PAYMENT_FAILURE = "email.rights.payment.failure";
+    private final String EMAIL_IPO_SEND = "email.ipo.send";
+    private final String EMAIL_RIGHTS_SEND = "email.rights.send";
+    private final String EMAIL_PLACEMENT_SEND = "email.placement.send";
+    private final String EMAIL_IPO_CANCEL_PROCESSING = "email.ipo.cancel.processing";
+    private final String EMAIL_IPO_CANCEL_CONFIRM = "email.ipo.cancel.confirm";
+    private final String EMAIL_PLACEMENT_CANCEL_PROCESSING = "email.placement.cancel.processing";
+    private final String EMAIL_PLACEMENT_CANCEL_CONFIRM = "email.placement.cancel.confirm";
+    private final String EMAIL_RIGHTS_CANCEL_PROCESSING = "email.rights.cancel.processing";
+    private final String EMAIL_RIGHTS_CANCEL_CONFIRM = "email.rights.cancel.confirm";
+    
+    
     private static final Logger logger = LoggerFactory.getLogger(EmailProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
     
@@ -144,9 +176,39 @@ public class EmailProperties extends Properties {
             setProperty(MAIL_SMTP_STARTTLS_ENABLE, gq.getEmailProperty(MAIL_SMTP_STARTTLS_ENABLE).getPropertyValue());
             setProperty(MAIL_USER, gq.getEmailProperty(MAIL_USER).getPropertyValue());
             setProperty(MAIL_PASSWORD, gq.getEmailProperty(MAIL_PASSWORD).getPropertyValue());
-            setProperty(MAIL_SENDER, gq.getEmailProperty(MAIL_SENDER).getPropertyValue());
+            setProperty(INTERNAL_MAIL_USER, gq.getEmailProperty(INTERNAL_MAIL_USER).getPropertyValue());
+            setProperty(INTERNAL_MAIL_PASSWORD, gq.getEmailProperty(INTERNAL_MAIL_PASSWORD).getPropertyValue());
+            setProperty(EXTERNAL_MAIL_USER, gq.getEmailProperty(EXTERNAL_MAIL_USER).getPropertyValue());
+            setProperty(EXTERNAL_MAIL_USER, gq.getEmailProperty(EXTERNAL_MAIL_USER).getPropertyValue());
             setProperty(AUTHORISATION_MAIL_TEMPLATE, gq.getEmailProperty(AUTHORISATION_MAIL_TEMPLATE).getPropertyValue());
             setProperty(WARNING_MAIL_TEMPLATE, gq.getEmailProperty(WARNING_MAIL_TEMPLATE).getPropertyValue());
+            setProperty(INFORMATION_MAIL_TEMPLATE, gq.getEmailProperty(INFORMATION_MAIL_TEMPLATE).getPropertyValue());
+            setProperty(EMAIL_MERGE, gq.getEmailProperty(EMAIL_MERGE).getPropertyValue());
+            setProperty(EMAIL_CHANGE_ADDRESS, gq.getEmailProperty(EMAIL_CHANGE_ADDRESS).getPropertyValue());
+            setProperty(EMAIL_CHANGE_NAME, gq.getEmailProperty(EMAIL_CHANGE_NAME).getPropertyValue());
+            setProperty(EMAIL_CHANGE_CHN, gq.getEmailProperty(EMAIL_CHANGE_CHN).getPropertyValue());
+            setProperty(EMAIL_MERGE_SEND, gq.getEmailProperty(EMAIL_MERGE_SEND).getPropertyValue());
+            setProperty(EMAIL_CHANGE_ADDRESS_SEND, gq.getEmailProperty(EMAIL_CHANGE_ADDRESS_SEND).getPropertyValue());
+            setProperty(EMAIL_CHANGE_NAME_SEND, gq.getEmailProperty(EMAIL_CHANGE_NAME_SEND).getPropertyValue());
+            setProperty(EMAIL_CHANGE_CHN_SEND, gq.getEmailProperty(EMAIL_CHANGE_CHN_SEND).getPropertyValue());
+            setProperty(EMAIL_IPO_PROCESSING, gq.getEmailProperty(EMAIL_IPO_PROCESSING).getPropertyValue());
+            setProperty(EMAIL_IPO_PAYMENT_SUCCESS, gq.getEmailProperty(EMAIL_IPO_PAYMENT_SUCCESS).getPropertyValue());
+            setProperty(EMAIL_IPO_PAYMENT_FAILURE, gq.getEmailProperty(EMAIL_IPO_PAYMENT_FAILURE).getPropertyValue());
+            setProperty(EMAIL_PLACEMENT_PROCESSING, gq.getEmailProperty(EMAIL_PLACEMENT_PROCESSING).getPropertyValue());
+            setProperty(EMAIL_PLACEMENT_PAYMENT_SUCCESS, gq.getEmailProperty(EMAIL_PLACEMENT_PAYMENT_SUCCESS).getPropertyValue());
+            setProperty(EMAIL_PLACEMENT_PAYMENT_FAILURE, gq.getEmailProperty(EMAIL_PLACEMENT_PAYMENT_FAILURE).getPropertyValue());
+            setProperty(EMAIL_RIGHTS_PROCESSING, gq.getEmailProperty(EMAIL_RIGHTS_PROCESSING).getPropertyValue());
+            setProperty(EMAIL_RIGHTS_PAYMENT_SUCCESS, gq.getEmailProperty(EMAIL_RIGHTS_PAYMENT_SUCCESS).getPropertyValue());
+            setProperty(EMAIL_RIGHTS_PAYMENT_FAILURE, gq.getEmailProperty(EMAIL_RIGHTS_PAYMENT_FAILURE).getPropertyValue());
+            setProperty(EMAIL_IPO_SEND, gq.getEmailProperty(EMAIL_IPO_SEND).getPropertyValue());
+            setProperty(EMAIL_PLACEMENT_SEND, gq.getEmailProperty(EMAIL_PLACEMENT_SEND).getPropertyValue());
+            setProperty(EMAIL_RIGHTS_SEND, gq.getEmailProperty(EMAIL_RIGHTS_SEND).getPropertyValue());
+            setProperty(EMAIL_IPO_CANCEL_PROCESSING, gq.getEmailProperty(EMAIL_IPO_CANCEL_PROCESSING).getPropertyValue());
+            setProperty(EMAIL_IPO_CANCEL_CONFIRM, gq.getEmailProperty(EMAIL_IPO_CANCEL_CONFIRM).getPropertyValue());
+            setProperty(EMAIL_PLACEMENT_CANCEL_PROCESSING, gq.getEmailProperty(EMAIL_PLACEMENT_CANCEL_PROCESSING).getPropertyValue());
+            setProperty(EMAIL_PLACEMENT_CANCEL_CONFIRM, gq.getEmailProperty(EMAIL_PLACEMENT_CANCEL_CONFIRM).getPropertyValue());
+            setProperty(EMAIL_RIGHTS_CANCEL_PROCESSING, gq.getEmailProperty(EMAIL_RIGHTS_CANCEL_PROCESSING).getPropertyValue());
+            setProperty(EMAIL_RIGHTS_CANCEL_CONFIRM, gq.getEmailProperty(EMAIL_RIGHTS_CANCEL_CONFIRM).getPropertyValue());
             
             store(changestream, null);
             changestream.close();
@@ -230,11 +292,35 @@ public class EmailProperties extends Properties {
     }
     
     /**
-     * Gets the default sender's email address.
-     * @return the sender's email address
+     * Gets the default internal sender's email address.
+     * @return the internal sender's email address
      */
-    public String getMailSender() {
-        return getProperty(MAIL_SENDER);
+    public String getInternalMailUser() {
+        return getProperty(INTERNAL_MAIL_USER);
+    }
+    
+    /**
+     * Gets the default internal sender's email address password.
+     * @return the internal sender's email address password
+     */
+    public String getInternalMailPassword() {
+        return getProperty(INTERNAL_MAIL_PASSWORD);
+    }
+    
+    /**
+     * Gets the default external sender's email address.
+     * @return the external sender's email address
+     */
+    public String getExternalMailUser() {
+        return getProperty(EXTERNAL_MAIL_USER);
+    }
+    
+    /**
+     * Gets the default external sender's email address password.
+     * @return the external sender's email address password
+     */
+    public String getExternalMailPassword() {
+        return getProperty(EXTERNAL_MAIL_PASSWORD);
     }
     
     /**
@@ -251,6 +337,118 @@ public class EmailProperties extends Properties {
      */
     public String getWarningMailTemplate() {
         return getProperty(WARNING_MAIL_TEMPLATE);
+    }
+    
+    /**
+     * Gets the default information email template location.
+     * @return the information email template location
+     */
+    public String getInformationMailTemplate() {
+        return getProperty(INFORMATION_MAIL_TEMPLATE);
+    }
+    
+    public String getEmailMerge() {
+        return getProperty(EMAIL_MERGE);
+    }
+    
+    public String getEmailChangeAddress() {
+        return getProperty(EMAIL_CHANGE_ADDRESS);
+    }
+    
+    public String getEmailChangeName() {
+        return getProperty(EMAIL_CHANGE_NAME);
+    }
+    
+    public String getEmailChangeChn() {
+        return getProperty(EMAIL_CHANGE_CHN);
+    }
+    
+    public String getEmailMergeSend() {
+        return getProperty(EMAIL_MERGE_SEND);
+    }
+    
+    public String getEmailChangeAddressSend() {
+        return getProperty(EMAIL_CHANGE_ADDRESS_SEND);
+    }
+    
+    public String getEmailChangeNameSend() {
+        return getProperty(EMAIL_CHANGE_NAME_SEND);
+    }
+    
+    public String getEmailChangeChnSend() {
+        return getProperty(EMAIL_CHANGE_CHN_SEND);
+    }
+    
+    public String getEmailIpoProcessing() {
+        return getProperty(EMAIL_IPO_PROCESSING);
+    }
+    
+    public String getEmailIpoPaymentSuccess() {
+        return getProperty(EMAIL_IPO_PAYMENT_SUCCESS);
+    }
+    
+    public String getEmailIpoPaymentFailure() {
+        return getProperty(EMAIL_IPO_PAYMENT_FAILURE);
+    }
+    
+    public String getEmailPlacementProcessing() {
+        return getProperty(EMAIL_PLACEMENT_PROCESSING);
+    }
+    
+    public String getEmailPlacementPaymentSuccess() {
+        return getProperty(EMAIL_PLACEMENT_PAYMENT_SUCCESS);
+    }
+    
+    public String getEmailPlacementPaymentFailure() {
+        return getProperty(EMAIL_PLACEMENT_PAYMENT_FAILURE);
+    }
+    
+    public String getEmailRightsProcessing() {
+        return getProperty(EMAIL_RIGHTS_PROCESSING);
+    }
+    
+    public String getEmailRightsPaymentSuccess() {
+        return getProperty(EMAIL_RIGHTS_PAYMENT_SUCCESS);
+    }
+    
+    public String getEmailRightsPaymentFailure() {
+        return getProperty(EMAIL_RIGHTS_PAYMENT_FAILURE);
+    }
+    
+    public String getEmailIpoSend() {
+        return getProperty(EMAIL_IPO_SEND);
+    }
+    
+    public String getEmailRightsSend() {
+        return getProperty(EMAIL_RIGHTS_SEND);
+    }
+    
+    public String getEmailPlacementSend() {
+        return getProperty(EMAIL_PLACEMENT_SEND);
+    }
+    
+    public String getEmailIpoCancelProcessing() {
+        return getProperty(EMAIL_IPO_CANCEL_PROCESSING);
+    }
+    
+    public String getEmailIpoCancelConfirm() {
+        return getProperty(EMAIL_IPO_CANCEL_CONFIRM);
+    }
+    
+    public String getEmailPlacementCancelProcessing() {
+        return getProperty(EMAIL_PLACEMENT_CANCEL_PROCESSING);
+    }
+    
+    public String getEmailPlacementCancelConfirm() {
+        return getProperty(EMAIL_PLACEMENT_CANCEL_CONFIRM);
+    }
+    
+    public String getEmailRightsCancelProcessing() {
+        return getProperty(EMAIL_RIGHTS_CANCEL_PROCESSING);
+    }
+    
+    public String getEmailRightsCancelConfirm() {
+        return getProperty(EMAIL_RIGHTS_CANCEL_CONFIRM);
     }
     
     /**

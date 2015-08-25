@@ -5,7 +5,9 @@
  */
 package org.greenpole.util.email;
 
+import com.sun.mail.smtp.SMTPTransport;
 import java.text.MessageFormat;
+import java.util.concurrent.Callable;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -24,7 +26,7 @@ import org.slf4j.LoggerFactory;
  * @author Akinwale Agbaje
  * Sends emails to any legit email address.
  */
-public class EmailClient implements Runnable {
+public class EmailClient implements Runnable, Callable<String> {
     private static final Logger logger = LoggerFactory.getLogger(EmailClient.class);
     private final EmailProperties prop = EmailProperties.getInstance();
     private Session mailSession;
@@ -38,24 +40,27 @@ public class EmailClient implements Runnable {
     
     /**
      * Initialises all necessary components before email is sent via thread.
-     * @param from the address the email will be sent to
-     * @param to the address the email is coming from
+     * @param from the address the email will be sent from
+     * @param password the password of the from address (user address)
+     * @param to the address the email is going to
      * @param subject the subject of the email
      * @param to_person the name that should come under "dear ..." in the email template (not necessary in all templates)
      * @param body_main the main body of the email that should be inserted into the template
      * @param template the template which will serve as the email body, typically a html file
      */
-    public EmailClient(String from, String to, String subject, String to_person, String body_main, String template) {
+    public EmailClient(String from, String password, String to, String subject, String to_person, String body_main, String template) {
         this.from = from;
         this.to = to;
         this.subject = subject;
         this.template = template;
         this.to_person = to_person;
         this.body_main = body_main;
-        initialiseProperties();
+        initialiseProperties(from, password);
     }
     
-    private void initialiseProperties() {
+    private void initialiseProperties(String user, String password) {
+        prop.setProperty(prop.getMailUser(), user);
+        prop.setProperty(prop.getMailPassword(), password);
         mailSession = Session.getInstance(prop, new SMTPAuthenticator());
         mailSession.setDebug(false);
         msg = new MimeMessage(mailSession);
@@ -63,10 +68,40 @@ public class EmailClient implements Runnable {
 
     @Override
     public void run() {
-        sendMail();
+        sendMail_NoResponse();
     }
     
-    private void sendMail() {
+    @Override
+    public String call() throws Exception {
+        return sendMail_WithResponse();
+    }
+    
+    private String sendMail_WithResponse() {
+        String response = "";
+        try {
+            msg.setFrom(new InternetAddress(from));
+            msg.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            msg.setSubject(subject);
+            MessageFormat mf = new MessageFormat(template);
+            String mail_content = mf.format(new Object[]{to_person,body_main});
+            msg.setContent(mail_content, "text/html");
+            
+            SMTPTransport smtpTransport = (SMTPTransport) mailSession.getTransport();
+            smtpTransport.sendMessage(msg, msg.getAllRecipients());
+            response = smtpTransport.getLastServerResponse();
+            smtpTransport.close();
+            logger.info("email sent");
+        } catch (AddressException ex) {
+            logger.info("failed to recognise email address - see error log");
+            logger.error("error parsing email address:", ex);
+        } catch (MessagingException ex) {
+            logger.info("failed to send email - see error log");
+            logger.error("error sending email:", ex);
+        }
+        return response;
+    }
+    
+    private void sendMail_NoResponse() {
         try {
             msg.setFrom(new InternetAddress(from));
             msg.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
@@ -83,7 +118,6 @@ public class EmailClient implements Runnable {
             logger.info("failed to send email - see error log");
             logger.error("error sending email:", ex);
         }
-        
     }
     
     private class SMTPAuthenticator extends Authenticator {

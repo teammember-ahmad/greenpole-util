@@ -28,9 +28,10 @@ import org.slf4j.LoggerFactory;
 public class ThreadPoolProperties extends Properties {
     private static ThreadPoolProperties INSTANCE;
     private InputStream instream;
-    private final String THREADPOOL_SIZE_AUTHORISER_NOTIFIER = "threadpool.size.authoriser.notifier";
     private final String THREADPOOL_SIZE_AUTHORISER_QUEUE = "threadpool.size.authoriser.queue";
+    private final String THREADPOOL_SIZE_REJECTER_QUEUE = "threadpool.size.rejecter.queue";
     private final String THREADPOOL_SIZE_TEXT_QUEUE = "threadpool.size.text.queue";
+    private final String THREADPOOL_SIZE_EMAIL_QUEUE = "threadpool.size.email.queue";
     private static final Logger logger = LoggerFactory.getLogger(ThreadPoolProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
     
@@ -129,9 +130,10 @@ public class ThreadPoolProperties extends Properties {
             
             FileOutputStream changestream = new FileOutputStream(propFile);
             
-            setProperty(THREADPOOL_SIZE_AUTHORISER_NOTIFIER, gq.getSmsProperty(THREADPOOL_SIZE_AUTHORISER_NOTIFIER).getPropertyValue());
             setProperty(THREADPOOL_SIZE_AUTHORISER_QUEUE, gq.getSmsProperty(THREADPOOL_SIZE_AUTHORISER_QUEUE).getPropertyValue());
+            setProperty(THREADPOOL_SIZE_REJECTER_QUEUE, gq.getSmsProperty(THREADPOOL_SIZE_REJECTER_QUEUE).getPropertyValue());
             setProperty(THREADPOOL_SIZE_TEXT_QUEUE, gq.getSmsProperty(THREADPOOL_SIZE_TEXT_QUEUE).getPropertyValue());
+            setProperty(THREADPOOL_SIZE_EMAIL_QUEUE, gq.getSmsProperty(THREADPOOL_SIZE_EMAIL_QUEUE).getPropertyValue());
             
             store(changestream, null);
             changestream.close();
@@ -159,14 +161,6 @@ public class ThreadPoolProperties extends Properties {
     }*/
     
     /**
-     * Gets the pool size to be used in the thread executor within the Authoriser notifier.
-     * @return the pool size
-     */
-    public String getAuthoriserNotifierPoolSize() {
-        return getProperty(THREADPOOL_SIZE_AUTHORISER_NOTIFIER);
-    }
-    
-    /**
      * Gets the pool size to be used in the thread executor within the Authoriser notifier queue. 
      * @return the pool size
      */
@@ -175,11 +169,27 @@ public class ThreadPoolProperties extends Properties {
     }
     
     /**
-     * Gets the pool size to be used in the thread executor within the text notifier queue.
+     * Gets the pool size to be used in the thread executor within the Rejecter notifier queue. 
+     * @return the pool size
+     */
+    public String getRejecterNotifierQueuePoolSize() {
+        return getProperty(THREADPOOL_SIZE_REJECTER_QUEUE);
+    }
+    
+    /**
+     * Gets the pool size to be used in the thread executor within the Text notifier queue.
      * @return the pool size
      */
     public String getTextNotifierQueuePoolSize() {
         return getProperty(THREADPOOL_SIZE_TEXT_QUEUE);
+    }
+    
+    /**
+     * Gets the pool size to be used in the thread executor within the Email notifier queue. 
+     * @return the pool size
+     */
+    public String getEmailNotifierQueuePoolSize() {
+        return getProperty(THREADPOOL_SIZE_EMAIL_QUEUE);
     }
     
     /**

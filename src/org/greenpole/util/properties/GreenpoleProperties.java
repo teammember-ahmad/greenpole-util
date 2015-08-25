@@ -14,9 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import org.greenpole.hibernate.entity.EnvironmentalVariables;
-import org.greenpole.hibernate.entity.PropertyEmail;
 import org.greenpole.hibernate.entity.PropertyGreenpoleEngine;
-import org.greenpole.hibernate.entity.PropertyNotifications;
 import org.greenpole.hibernate.query.GeneralComponentQuery;
 import org.greenpole.hibernate.query.factory.ComponentQueryFactory;
 import org.slf4j.Logger;
@@ -37,7 +35,11 @@ public class GreenpoleProperties extends Properties {
     private final String SIGNATURE_SIZE = "signature.size";
     private final String REGISTRAR_CODE = "registrar.code";
     private final String WITHHOLDING_TAX = "withholding.tax";
-    private final String SYSTEM_ADMIN="system.admin";
+    private final String SYSTEM_ADMIN = "system.admin";
+    private final String TEXT_MONITOR_LOCATION = "text.monitor.location";
+    private final String EMAIL_MONITOR_LOCATION = "email.monitor.location";
+    private final String RIGHTS_DISTRIBUTOR_RECIPIENT = "rights.distributor.recipient";
+    private final String BONUS_DISTRIBUTOR_RECIPIENT = "bonus.distributor.recipient";
     private static final Logger logger = LoggerFactory.getLogger(GreenpoleProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
     
@@ -144,6 +146,10 @@ public class GreenpoleProperties extends Properties {
             setProperty(REGISTRAR_CODE, gq.getEngineProperty(REGISTRAR_CODE).getPropertyValue());
             setProperty(WITHHOLDING_TAX, gq.getEngineProperty(WITHHOLDING_TAX).getPropertyValue());
             setProperty(SYSTEM_ADMIN, gq.getEngineProperty(SYSTEM_ADMIN).getPropertyValue());
+            setProperty(TEXT_MONITOR_LOCATION, gq.getEngineProperty(TEXT_MONITOR_LOCATION).getPropertyValue());
+            setProperty(EMAIL_MONITOR_LOCATION, gq.getEngineProperty(EMAIL_MONITOR_LOCATION).getPropertyValue());
+            setProperty(RIGHTS_DISTRIBUTOR_RECIPIENT, gq.getEngineProperty(RIGHTS_DISTRIBUTOR_RECIPIENT).getPropertyValue());
+            setProperty(BONUS_DISTRIBUTOR_RECIPIENT, gq.getEngineProperty(BONUS_DISTRIBUTOR_RECIPIENT).getPropertyValue());
             
             store(changestream, null);
             changestream.close();
@@ -228,6 +234,22 @@ public class GreenpoleProperties extends Properties {
     
     public String getSystemAdmin() {
         return getProperty(SYSTEM_ADMIN);
+    }
+    
+    public String getTextMonitorLocation() {
+        return getProperty(TEXT_MONITOR_LOCATION);
+    }
+    
+    public String getEmailMonitorLocation() {
+        return getProperty(EMAIL_MONITOR_LOCATION);
+    }
+    
+    public String getRightsDistributorRecipient() {
+        return getProperty(RIGHTS_DISTRIBUTOR_RECIPIENT);
+    }
+    
+    public String getBonusDistributorRecipient() {
+        return getProperty(BONUS_DISTRIBUTOR_RECIPIENT);
     }
     
     /**

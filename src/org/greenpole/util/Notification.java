@@ -82,7 +82,7 @@ public class Notification {
      * Writes off a notification in the database that has no corresponding xml file.
      * @param notificationCode the notification code
      */
-    public void writeOffNotification(String notificationCode) {
+    public void writeOffNotification(String notificationCode) throws Exception {
         org.greenpole.hibernate.entity.Notification notification = gq.getNotification(notificationCode);
         notification.setWriteOff(true);
         gq.createUpdateNotification(notification);
@@ -92,7 +92,7 @@ public class Notification {
      * Marks a notification as attended to on the database.
      * @param notificationCode the notification code
      */
-    public void markAttended(String notificationCode) {
+    public void markAttended(String notificationCode) throws Exception {
         org.greenpole.hibernate.entity.Notification notification = gq.getNotification(notificationCode);
         notification.setAttendedTo(true);
         notification.setAttendedDate(new java.util.Date());
@@ -104,7 +104,7 @@ public class Notification {
      * @param notificationCode the notification code
      * @param rejectionReason the reason for rejection
      */
-    public void markRejected(String notificationCode, String rejectionReason) {
+    public void markRejected(String notificationCode, String rejectionReason) throws Exception {
         org.greenpole.hibernate.entity.Notification notification = gq.getNotification(notificationCode);
         notification.setAttendedTo(true);
         notification.setAttendedDate(new java.util.Date());
