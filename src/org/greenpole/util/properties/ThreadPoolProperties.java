@@ -130,10 +130,10 @@ public class ThreadPoolProperties extends Properties {
             
             FileOutputStream changestream = new FileOutputStream(propFile);
             
-            setProperty(THREADPOOL_SIZE_AUTHORISER_QUEUE, gq.getSmsProperty(THREADPOOL_SIZE_AUTHORISER_QUEUE).getPropertyValue());
-            setProperty(THREADPOOL_SIZE_REJECTER_QUEUE, gq.getSmsProperty(THREADPOOL_SIZE_REJECTER_QUEUE).getPropertyValue());
-            setProperty(THREADPOOL_SIZE_TEXT_QUEUE, gq.getSmsProperty(THREADPOOL_SIZE_TEXT_QUEUE).getPropertyValue());
-            setProperty(THREADPOOL_SIZE_EMAIL_QUEUE, gq.getSmsProperty(THREADPOOL_SIZE_EMAIL_QUEUE).getPropertyValue());
+            setProperty(THREADPOOL_SIZE_AUTHORISER_QUEUE, gq.getThreadProperty(THREADPOOL_SIZE_AUTHORISER_QUEUE).getPropertyValue());
+            setProperty(THREADPOOL_SIZE_REJECTER_QUEUE, gq.getThreadProperty(THREADPOOL_SIZE_REJECTER_QUEUE).getPropertyValue());
+            setProperty(THREADPOOL_SIZE_TEXT_QUEUE, gq.getThreadProperty(THREADPOOL_SIZE_TEXT_QUEUE).getPropertyValue());
+            setProperty(THREADPOOL_SIZE_EMAIL_QUEUE, gq.getThreadProperty(THREADPOOL_SIZE_EMAIL_QUEUE).getPropertyValue());
             
             store(changestream, null);
             changestream.close();
