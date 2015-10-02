@@ -40,6 +40,9 @@ public class GreenpoleProperties extends Properties {
     private final String EMAIL_MONITOR_LOCATION = "email.monitor.location";
     private final String RIGHTS_DISTRIBUTOR_RECIPIENT = "rights.distributor.recipient";
     private final String BONUS_DISTRIBUTOR_RECIPIENT = "bonus.distributor.recipient";
+    private final String DIVIDEND_DISTRIBUTOR_RECIPIENT = "dividend.distributor.recipient";
+    private final String Dividend_Notification_Recipient = "dividend.notification.recipient";
+    private final String Dividend_Monitor_Recipient = "dividend.monitor.recipient";
     private static final Logger logger = LoggerFactory.getLogger(GreenpoleProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
     
@@ -150,6 +153,9 @@ public class GreenpoleProperties extends Properties {
             setProperty(EMAIL_MONITOR_LOCATION, gq.getEngineProperty(EMAIL_MONITOR_LOCATION).getPropertyValue());
             setProperty(RIGHTS_DISTRIBUTOR_RECIPIENT, gq.getEngineProperty(RIGHTS_DISTRIBUTOR_RECIPIENT).getPropertyValue());
             setProperty(BONUS_DISTRIBUTOR_RECIPIENT, gq.getEngineProperty(BONUS_DISTRIBUTOR_RECIPIENT).getPropertyValue());
+            setProperty(DIVIDEND_DISTRIBUTOR_RECIPIENT, "");
+            setProperty(Dividend_Notification_Recipient, "");
+            setProperty(Dividend_Monitor_Recipient, "");
             
             store(changestream, null);
             changestream.close();
@@ -250,6 +256,19 @@ public class GreenpoleProperties extends Properties {
     
     public String getBonusDistributorRecipient() {
         return getProperty(BONUS_DISTRIBUTOR_RECIPIENT);
+    }
+  
+    
+    public String getDIVIDENDDISTRIBUTORRECIPIENT() {
+        return getProperty(DIVIDEND_DISTRIBUTOR_RECIPIENT);
+    }
+
+    public String getDividendNotificationRecipient() {
+        return getProperty(Dividend_Notification_Recipient);
+    }
+
+    public String getDividendMonitorRecipient() {
+        return getProperty(Dividend_Monitor_Recipient);
     }
     
     /**
