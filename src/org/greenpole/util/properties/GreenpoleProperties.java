@@ -153,9 +153,9 @@ public class GreenpoleProperties extends Properties {
             setProperty(EMAIL_MONITOR_LOCATION, gq.getEngineProperty(EMAIL_MONITOR_LOCATION).getPropertyValue());
             setProperty(RIGHTS_DISTRIBUTOR_RECIPIENT, gq.getEngineProperty(RIGHTS_DISTRIBUTOR_RECIPIENT).getPropertyValue());
             setProperty(BONUS_DISTRIBUTOR_RECIPIENT, gq.getEngineProperty(BONUS_DISTRIBUTOR_RECIPIENT).getPropertyValue());
-            setProperty(DIVIDEND_DISTRIBUTOR_RECIPIENT, "");
-            setProperty(DIVIDEND_NOTIFICATION_RECIPIENT, "");
-            setProperty(DIVIDEND_MONITOR_RECIPIENT, "");
+            setProperty(DIVIDEND_DISTRIBUTOR_RECIPIENT, gq.getEngineProperty(DIVIDEND_DISTRIBUTOR_RECIPIENT).getPropertyValue());
+            setProperty(DIVIDEND_NOTIFICATION_RECIPIENT, gq.getEngineProperty(DIVIDEND_NOTIFICATION_RECIPIENT).getPropertyValue());
+            setProperty(DIVIDEND_MONITOR_RECIPIENT, gq.getEngineProperty(DIVIDEND_MONITOR_RECIPIENT).getPropertyValue());
             
             store(changestream, null);
             changestream.close();
