@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -68,6 +70,15 @@ public class GreenpoleFile {
             return true;
         }
         return false;
+    }
+    
+    public boolean deleteFile(String filePath) throws IOException {
+        return Files.deleteIfExists(new File(filePath).toPath());
+    }
+    
+    public void deleteFile(List<String> filePaths) throws IOException {
+        for (String path : filePaths)
+            Files.deleteIfExists(new File(path).toPath());
     }
 
     public String getFileName() {
