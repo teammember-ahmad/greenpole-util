@@ -32,6 +32,7 @@ public class ThreadPoolProperties extends Properties {
     private final String THREADPOOL_SIZE_REJECTER_QUEUE = "threadpool.size.rejecter.queue";
     private final String THREADPOOL_SIZE_TEXT_QUEUE = "threadpool.size.text.queue";
     private final String THREADPOOL_SIZE_EMAIL_QUEUE = "threadpool.size.email.queue";
+    private final String THREADPOOL_SIZE_INFORMATION_QUEUE = "threadpool.size.information.queue";
     private static final Logger logger = LoggerFactory.getLogger(ThreadPoolProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
     
@@ -134,6 +135,7 @@ public class ThreadPoolProperties extends Properties {
             setProperty(THREADPOOL_SIZE_REJECTER_QUEUE, gq.getThreadProperty(THREADPOOL_SIZE_REJECTER_QUEUE).getPropertyValue());
             setProperty(THREADPOOL_SIZE_TEXT_QUEUE, gq.getThreadProperty(THREADPOOL_SIZE_TEXT_QUEUE).getPropertyValue());
             setProperty(THREADPOOL_SIZE_EMAIL_QUEUE, gq.getThreadProperty(THREADPOOL_SIZE_EMAIL_QUEUE).getPropertyValue());
+            setProperty(THREADPOOL_SIZE_INFORMATION_QUEUE, gq.getThreadProperty(THREADPOOL_SIZE_INFORMATION_QUEUE).getPropertyValue());
             
             store(changestream, null);
             changestream.close();
@@ -190,6 +192,14 @@ public class ThreadPoolProperties extends Properties {
      */
     public String getEmailNotifierQueuePoolSize() {
         return getProperty(THREADPOOL_SIZE_EMAIL_QUEUE);
+    }
+    
+    /**
+     * Gets the pool size to be used in the thread executor within the Information notifier queue. 
+     * @return the pool size
+     */
+    public String getInformationNotifierQueuePoolSize() {
+        return getProperty(THREADPOOL_SIZE_INFORMATION_QUEUE);
     }
     
     /**

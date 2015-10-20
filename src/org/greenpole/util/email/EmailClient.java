@@ -108,6 +108,7 @@ public class EmailClient implements Runnable, Callable<String> {
             msg.setFrom(new InternetAddress(from));
             msg.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
             msg.setSubject(subject);
+            msg.setHeader("X-Priority", "1");
             
             if (cc != null && !cc.isEmpty()) {
                 InternetAddress[] addys = new InternetAddress[cc.size()];
@@ -143,6 +144,7 @@ public class EmailClient implements Runnable, Callable<String> {
             msg.setFrom(new InternetAddress(from));
             msg.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
             msg.setSubject(subject);
+            msg.setHeader("X-Priority", "1");
             
             if (cc != null && !cc.isEmpty()) {
                 InternetAddress[] addys = new InternetAddress[cc.size()];
