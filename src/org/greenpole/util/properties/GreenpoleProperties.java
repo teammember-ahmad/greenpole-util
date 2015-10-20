@@ -259,7 +259,7 @@ public class GreenpoleProperties extends Properties {
     }
   
     
-    public String getDIVIDENDDISTRIBUTORRECIPIENT() {
+    public String getDividendDistributorRecipient() {
         return getProperty(DIVIDEND_DISTRIBUTOR_RECIPIENT);
     }
 
