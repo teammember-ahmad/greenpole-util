@@ -31,7 +31,7 @@ public class NotifierProperties extends Properties {
     private InputStream instream;
     private final String AUTHORISER_NOTIFIER_QUEUE_NAME = "authoriser.notifier.queue.name";
     private final String NOTIFIER_QUEUE_FACTORY = "notifier.queue.factory";
-    private final String TEXT_NOTIFIER_QUEUE_NAME = "text.notifier.queue.name";
+    private final String EMAIL_NOTIFIER_QUEUE_NAME = "email.notifier.queue.name";
     private final String REJECT_NOTIFIER_QUEUE_NAME = "reject.notifier.queue.name";
     private final String INFORMATION_NOTIFIER_QUEUE_NAME = "information.notifier.queue.name";
     private static final Logger logger = LoggerFactory.getLogger(NotifierProperties.class);
@@ -134,7 +134,7 @@ public class NotifierProperties extends Properties {
             
             setProperty(AUTHORISER_NOTIFIER_QUEUE_NAME, gq.getNotifiersProperty(AUTHORISER_NOTIFIER_QUEUE_NAME).getPropertyValue());
             setProperty(NOTIFIER_QUEUE_FACTORY, gq.getNotifiersProperty(NOTIFIER_QUEUE_FACTORY).getPropertyValue());
-            setProperty(TEXT_NOTIFIER_QUEUE_NAME, gq.getNotifiersProperty(TEXT_NOTIFIER_QUEUE_NAME).getPropertyValue());
+            setProperty(EMAIL_NOTIFIER_QUEUE_NAME, gq.getNotifiersProperty(EMAIL_NOTIFIER_QUEUE_NAME).getPropertyValue());
             setProperty(REJECT_NOTIFIER_QUEUE_NAME, gq.getNotifiersProperty(REJECT_NOTIFIER_QUEUE_NAME).getPropertyValue());
             setProperty(INFORMATION_NOTIFIER_QUEUE_NAME, gq.getNotifiersProperty(INFORMATION_NOTIFIER_QUEUE_NAME).getPropertyValue());
             
@@ -175,8 +175,8 @@ public class NotifierProperties extends Properties {
      * Gets the queue name.
      * @return the text message notifier queue name
      */
-    public String getTextNotifierQueueName() {
-        return getProperty(TEXT_NOTIFIER_QUEUE_NAME);
+    public String getEmailNotifierQueueName() {
+        return getProperty(EMAIL_NOTIFIER_QUEUE_NAME);
     }
     
     /**
