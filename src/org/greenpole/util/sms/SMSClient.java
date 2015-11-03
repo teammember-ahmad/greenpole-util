@@ -49,20 +49,14 @@ public class SMSClient {
      * @param password the api password.
      */
     public SMSClient(String username, String password) {
-        logger.info("entering sms client!!!!");
         this.username = username;
         this.password = password;
-        
-        logger.info("username: {}, password: {}", username, password);
         
         client = javax.ws.rs.client.ClientBuilder.newClient();
         creditClient = javax.ws.rs.client.ClientBuilder.newClient();
         
         webTarget = client.target(BASE_URI).path("xml");
         creditTarget = creditClient.target(CREDIT_URI);
-        
-        logger.info("webTarge:: {}", webTarget.toString());
-        logger.info("creditTarget:: {}", creditTarget.toString());
     }
     
     /**
@@ -160,19 +154,10 @@ public class SMSClient {
      * @return the account's credit balance
      */
     public String getCreditBalance() {
-        logger.info("checking credit now!!");
         WebTarget resource = creditTarget;
         resource = resource.queryParam("username", username);
-        logger.info("query param for username");
         resource = resource.queryParam("password", password);
-        logger.info("query param for password");
         resource = resource.queryParam("cmd", "credits");
-        logger.info("query param for credit");
-        try {
-            logger.info("credit check from api:: {}", resource.request(MediaType.TEXT_PLAIN).get(String.class));
-        } catch (Exception ex) {
-            logger.error("egbami!!!", ex);
-        }
         return resource.request(MediaType.TEXT_PLAIN).get(String.class);
     }
     

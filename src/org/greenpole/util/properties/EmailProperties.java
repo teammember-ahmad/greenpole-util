@@ -179,7 +179,7 @@ public class EmailProperties extends Properties {
             setProperty(INTERNAL_MAIL_USER, gq.getEmailProperty(INTERNAL_MAIL_USER).getPropertyValue());
             setProperty(INTERNAL_MAIL_PASSWORD, gq.getEmailProperty(INTERNAL_MAIL_PASSWORD).getPropertyValue());
             setProperty(EXTERNAL_MAIL_USER, gq.getEmailProperty(EXTERNAL_MAIL_USER).getPropertyValue());
-            setProperty(EXTERNAL_MAIL_USER, gq.getEmailProperty(EXTERNAL_MAIL_USER).getPropertyValue());
+            setProperty(EXTERNAL_MAIL_PASSWORD, gq.getEmailProperty(EXTERNAL_MAIL_PASSWORD).getPropertyValue());
             setProperty(AUTHORISATION_MAIL_TEMPLATE, gq.getEmailProperty(AUTHORISATION_MAIL_TEMPLATE).getPropertyValue());
             setProperty(WARNING_MAIL_TEMPLATE, gq.getEmailProperty(WARNING_MAIL_TEMPLATE).getPropertyValue());
             setProperty(INFORMATION_MAIL_TEMPLATE, gq.getEmailProperty(INFORMATION_MAIL_TEMPLATE).getPropertyValue());

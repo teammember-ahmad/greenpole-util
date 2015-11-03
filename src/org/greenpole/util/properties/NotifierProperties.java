@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import org.greenpole.hibernate.entity.EnvironmentalVariables;
-import org.greenpole.hibernate.entity.PropertyEmail;
 import org.greenpole.hibernate.entity.PropertyNotifiers;
 import org.greenpole.hibernate.query.GeneralComponentQuery;
 import org.greenpole.hibernate.query.factory.ComponentQueryFactory;
@@ -34,6 +33,7 @@ public class NotifierProperties extends Properties {
     private final String EMAIL_NOTIFIER_QUEUE_NAME = "email.notifier.queue.name";
     private final String REJECT_NOTIFIER_QUEUE_NAME = "reject.notifier.queue.name";
     private final String INFORMATION_NOTIFIER_QUEUE_NAME = "information.notifier.queue.name";
+    private final String TEXT_NOTIFIER_QUEUE_NAME = "text.notifier.queue.name";
     private static final Logger logger = LoggerFactory.getLogger(NotifierProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
     
@@ -137,6 +137,7 @@ public class NotifierProperties extends Properties {
             setProperty(EMAIL_NOTIFIER_QUEUE_NAME, gq.getNotifiersProperty(EMAIL_NOTIFIER_QUEUE_NAME).getPropertyValue());
             setProperty(REJECT_NOTIFIER_QUEUE_NAME, gq.getNotifiersProperty(REJECT_NOTIFIER_QUEUE_NAME).getPropertyValue());
             setProperty(INFORMATION_NOTIFIER_QUEUE_NAME, gq.getNotifiersProperty(INFORMATION_NOTIFIER_QUEUE_NAME).getPropertyValue());
+            setProperty(TEXT_NOTIFIER_QUEUE_NAME, gq.getNotifiersProperty(TEXT_NOTIFIER_QUEUE_NAME).getPropertyValue());
             
             store(changestream, null);
             changestream.close();
@@ -173,10 +174,18 @@ public class NotifierProperties extends Properties {
     
     /**
      * Gets the queue name.
-     * @return the text message notifier queue name
+     * @return the email message notifier queue name
      */
     public String getEmailNotifierQueueName() {
         return getProperty(EMAIL_NOTIFIER_QUEUE_NAME);
+    }
+    
+    /**
+     * Gets the queue name.
+     * @return the text message notifier queue name
+     */
+    public String getTextNotifierQueueName() {
+        return getProperty(TEXT_NOTIFIER_QUEUE_NAME);
     }
     
     /**

@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
  * @author Akinwale Agbaje
  * Sends emails to any legit email address.
  */
-public class EmailClient implements Runnable, Callable<String> {
+public class EmailClient implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(EmailClient.class);
     private final EmailProperties prop = EmailProperties.getInstance();
     private Session mailSession;
@@ -95,11 +95,6 @@ public class EmailClient implements Runnable, Callable<String> {
     @Override
     public void run() {
         sendMail_NoResponse();
-    }
-    
-    @Override
-    public String call() throws Exception {
-        return sendMail_WithResponse();
     }
     
     private String sendMail_WithResponse() {
