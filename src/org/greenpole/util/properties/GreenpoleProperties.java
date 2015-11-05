@@ -293,7 +293,8 @@ public class GreenpoleProperties extends Properties {
     public String getPrivatePlacementMonitorRecipient() {
         return getProperty(PRIVATE_PLACEMENT_MONITOR_RECIPIENT);
     }
-     public String getRightsMonitorRecipient() {
+    
+    public String getRightsMonitorRecipient() {
         return getProperty(RIGHTS_MONITOR_RECIPIENT);
     }
 
