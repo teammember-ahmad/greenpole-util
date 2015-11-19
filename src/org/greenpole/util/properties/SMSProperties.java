@@ -58,6 +58,9 @@ public class SMSProperties extends Properties {
     private final String TEXT_RIGHTS_CANCEL_PROCESSING = "text.rights.cancel.processing";
     private final String TEXT_RIGHTS_CANCEL_CONFIRM = "text.rights.cancel.confirm";
     private final String TEXT_CERTIFICATES_LODGEMENT_SUCCESS = "text.certificates.lodgement.success";
+    private final String TEXT_CERTIFICATES_LODGEMENT_SEND = "text.certificates.lodgement.send";
+    private final String TEXT_CERTIFICATE_VERIFICATION_SUCCESS = "text.certificate.verification.success";
+    private final String TEXT_CERTIFICATE_VERIFICATION_SEND = "text.certificate.verification.send";
 
     private static final Logger logger = LoggerFactory.getLogger(SMSProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
@@ -189,6 +192,9 @@ public class SMSProperties extends Properties {
             setProperty(TEXT_RIGHTS_CANCEL_PROCESSING, gq.getSmsProperty(TEXT_RIGHTS_CANCEL_PROCESSING).getPropertyValue());
             setProperty(TEXT_RIGHTS_CANCEL_CONFIRM, gq.getSmsProperty(TEXT_RIGHTS_CANCEL_CONFIRM).getPropertyValue());
             setProperty(TEXT_CERTIFICATES_LODGEMENT_SUCCESS, gq.getSmsProperty(TEXT_CERTIFICATES_LODGEMENT_SUCCESS).getPropertyValue());
+            setProperty(TEXT_CERTIFICATES_LODGEMENT_SEND, gq.getSmsProperty(TEXT_CERTIFICATES_LODGEMENT_SEND).getPropertyValue());
+            setProperty(TEXT_CERTIFICATE_VERIFICATION_SUCCESS, gq.getSmsProperty(TEXT_CERTIFICATE_VERIFICATION_SUCCESS).getPropertyValue());
+            setProperty(TEXT_CERTIFICATE_VERIFICATION_SEND, gq.getSmsProperty(TEXT_CERTIFICATE_VERIFICATION_SEND).getPropertyValue());
 
             store(changestream, null);
             changestream.close();
@@ -389,6 +395,18 @@ public class SMSProperties extends Properties {
 
     public String getTextCertificatesLodgementSuccess() {
         return getProperty(TEXT_CERTIFICATES_LODGEMENT_SUCCESS);
+    }
+
+    public String getTextCertificatesLodgementSend() {
+        return getProperty(TEXT_CERTIFICATES_LODGEMENT_SEND);
+    }
+
+    public String getTextCertificateVerificationSend() {
+        return getProperty(TEXT_CERTIFICATE_VERIFICATION_SEND);
+    }
+    
+    public String getTextCertificateVerificationSuccess(){
+    return getProperty(TEXT_CERTIFICATE_VERIFICATION_SUCCESS);
     }
 
     /**
