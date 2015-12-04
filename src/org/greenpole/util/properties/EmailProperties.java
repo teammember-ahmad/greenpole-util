@@ -43,6 +43,7 @@ public class EmailProperties extends Properties {
     private final String AUTHORISATION_MAIL_TEMPLATE = "authorisation.mail.template";
     private final String WARNING_MAIL_TEMPLATE = "warning.mail.template";
     private final String INFORMATION_MAIL_TEMPLATE = "information.mail.template";
+    private final String ADVICE_MAIL_TEMPLATE = "advice.mail.template";
     private final String EMAIL_MERGE = "email.merge";
     private final String EMAIL_CHANGE_ADDRESS = "email.change.address";
     private final String EMAIL_CHANGE_NAME = "email.change.name";
@@ -73,6 +74,7 @@ public class EmailProperties extends Properties {
     private final String EMAIL_CERTIFICATES_LODGEMENT_SEND = "email.certificates.lodgement.send";
     private final String EMAIL_CERTIFICATE_VERIFICATION_SUCCESS = "email.certificate.verification.success";
     private final String EMAIL_CERTIFICATE_VERIFICATION_SEND = "email.certificate.verification.send";
+    private final String EMAIL_ADVICE = "email.advice";
 
     private static final Logger logger = LoggerFactory.getLogger(EmailProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
@@ -188,6 +190,7 @@ public class EmailProperties extends Properties {
             setProperty(AUTHORISATION_MAIL_TEMPLATE, gq.getEmailProperty(AUTHORISATION_MAIL_TEMPLATE).getPropertyValue());
             setProperty(WARNING_MAIL_TEMPLATE, gq.getEmailProperty(WARNING_MAIL_TEMPLATE).getPropertyValue());
             setProperty(INFORMATION_MAIL_TEMPLATE, gq.getEmailProperty(INFORMATION_MAIL_TEMPLATE).getPropertyValue());
+            setProperty(ADVICE_MAIL_TEMPLATE, gq.getEmailProperty(ADVICE_MAIL_TEMPLATE).getPropertyValue());
             setProperty(EMAIL_MERGE, gq.getEmailProperty(EMAIL_MERGE).getPropertyValue());
             setProperty(EMAIL_CHANGE_ADDRESS, gq.getEmailProperty(EMAIL_CHANGE_ADDRESS).getPropertyValue());
             setProperty(EMAIL_CHANGE_NAME, gq.getEmailProperty(EMAIL_CHANGE_NAME).getPropertyValue());
@@ -218,7 +221,8 @@ public class EmailProperties extends Properties {
             setProperty(EMAIL_CERTIFICATES_LODGEMENT_SEND, gq.getEmailProperty(EMAIL_CERTIFICATES_LODGEMENT_SEND).getPropertyValue());
             setProperty(EMAIL_CERTIFICATE_VERIFICATION_SEND, gq.getEmailProperty(EMAIL_CERTIFICATE_VERIFICATION_SEND).getPropertyValue());
             setProperty(EMAIL_CERTIFICATE_VERIFICATION_SUCCESS, gq.getEmailProperty(EMAIL_CERTIFICATE_VERIFICATION_SUCCESS).getPropertyValue());
-
+            setProperty(EMAIL_ADVICE, gq.getEmailProperty(EMAIL_ADVICE).getPropertyValue());
+            
             store(changestream, null);
             changestream.close();
         } catch (Exception ex) {
@@ -370,6 +374,10 @@ public class EmailProperties extends Properties {
     public String getInformationMailTemplate() {
         return getProperty(INFORMATION_MAIL_TEMPLATE);
     }
+    
+    public String getAdviceMailTemplate() {
+        return getProperty(ADVICE_MAIL_TEMPLATE);
+    }
 
     public String getEmailMerge() {
         return getProperty(EMAIL_MERGE);
@@ -489,6 +497,10 @@ public class EmailProperties extends Properties {
 
     public String getEmailCertificateVerificationSuccess() {
         return getProperty(EMAIL_CERTIFICATE_VERIFICATION_SUCCESS);
+    }
+    
+    public String getEmailAdvice() {
+        return getProperty(EMAIL_ADVICE);
     }
 
     /**
