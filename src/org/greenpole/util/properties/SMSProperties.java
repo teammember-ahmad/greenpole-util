@@ -61,7 +61,10 @@ public class SMSProperties extends Properties {
     private final String TEXT_CERTIFICATES_LODGEMENT_SEND = "text.certificates.lodgement.send";
     private final String TEXT_CERTIFICATE_VERIFICATION_SUCCESS = "text.certificate.verification.success";
     private final String TEXT_CERTIFICATE_VERIFICATION_SEND = "text.certificate.verification.send";
-    private final String TEXT_ADVICE = "text.advice";
+    private final String TEXT_ADVICE_BONUS = "text.advice.bonus";
+    private final String TEXT_ADVICE_IPO = "text.advice.ipo";
+    private final String TEXT_ADVICE_PLACEMENT = "text.advice.placement";
+    private final String TEXT_ADVICE_RIGHTS = "text.advice.rights";
 
     private static final Logger logger = LoggerFactory.getLogger(SMSProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
@@ -196,7 +199,10 @@ public class SMSProperties extends Properties {
             setProperty(TEXT_CERTIFICATES_LODGEMENT_SEND, gq.getSmsProperty(TEXT_CERTIFICATES_LODGEMENT_SEND).getPropertyValue());
             setProperty(TEXT_CERTIFICATE_VERIFICATION_SUCCESS, gq.getSmsProperty(TEXT_CERTIFICATE_VERIFICATION_SUCCESS).getPropertyValue());
             setProperty(TEXT_CERTIFICATE_VERIFICATION_SEND, gq.getSmsProperty(TEXT_CERTIFICATE_VERIFICATION_SEND).getPropertyValue());
-            setProperty(TEXT_ADVICE, gq.getSmsProperty(TEXT_ADVICE).getPropertyValue());
+            setProperty(TEXT_ADVICE_BONUS, gq.getSmsProperty(TEXT_ADVICE_BONUS).getPropertyValue());
+            setProperty(TEXT_ADVICE_IPO, gq.getSmsProperty(TEXT_ADVICE_IPO).getPropertyValue());
+            setProperty(TEXT_ADVICE_PLACEMENT, gq.getSmsProperty(TEXT_ADVICE_PLACEMENT).getPropertyValue());
+            setProperty(TEXT_ADVICE_RIGHTS, gq.getSmsProperty(TEXT_ADVICE_RIGHTS).getPropertyValue());
 
             store(changestream, null);
             changestream.close();
@@ -411,8 +417,20 @@ public class SMSProperties extends Properties {
         return getProperty(TEXT_CERTIFICATE_VERIFICATION_SUCCESS);
     }
     
-    public String getTextAdvice() {
-        return getProperty(TEXT_ADVICE);
+    public String getTextAdviceBonus() {
+        return getProperty(TEXT_ADVICE_BONUS);
+    }
+    
+    public String getTextAdviceIpo() {
+        return getProperty(TEXT_ADVICE_IPO);
+    }
+    
+    public String getTextAdvicePlacement() {
+        return getProperty(TEXT_ADVICE_PLACEMENT);
+    }
+    
+    public String getTextAdviceRights() {
+        return getProperty(TEXT_ADVICE_RIGHTS);
     }
 
     /**
