@@ -75,6 +75,9 @@ public class EmailProperties extends Properties {
     private final String EMAIL_CERTIFICATE_VERIFICATION_SUCCESS = "email.certificate.verification.success";
     private final String EMAIL_CERTIFICATE_VERIFICATION_SEND = "email.certificate.verification.send";
     private final String EMAIL_ADVICE = "email.advice";
+    private final String EMAIL_ADVICE_IPO = "email.advice.ipo";
+    private final String EMAIL_ADVICE_PLACEMENT = "email.advice.placement";
+    private final String EMAIL_ADVICE_RIGHTS = "email.advice.rights";
 
     private static final Logger logger = LoggerFactory.getLogger(EmailProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
@@ -222,6 +225,9 @@ public class EmailProperties extends Properties {
             setProperty(EMAIL_CERTIFICATE_VERIFICATION_SEND, gq.getEmailProperty(EMAIL_CERTIFICATE_VERIFICATION_SEND).getPropertyValue());
             setProperty(EMAIL_CERTIFICATE_VERIFICATION_SUCCESS, gq.getEmailProperty(EMAIL_CERTIFICATE_VERIFICATION_SUCCESS).getPropertyValue());
             setProperty(EMAIL_ADVICE, gq.getEmailProperty(EMAIL_ADVICE).getPropertyValue());
+            setProperty(EMAIL_ADVICE_IPO, gq.getEmailProperty(EMAIL_ADVICE_IPO).getPropertyValue());
+            setProperty(EMAIL_ADVICE_PLACEMENT, gq.getEmailProperty(EMAIL_ADVICE_PLACEMENT).getPropertyValue());
+            setProperty(EMAIL_ADVICE_RIGHTS, gq.getEmailProperty(EMAIL_ADVICE_RIGHTS).getPropertyValue());
             
             store(changestream, null);
             changestream.close();
@@ -501,6 +507,18 @@ public class EmailProperties extends Properties {
     
     public String getEmailAdvice() {
         return getProperty(EMAIL_ADVICE);
+    }
+    
+    public String getEmailAdviceIpo() {
+        return getProperty(EMAIL_ADVICE_IPO);
+    }
+    
+    public String getEmailAdvicePlacement() {
+        return getProperty(EMAIL_ADVICE_PLACEMENT);
+    }
+    
+    public String getEmailAdviceRights() {
+        return getProperty(EMAIL_ADVICE_RIGHTS);
     }
 
     /**
