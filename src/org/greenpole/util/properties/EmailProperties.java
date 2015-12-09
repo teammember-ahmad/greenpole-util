@@ -74,7 +74,7 @@ public class EmailProperties extends Properties {
     private final String EMAIL_CERTIFICATES_LODGEMENT_SEND = "email.certificates.lodgement.send";
     private final String EMAIL_CERTIFICATE_VERIFICATION_SUCCESS = "email.certificate.verification.success";
     private final String EMAIL_CERTIFICATE_VERIFICATION_SEND = "email.certificate.verification.send";
-    private final String EMAIL_ADVICE = "email.advice";
+    private final String EMAIL_ADVICE_BONUS = "email.advice.bonus";
     private final String EMAIL_ADVICE_IPO = "email.advice.ipo";
     private final String EMAIL_ADVICE_PLACEMENT = "email.advice.placement";
     private final String EMAIL_ADVICE_RIGHTS = "email.advice.rights";
@@ -224,7 +224,7 @@ public class EmailProperties extends Properties {
             setProperty(EMAIL_CERTIFICATES_LODGEMENT_SEND, gq.getEmailProperty(EMAIL_CERTIFICATES_LODGEMENT_SEND).getPropertyValue());
             setProperty(EMAIL_CERTIFICATE_VERIFICATION_SEND, gq.getEmailProperty(EMAIL_CERTIFICATE_VERIFICATION_SEND).getPropertyValue());
             setProperty(EMAIL_CERTIFICATE_VERIFICATION_SUCCESS, gq.getEmailProperty(EMAIL_CERTIFICATE_VERIFICATION_SUCCESS).getPropertyValue());
-            setProperty(EMAIL_ADVICE, gq.getEmailProperty(EMAIL_ADVICE).getPropertyValue());
+            setProperty(EMAIL_ADVICE_BONUS, gq.getEmailProperty(EMAIL_ADVICE_BONUS).getPropertyValue());
             setProperty(EMAIL_ADVICE_IPO, gq.getEmailProperty(EMAIL_ADVICE_IPO).getPropertyValue());
             setProperty(EMAIL_ADVICE_PLACEMENT, gq.getEmailProperty(EMAIL_ADVICE_PLACEMENT).getPropertyValue());
             setProperty(EMAIL_ADVICE_RIGHTS, gq.getEmailProperty(EMAIL_ADVICE_RIGHTS).getPropertyValue());
@@ -505,8 +505,8 @@ public class EmailProperties extends Properties {
         return getProperty(EMAIL_CERTIFICATE_VERIFICATION_SUCCESS);
     }
     
-    public String getEmailAdvice() {
-        return getProperty(EMAIL_ADVICE);
+    public String getEmailAdviceBonus() {
+        return getProperty(EMAIL_ADVICE_BONUS);
     }
     
     public String getEmailAdviceIpo() {
