@@ -114,7 +114,7 @@ public class SMSClient {
         Sms sms = new Sms();
         List<Gsm> gsms = new ArrayList<>();
         
-        for (Map.Entry pairs : toSend.getNumbersAndIds().entrySet()) {
+        for (Map.Entry pairs : toSend.getNumbersAndCodes().entrySet()) {
             Gsm gsm = new Gsm();
             
             String phoneNumber = (String) pairs.getKey();
