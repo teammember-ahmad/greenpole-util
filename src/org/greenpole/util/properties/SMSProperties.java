@@ -65,6 +65,8 @@ public class SMSProperties extends Properties {
     private final String TEXT_ADVICE_IPO = "text.advice.ipo";
     private final String TEXT_ADVICE_PLACEMENT = "text.advice.placement";
     private final String TEXT_ADVICE_RIGHTS = "text.advice.rights";
+    private final String TEXT_ADVICE_BOND = "text.advice.bond";
+    
 
     private static final Logger logger = LoggerFactory.getLogger(SMSProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
@@ -203,6 +205,7 @@ public class SMSProperties extends Properties {
             setProperty(TEXT_ADVICE_IPO, gq.getSmsProperty(TEXT_ADVICE_IPO).getPropertyValue());
             setProperty(TEXT_ADVICE_PLACEMENT, gq.getSmsProperty(TEXT_ADVICE_PLACEMENT).getPropertyValue());
             setProperty(TEXT_ADVICE_RIGHTS, gq.getSmsProperty(TEXT_ADVICE_RIGHTS).getPropertyValue());
+            setProperty(TEXT_ADVICE_BOND, gq.getSmsProperty(TEXT_ADVICE_BOND).getPropertyValue());
 
             store(changestream, null);
             changestream.close();
@@ -431,6 +434,10 @@ public class SMSProperties extends Properties {
     
     public String getTextAdviceRights() {
         return getProperty(TEXT_ADVICE_RIGHTS);
+    }
+    
+    public String getTextAdviceBond() {
+        return getProperty(TEXT_ADVICE_BOND);
     }
 
     /**
