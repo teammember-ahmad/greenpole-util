@@ -78,6 +78,7 @@ public class EmailProperties extends Properties {
     private final String EMAIL_ADVICE_IPO = "email.advice.ipo";
     private final String EMAIL_ADVICE_PLACEMENT = "email.advice.placement";
     private final String EMAIL_ADVICE_RIGHTS = "email.advice.rights";
+    private final String EMAIL_ADVICE_BOND = "email.advice.bond";
 
     private static final Logger logger = LoggerFactory.getLogger(EmailProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
@@ -228,6 +229,7 @@ public class EmailProperties extends Properties {
             setProperty(EMAIL_ADVICE_IPO, gq.getEmailProperty(EMAIL_ADVICE_IPO).getPropertyValue());
             setProperty(EMAIL_ADVICE_PLACEMENT, gq.getEmailProperty(EMAIL_ADVICE_PLACEMENT).getPropertyValue());
             setProperty(EMAIL_ADVICE_RIGHTS, gq.getEmailProperty(EMAIL_ADVICE_RIGHTS).getPropertyValue());
+            setProperty(EMAIL_ADVICE_BOND, gq.getEmailProperty(EMAIL_ADVICE_BOND).getPropertyValue());
             
             store(changestream, null);
             changestream.close();
@@ -519,6 +521,10 @@ public class EmailProperties extends Properties {
     
     public String getEmailAdviceRights() {
         return getProperty(EMAIL_ADVICE_RIGHTS);
+    }
+    
+     public String getEmailAdviceBond() {
+        return getProperty(EMAIL_ADVICE_BOND);
     }
 
     /**
