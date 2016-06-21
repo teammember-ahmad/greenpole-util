@@ -88,6 +88,22 @@ public class Notification {
         gq.createUpdateNotification(notification);
     }
     
+    public void reverseNotification(String folderPath, String notificationCode, NotificationWrapper wrapper) throws JAXBException, Exception {
+        File file = new File(folderPath + notificationCode + ".xml");
+        JAXBContext jaxbContext = JAXBContext.newInstance(NotificationWrapper.class);
+        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        //change file first
+        wrapper.setAttendedTo(false);
+        wrapper.setAttendedDate("");
+        jaxbMarshaller.marshal(wrapper, file);
+        //change db last
+        org.greenpole.hibernate.entity.Notification notification = gq.getNotification(notificationCode);
+        notification.setAttendedTo(false);
+        notification.setAttendedDate(null);
+        gq.createUpdateNotification(notification);
+    }
+    
     /**
      * Marks a notification as attended to on the database.
      * @param notificationCode the notification code
