@@ -50,9 +50,9 @@ public class DecipherTest {
             PrivateKey privateKey = (PrivateKey) inputStream.readObject();
             String plainText = decipher.decryptEncryptedText(encryptedText, privateKey);
             
+            inputStream.close();
+            
             // Printing the Original, Encrypted and Decrypted Text
-            
-            
             System.out.println("Decrypted Text: " + plainText);
 
         } catch (Exception e) {
