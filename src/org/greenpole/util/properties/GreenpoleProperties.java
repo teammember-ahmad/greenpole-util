@@ -48,6 +48,9 @@ public class GreenpoleProperties extends Properties {
     private final String RIGHTS_MONITOR_RECIPIENT = "rights.monitor.recipient";
     private final String REPORT_UPLOAD_PATH = "report.upload.path";
     private final String DIVIDEND_UPLOAD_SIZE = "dividend.upload.size";
+    private final String INITIAL_PASSWORD = "initial.password";
+    private final String PUBLIC_KEY_FILE = "public.key.file";
+    private final String PRIVATE_KEY_FILE = "private.key.file";
     private static final Logger logger = LoggerFactory.getLogger(GreenpoleProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
 
@@ -168,6 +171,9 @@ public class GreenpoleProperties extends Properties {
             setProperty(RIGHTS_MONITOR_RECIPIENT, gq.getEngineProperty(RIGHTS_MONITOR_RECIPIENT).getPropertyValue());
             setProperty(REPORT_UPLOAD_PATH, gq.getEngineProperty(REPORT_UPLOAD_PATH).getPropertyValue());
             setProperty(DIVIDEND_UPLOAD_SIZE, gq.getEngineProperty(DIVIDEND_UPLOAD_SIZE).getPropertyValue());
+            setProperty(INITIAL_PASSWORD, gq.getEngineProperty(INITIAL_PASSWORD).getPropertyValue());
+            setProperty(PUBLIC_KEY_FILE, gq.getEngineProperty(PUBLIC_KEY_FILE).getPropertyValue());
+            setProperty(PRIVATE_KEY_FILE, gq.getEngineProperty(PRIVATE_KEY_FILE).getPropertyValue());
 
             store(changestream, null);
             changestream.close();
@@ -308,6 +314,18 @@ public class GreenpoleProperties extends Properties {
     
     public String getDividendUploadSize() {
         return getProperty(DIVIDEND_UPLOAD_SIZE);
+    }
+    
+    public String getInitialPassword() {
+        return getProperty(INITIAL_PASSWORD);
+    }
+    
+    public String getPublicKeyFile() {
+        return getProperty(PUBLIC_KEY_FILE);
+    }
+    
+    public String getPrivateKeyFile() {
+        return getProperty(PRIVATE_KEY_FILE);
     }
 
     /**
