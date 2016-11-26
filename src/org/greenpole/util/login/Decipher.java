@@ -37,6 +37,12 @@ public class Decipher {
         this.private_key_file = private_key_file;
         this.public_key_file = public_key_file;
     }
+
+    public Decipher(String algorithm) {
+        this.algorithm = algorithm;
+        this.private_key_file = "";
+        this.public_key_file = "";
+    }
     
     /**
      * Generates the public and private keys to be used by the system for sending / receiving
