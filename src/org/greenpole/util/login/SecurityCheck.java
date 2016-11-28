@@ -42,7 +42,7 @@ public class SecurityCheck {
         
         try {
             //login security rules:
-            /*if (!gq.checkUserAccess(login.getUserId())) {//user must exist in system
+            if (!gq.checkUserAccess(login.getUserId())) {//user must exist in system
                 resp.setRetn(100);
                 resp.setDesc("The account " + login.getUserId() + " is not a registered user in the system");
                 logger.info("This account {} is not a registered user in the system - [{}]", login.getUserId(), login.getUserId());
@@ -98,7 +98,7 @@ public class SecurityCheck {
                         return true;
                     }
                 }
-            }*/
+            }
             
             //notification code must exist
             if (!gq.checkNotification(notificationCode)) {
@@ -245,7 +245,7 @@ public class SecurityCheck {
         
         try {
             //login security rules:
-            /*if (!gq.checkUserAccess(login.getUserId())) {//user must exist in system
+            if (!gq.checkUserAccess(login.getUserId())) {//user must exist in system
                 resp.setRetn(100);
                 resp.setDesc("The account " + login.getUserId() + " is not a registered user in the system");
                 logger.info("This account {} is not a registered user in the system - [{}]", login.getUserId(), login.getUserId());
@@ -301,7 +301,7 @@ public class SecurityCheck {
                         return true;
                     }
                 }
-            }*/
+            }
             return false;
         } catch (Exception ex) {
             logger.info("error in security check. See error log - [{}]", login.getUserId());
