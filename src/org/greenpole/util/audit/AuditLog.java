@@ -23,17 +23,18 @@ public class AuditLog {
      * @param approvalRequired if approval is required for this function
      * @param designatedApprover the designated approver for this function (if any)
      * @param isAuthorisation if the function performed is an authorisation
+     * @param notificationCode the notification code
      * @param responseCode the server's response code
      * @param responseDescription the server's response description
      * @return true, if activity is logged
      */
     public static boolean logUserActivity(String userEmail, String userIpAddress, String functionPerformed, boolean approvalRequired, String designatedApprover, 
-            boolean isAuthorisation, int responseCode, String responseDescription) {
+            boolean isAuthorisation, String notificationCode, int responseCode, String responseDescription) {
         GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
         org.slf4j.Logger logger = LoggerFactory.getLogger(AuditLog.class);
         boolean result = false;
         try {
-            result = gq.logUserActivity(userEmail, userIpAddress, functionPerformed, approvalRequired, designatedApprover, isAuthorisation, responseCode, responseDescription);
+            result = gq.logUserActivity(userEmail, userIpAddress, functionPerformed, approvalRequired, designatedApprover, isAuthorisation, notificationCode, responseCode, responseDescription);
         } catch (Exception ex) {
             logger.info("error thrown while logging user activity for {}. See error log", userEmail);
             logger.error("error thrown while logging user activity for " + userEmail, ex);
