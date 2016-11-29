@@ -146,7 +146,7 @@ public class SecurityCheck {
             resp.setRetn(99);
             resp.setDesc("General error. Unable to carry out security check. Contact system administrator."
                     + "\nMessage: " + ex.getMessage());
-            return false;
+            return true;
         }
     }
     
@@ -228,7 +228,7 @@ public class SecurityCheck {
             resp.setRetn(99);
             resp.setDesc("General error. Unable to carry out security check. Contact system administrator."
                     + "\nMessage: " + ex.getMessage());
-            return false;
+            return true;
         }
     }
     
@@ -310,7 +310,7 @@ public class SecurityCheck {
             resp.setRetn(99);
             resp.setDesc("General error. Unable to carry out security check. Contact system administrator."
                     + "\nMessage: " + ex.getMessage());
-            return false;
+            return true;
         }
     }
     
