@@ -10,6 +10,8 @@ import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
@@ -66,5 +68,17 @@ public class Password {
         random.nextBytes(salt);
         
         return salt;
+    }
+    
+    /**
+     * Validates the password to see if it fits with the organisation's password policy
+     * @param password the password to validate
+     * @param passwordPolicy the password policy to validate the password against
+     * @return true, if validation passes
+     */
+    public static boolean validatePassword(String password, String passwordPolicy) {
+        Pattern pattern = Pattern.compile(passwordPolicy);
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
     }
 }

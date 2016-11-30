@@ -16,7 +16,7 @@ import java.security.spec.InvalidKeySpecException;
  */
 public class PasswordTest {
     public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
-        String password = "Password@1";
+        String password = "Pas@1";
         String passwordToCheck = "Password@1";
         
         byte[] salt = Password.generateSalt();
@@ -27,5 +27,9 @@ public class PasswordTest {
         
         boolean checkSame = Password.authenticate(passwordToCheck, encryptedPassword, salt);
         System.out.println("Password the same?: " + checkSame);
+        
+        int length = 6;
+        String policy = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{" + length +",20})";
+        System.out.println("Password validated?: " + Password.validatePassword(password, policy));
     }
 }
