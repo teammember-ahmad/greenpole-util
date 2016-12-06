@@ -38,7 +38,7 @@ public class GreenpoleFile {
      * Creates a file name using random numbers and the current date-time.
      * @return the file name
      */
-    public String createFileName() {
+    private String createFileName() {
         java.util.Date date = new java.util.Date();
         Random rand = new Random();
         int randomNumber = rand.nextInt(99999999);
