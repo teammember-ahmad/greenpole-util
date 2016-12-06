@@ -23,4 +23,13 @@ public class Date {
         Calendar cal = Calendar.getInstance();
         return dateFormat.format(cal.getTime());
     }
+    
+    /**
+     * Checks if a year is a leap year.
+     * @param year the year to check
+     * @return true, if year is a leap year
+     */
+    public boolean isLeapYear(int year) {
+        return (year % 400 == 0) || ((year % 4 == 0) && (year % 100 != 0));
+    }
 }
