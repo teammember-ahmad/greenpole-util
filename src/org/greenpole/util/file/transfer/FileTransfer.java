@@ -21,13 +21,12 @@ import org.slf4j.LoggerFactory;
  * @author emmanuel.idoko
  */
 public class FileTransfer {
-
-    // Creating FTP Client instance
-    FTPClient ftp = null;
-    Logger logger = LoggerFactory.getLogger(FileTransfer.class);
+    //Creating FTP Client instance
+    private FTPClient ftp = null;
+    private final Logger logger = LoggerFactory.getLogger(FileTransfer.class);
     private final GreenpoleProperties greenProp = GreenpoleProperties.getInstance();
 
-    // Constructor to connect to the FTP Server
+    //Constructor to connect to the FTP Server
     public FileTransfer() {
         try {
             int ftp_port = 0;

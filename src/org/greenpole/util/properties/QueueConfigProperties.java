@@ -28,6 +28,12 @@ import org.slf4j.LoggerFactory;
 public class QueueConfigProperties extends Properties {
     private static QueueConfigProperties INSTANCE;
     private InputStream instream;
+    private final String JAVA_NAMING_FACTORY_INITIAL = "java.naming.factory.initial";
+    private final String JAVA_NAMING_FACTORY_URL_PKGS = "java.naming.factory.url.pkgs";
+    private final String JAVA_NAMING_PROVIDER_URL = "java.naming.provider.url";
+    private final String UBA_PROVIDER_IP = "uba.provider.ip";
+    private final String UBA_PROVIDER_USERNAME = "uba.provider.username";
+    private final String UBA_PROVIDER_PASSWORD = "uba.provider.password";
     private static final Logger logger = LoggerFactory.getLogger(QueueConfigProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
     
@@ -126,9 +132,12 @@ public class QueueConfigProperties extends Properties {
             
             FileOutputStream changestream = new FileOutputStream(propFile);
             
-            setProperty("java.naming.factory.initial", gq.getQueueConfigProperty("java.naming.factory.initial").getPropertyValue());
-            setProperty("java.naming.factory.url.pkgs", gq.getQueueConfigProperty("java.naming.factory.url.pkgs").getPropertyValue());
-            setProperty("java.naming.provider.url", gq.getQueueConfigProperty("java.naming.provider.url").getPropertyValue());
+            setProperty(JAVA_NAMING_FACTORY_INITIAL, gq.getQueueConfigProperty(JAVA_NAMING_FACTORY_INITIAL).getPropertyValue());
+            setProperty(JAVA_NAMING_FACTORY_URL_PKGS, gq.getQueueConfigProperty(JAVA_NAMING_FACTORY_URL_PKGS).getPropertyValue());
+            setProperty(JAVA_NAMING_PROVIDER_URL, gq.getQueueConfigProperty(JAVA_NAMING_PROVIDER_URL).getPropertyValue());
+            setProperty(UBA_PROVIDER_IP, gq.getQueueConfigProperty(UBA_PROVIDER_IP).getPropertyValue());
+            setProperty(UBA_PROVIDER_USERNAME, gq.getQueueConfigProperty(UBA_PROVIDER_USERNAME).getPropertyValue());
+            setProperty(UBA_PROVIDER_PASSWORD, gq.getQueueConfigProperty(UBA_PROVIDER_PASSWORD).getPropertyValue());
             
             store(changestream, null);
             changestream.close();
