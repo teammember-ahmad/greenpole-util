@@ -14,6 +14,7 @@ import java.util.List;
 import javax.ws.rs.client.WebTarget;
 import org.greenpole.entity.model.holder.HolderAccreditation;
 import org.greenpole.entity.model.holder.HolderVoting;
+import org.greenpole.entity.model.holder.QueryHolder;
 import org.greenpole.entity.response.Response;
 import org.greenpole.entity.rest.CarrierWrapper;
 import org.greenpole.entity.security.Login;
@@ -43,7 +44,7 @@ public class HolderRestInterface {
         Response resp = mapper.readValue(json_resp, Response.class);
         
         List<HolderAccreditation> accreditation_result = new ArrayList<>();
-        if (!resp.getRestBody().isEmpty()) {
+        if (resp.getRestBody() != null && !resp.getRestBody().isEmpty()) {
             String json_list = mapper.writeValueAsString(resp.getRestBody());
             accreditation_result = mapper.readValue(json_list, new TypeReference<List<HolderAccreditation>>(){});
         }
@@ -68,4 +69,18 @@ public class HolderRestInterface {
         
         return resp;
     }
+    
+    /*public Response queryHolderPagination_Request(Login login, QueryHolder queryParams, int pageNumber, int pageSize) {
+        baseUrl.loadHolderQueryV1Path();
+        WebTarget webTarget = baseUrl.getWebTarget();
+        
+        String json_resp = webTarget.path("queryholderpagination")
+                .queryParam("userId", login.getUserId()).queryParam("password", login.getPassword())
+                .request(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+                .post(javax.ws.rs.client.Entity.entity(carrier, javax.ws.rs.core.MediaType.APPLICATION_JSON), String.class);
+        
+        Response resp = mapper.readValue(json_resp, Response.class);
+        
+        return resp;
+    }*/
 }
