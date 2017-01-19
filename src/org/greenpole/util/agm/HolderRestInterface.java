@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.client.WebTarget;
 import org.greenpole.entity.model.holder.HolderAccreditation;
+import org.greenpole.entity.model.holder.HolderVoting;
 import org.greenpole.entity.response.Response;
+import org.greenpole.entity.rest.CarrierWrapper;
 import org.greenpole.entity.security.Login;
 
 /**
@@ -46,6 +48,23 @@ public class HolderRestInterface {
             accreditation_result = mapper.readValue(json_list, new TypeReference<List<HolderAccreditation>>(){});
         }
         resp.setRestBody(accreditation_result);
+        
+        return resp;
+    }
+    
+    public Response saveVoteResult_Request(Login login, List<HolderVoting> holderVotingList) throws IOException {
+        baseUrl.loadHolderRequestV1Path();
+        WebTarget webTarget = baseUrl.getWebTarget();
+        
+        CarrierWrapper carrier = new CarrierWrapper();
+        carrier.setHolderVotingList(holderVotingList);
+        
+        String json_resp = webTarget.path("savevoteresult")
+                .queryParam("userId", login.getUserId()).queryParam("password", login.getPassword())
+                .request(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+                .post(javax.ws.rs.client.Entity.entity(carrier, javax.ws.rs.core.MediaType.APPLICATION_JSON), String.class);
+        
+        Response resp = mapper.readValue(json_resp, Response.class);
         
         return resp;
     }

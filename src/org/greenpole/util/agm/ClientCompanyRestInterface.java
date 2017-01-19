@@ -97,7 +97,7 @@ public class ClientCompanyRestInterface {
     }
     
     public Response setupVotingProcess_Request(Login login, VotingProcess vp) throws IOException {
-        baseUrl.loadClientCompanyQueryV1Path();
+        baseUrl.loadClientCompanyRequestV1Path();
         WebTarget webTarget = baseUrl.getWebTarget();
         
         String json_resp = webTarget.path("setupvotingprocess")
@@ -111,7 +111,7 @@ public class ClientCompanyRestInterface {
     }
     
     public Response closeVotingProcess_Request(Login login, int vpId) throws IOException {
-        baseUrl.loadClientCompanyQueryV1Path();
+        baseUrl.loadClientCompanyRequestV1Path();
         WebTarget webTarget = baseUrl.getWebTarget();
         
         String json_resp = webTarget.path("closevotingprocess")
