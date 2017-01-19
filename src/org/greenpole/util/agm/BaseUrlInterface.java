@@ -12,12 +12,12 @@ import javax.ws.rs.client.WebTarget;
  *
  * @author Akinwale.Agbaje
  */
-public class RestInterface {
+public class BaseUrlInterface {
     private final Client client;
     private WebTarget webTarget;
     private static final String BASE_URI = "http://192.168.10.219:7002/greenpole-engine-agm";
 
-    public RestInterface() {
+    public BaseUrlInterface() {
         this.client = javax.ws.rs.client.ClientBuilder.newClient();
     }
     
@@ -35,5 +35,9 @@ public class RestInterface {
     
     public void loadClientCompanyQueryV1Path() {
         this.webTarget = client.target(BASE_URI).path("clientcompanyquery/v1");
+    }
+    
+    public WebTarget getWebTarget() {
+        return webTarget;
     }
 }

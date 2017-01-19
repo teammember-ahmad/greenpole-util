@@ -6,13 +6,13 @@ import java.util.concurrent.TimeoutException;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
-import org.greenpole.util.properties.QueueConfigProperties;
+import org.greenpole.util.properties.GreenpoleProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class EndPoint {
     private final Logger logger = LoggerFactory.getLogger(EndPoint.class);
-    private final QueueConfigProperties queueProp = QueueConfigProperties.getInstance();
+    private final GreenpoleProperties greenProp = GreenpoleProperties.getInstance();
     
     protected Channel channel;
     protected Connection connection;
@@ -26,15 +26,12 @@ public class EndPoint {
 
         //getting a connection
         try {
-
-            //hostname of your rabbitmq server
-            //factory.setHost("192.168.180.18");
-            factory.setHost(queueProp.get);
-            factory.setUsername("guest1");
-            factory.setPassword("password");
+            factory.setHost(greenProp.getUbaProviderIp());
+            factory.setUsername(greenProp.getUbaProviderUsername());
+            factory.setPassword(greenProp.getUbaProviderPassword());
             factory.setAutomaticRecoveryEnabled(true);
-            factory.setNetworkRecoveryInterval(490000); // In case of broken connection, try again every 30 seconds
-            factory.setRequestedHeartbeat(45); //Keep sending the heartbeat every 45 seconds to prevent any routers from considering the connection stale
+            factory.setNetworkRecoveryInterval(490000); //In case of broken connection, try again every 30 seconds
+            factory.setRequestedHeartbeat(45);//Keep sending the heartbeat every 45 seconds to prevent any routers from considering the connection stale
 
             connection = factory.newConnection();
             channel = connection.createChannel();
@@ -45,14 +42,12 @@ public class EndPoint {
             channel.queueDeclare(endpointName, true, false, false, null);
             channel.queueBind(endpointName, endpointName, endPointName);
 
-        } catch (TimeoutException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } finally {
-
-            //connection.close();
+        } catch (TimeoutException ex) {
+            logger.info("An error occured in the Udividend Rabbit-MQ endpoint bridge. See Error log");
+            logger.error("An error occured in the Udividend Rabbit-MQ endpoint bridge. See Error log", ex);
+        } finally {//connection.close();
+            
         }
-
         //creating a channel
     }
 
@@ -65,9 +60,9 @@ public class EndPoint {
     public void close() throws IOException {
         try {
             this.channel.close();
-        } catch (TimeoutException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        } catch (TimeoutException ex) {
+            logger.info("An error occured while trying to close channel connection of the Udividend Rabbit-MQ endpoint bridge. See Error log");
+            logger.error("An error occured while trying to close channel connection of the Udividend Rabbit-MQ endpoint bridge. See Error log", ex);
         }
         this.connection.close();
     }

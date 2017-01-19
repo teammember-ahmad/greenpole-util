@@ -33,11 +33,16 @@ public class RestCheckTester {
         
         System.out.println(mapper.writeValueAsString(resp));
         
-        String json = mapper.writeValueAsString(resp.getRestBody());
-        List<UserAccess> ulist = mapper.readValue(json, new TypeReference<List<UserAccess>>(){});
+        List<UserAccess> ulist = (List<UserAccess>) resp.getRestBody();
         for (UserAccess a : ulist) {
             System.out.println("email: " + a.getEmail());
         }
+        
+        /*String json = mapper.writeValueAsString(resp.getRestBody());
+        List<UserAccess> ulist = mapper.readValue(json, new TypeReference<List<UserAccess>>(){});
+        for (UserAccess a : ulist) {
+            System.out.println("email: " + a.getEmail());
+        }*/
         System.out.println("done running!");
     }
 }
