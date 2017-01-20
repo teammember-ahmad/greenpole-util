@@ -28,7 +28,8 @@ public class ClientCompanyRestInterface {
 
     public ClientCompanyRestInterface() {
         baseUrl = new BaseUrlInterface();
-        mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                .configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
     }
     
     public Response queryAllClientCompanies_Request(Login login) throws IOException {

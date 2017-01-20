@@ -40,12 +40,13 @@ public class RestTest {
         
         h.setCompanyAccounts(hcalist);
         QueryHolder queryParams = new QueryHolder();
-        queryParams.setDescriptor("holder:main;units:none;totalHoldings:none;any:none");
+        queryParams.setDescriptor("holder:exact;units:none;totalHoldings:none;any:none");
         queryParams.setHolder(h);
         
         //Response resp = rest.queryHolderAccreditationList_Request(login, 1);
         //Response resp = rest.queryHolderPagination_Request(login, queryParams, 1, 1);
-        Response resp = rest2.queryAllClientCompanies_Request(login);
+        //Response resp = rest2.queryAllClientCompanies_Request(login);
+        Response resp = rest2.queryOpenAGMforClientCompany_Request(login, 56);
         System.out.println(mapper.writeValueAsString(resp));
     }
 }
