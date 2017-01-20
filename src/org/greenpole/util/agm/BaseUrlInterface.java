@@ -7,16 +7,18 @@ package org.greenpole.util.agm;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
+import org.greenpole.util.properties.GeneralMeetingProperties;
 
 /**
  *
  * @author Akinwale.Agbaje
  */
 public class BaseUrlInterface {
+    private final GeneralMeetingProperties prop = GeneralMeetingProperties.getInstance();
     private final Client client;
     private WebTarget webTarget;
-    //private static final String BASE_URI = "http://192.168.10.219:7002/greenpole-engine-agm";
-    private static final String BASE_URI = "http://greensvr.africaprudentialregistrars.com:7002/greenpole-engine-agm";
+    private final String BASE_URI = "http://"+prop.getGmWebserviceHost()+":7002/greenpole-engine-agm";
+    //private static final String BASE_URI = "http://greensvr.africaprudentialregistrars.com:7002/greenpole-engine-agm";
 
     public BaseUrlInterface() {
         this.client = javax.ws.rs.client.ClientBuilder.newClient();

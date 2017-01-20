@@ -43,7 +43,7 @@ public class ClientCompanyRestInterface {
         Response resp = mapper.readValue(json_resp, Response.class);
         
         List<ClientCompany> cclist = new ArrayList<>();
-        if (!resp.getRestBody().isEmpty()) {
+        if (resp.getRestBody() != null && !resp.getRestBody().isEmpty()) {
             String json_list = mapper.writeValueAsString(resp.getRestBody());
             cclist = mapper.readValue(json_list, new TypeReference<List<ClientCompany>>(){});
         }
@@ -65,7 +65,7 @@ public class ClientCompanyRestInterface {
         Response resp = mapper.readValue(json_resp, Response.class);
         
         List<GeneralMeeting> toSend = new ArrayList<>();
-        if (!resp.getRestBody().isEmpty()) {
+        if (resp.getRestBody() != null && !resp.getRestBody().isEmpty()) {
             String json_list = mapper.writeValueAsString(resp.getRestBody());
             toSend = mapper.readValue(json_list, new TypeReference<List<GeneralMeeting>>(){});
         }
@@ -87,7 +87,7 @@ public class ClientCompanyRestInterface {
         Response resp = mapper.readValue(json_resp, Response.class);
         
         List<VotingProcess> toSend = new ArrayList<>();
-        if (!resp.getRestBody().isEmpty()) {
+        if (resp.getRestBody() != null && !resp.getRestBody().isEmpty()) {
             String json_list = mapper.writeValueAsString(resp.getRestBody());
             toSend = mapper.readValue(json_list, new TypeReference<List<VotingProcess>>(){});
         }
