@@ -29,7 +29,8 @@ public class HolderRestInterface {
 
     public HolderRestInterface() {
         baseUrl = new BaseUrlInterface();
-        mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                .configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
     }
     
     public Response queryHolderAccreditationList_Request(Login login, int gmId) throws IOException {
@@ -70,17 +71,18 @@ public class HolderRestInterface {
         return resp;
     }
     
-    /*public Response queryHolderPagination_Request(Login login, QueryHolder queryParams, int pageNumber, int pageSize) {
+    public Response queryHolderPagination_Request(Login login, QueryHolder queryParams, int pageNumber, int pageSize) throws IOException {
         baseUrl.loadHolderQueryV1Path();
         WebTarget webTarget = baseUrl.getWebTarget();
         
         String json_resp = webTarget.path("queryholderpagination")
                 .queryParam("userId", login.getUserId()).queryParam("password", login.getPassword())
+                .queryParam("pageNumber", pageNumber).queryParam("pageSize", pageSize)
                 .request(javax.ws.rs.core.MediaType.APPLICATION_JSON)
-                .post(javax.ws.rs.client.Entity.entity(carrier, javax.ws.rs.core.MediaType.APPLICATION_JSON), String.class);
+                .post(javax.ws.rs.client.Entity.entity(queryParams, javax.ws.rs.core.MediaType.APPLICATION_JSON), String.class);
         
         Response resp = mapper.readValue(json_resp, Response.class);
         
         return resp;
-    }*/
+    }
 }

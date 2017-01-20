@@ -15,7 +15,8 @@ import javax.ws.rs.client.WebTarget;
 public class BaseUrlInterface {
     private final Client client;
     private WebTarget webTarget;
-    private static final String BASE_URI = "http://192.168.10.219:7002/greenpole-engine-agm";
+    //private static final String BASE_URI = "http://192.168.10.219:7002/greenpole-engine-agm";
+    private static final String BASE_URI = "http://greensvr.africaprudentialregistrars.com:7002/greenpole-engine-agm";
 
     public BaseUrlInterface() {
         this.client = javax.ws.rs.client.ClientBuilder.newClient();
