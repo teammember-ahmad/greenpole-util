@@ -18,7 +18,6 @@ public class BaseUrlInterface {
     private final Client client;
     private WebTarget webTarget;
     private final String BASE_URI = "http://192.168.10.219:7002/greenpole-engine-agm";
-    //private final String BASE_URI = "http://"+prop.getGmWebserviceHost()+":7002/greenpole-engine-agm";
     //private static final String BASE_URI = "http://greensvr.africaprudentialregistrars.com:7002/greenpole-engine-agm";
 
     public BaseUrlInterface() {
@@ -39,6 +38,10 @@ public class BaseUrlInterface {
     
     public void loadClientCompanyQueryV1Path() {
         this.webTarget = client.target(BASE_URI).path("clientcompanyquery/v1");
+    }
+    
+    public void loadLoginRequestV1Path() {
+        this.webTarget = client.target(BASE_URI).path("loginrequest/v1");
     }
     
     public WebTarget getWebTarget() {

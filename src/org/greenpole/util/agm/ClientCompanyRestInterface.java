@@ -14,6 +14,7 @@ import java.util.List;
 import javax.ws.rs.client.WebTarget;
 import org.greenpole.entity.model.clientcompany.ClientCompany;
 import org.greenpole.entity.model.clientcompany.GeneralMeeting;
+import org.greenpole.entity.model.clientcompany.GeneralMeetingVotingSummary;
 import org.greenpole.entity.model.clientcompany.VotingProcess;
 import org.greenpole.entity.response.Response;
 import org.greenpole.entity.security.Login;
@@ -24,7 +25,7 @@ import org.greenpole.entity.security.Login;
  */
 public class ClientCompanyRestInterface {
     private final BaseUrlInterface baseUrl;
-    private final ObjectMapper mapper;    
+    private final ObjectMapper mapper;
 
     public ClientCompanyRestInterface() {
         baseUrl = new BaseUrlInterface();
@@ -120,6 +121,20 @@ public class ClientCompanyRestInterface {
                 .queryParam("vpId", vpId)
                 .request(javax.ws.rs.core.MediaType.APPLICATION_JSON)
                 .get(String.class);
+        
+        Response resp = mapper.readValue(json_resp, Response.class);
+        
+        return resp;
+    }
+    
+    public Response saveGeneralMeetingVotingSummary_Request(Login login, GeneralMeetingVotingSummary summary) throws IOException {
+        baseUrl.loadClientCompanyRequestV1Path();
+        WebTarget webTarget = baseUrl.getWebTarget();
+        
+        String json_resp = webTarget.path("savegeneralmeetingvotingsummary")
+                .queryParam("userId", login.getUserId()).queryParam("password", login.getPassword())
+                .request(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+                .post(javax.ws.rs.client.Entity.entity(summary, javax.ws.rs.core.MediaType.APPLICATION_JSON), String.class);
         
         Response resp = mapper.readValue(json_resp, Response.class);
         
