@@ -98,6 +98,28 @@ public class ClientCompanyRestInterface {
         return resp;
     }
     
+    public Response queryVotingProcessesForAGM_Request(Login login, int gmId) throws IOException {
+        baseUrl.loadClientCompanyQueryV1Path();
+        WebTarget webTarget = baseUrl.getWebTarget();
+        
+        String json_resp = webTarget.path("queryvotingprocessesforagm")
+                .queryParam("userId", login.getUserId()).queryParam("password", login.getPassword())
+                .queryParam("gmId", gmId)
+                .request(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+                .get(String.class);
+        
+        Response resp = mapper.readValue(json_resp, Response.class);
+        
+        List<VotingProcess> toSend = new ArrayList<>();
+        if (resp.getRestBody() != null && !resp.getRestBody().isEmpty()) {
+            String json_list = mapper.writeValueAsString(resp.getRestBody());
+            toSend = mapper.readValue(json_list, new TypeReference<List<VotingProcess>>(){});
+        }
+        resp.setRestBody(toSend);
+        
+        return resp;
+    }
+    
     public Response setupVotingProcess_Request(Login login, VotingProcess vp) throws IOException {
         baseUrl.loadClientCompanyRequestV1Path();
         WebTarget webTarget = baseUrl.getWebTarget();
