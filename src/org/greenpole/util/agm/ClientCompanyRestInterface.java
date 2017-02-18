@@ -16,6 +16,7 @@ import org.greenpole.entity.model.clientcompany.ClientCompany;
 import org.greenpole.entity.model.clientcompany.GeneralMeeting;
 import org.greenpole.entity.model.clientcompany.GeneralMeetingVotingSummary;
 import org.greenpole.entity.model.clientcompany.VotingProcess;
+import org.greenpole.entity.model.holder.HolderSplitVote;
 import org.greenpole.entity.response.Response;
 import org.greenpole.entity.security.Login;
 
@@ -159,6 +160,28 @@ public class ClientCompanyRestInterface {
                 .post(javax.ws.rs.client.Entity.entity(summary, javax.ws.rs.core.MediaType.APPLICATION_JSON), String.class);
         
         Response resp = mapper.readValue(json_resp, Response.class);
+        
+        return resp;
+    }
+    
+    public Response queryVotingProcessSplitVotes_Request(Login login, int votingProcessId) throws IOException {
+        baseUrl.loadClientCompanyQueryV1Path();
+        WebTarget webTarget = baseUrl.getWebTarget();
+        
+        String json_resp = webTarget.path("queryvotingprocesssplitvotes")
+                .queryParam("userId", login.getUserId()).queryParam("password", login.getPassword())
+                .queryParam("votingProcessId", votingProcessId)
+                .request(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+                .get(String.class);
+        
+        Response resp = mapper.readValue(json_resp, Response.class);
+        
+        List<HolderSplitVote> toSend = new ArrayList<>();
+        if (resp.getRestBody() != null && !resp.getRestBody().isEmpty()) {
+            String json_list = mapper.writeValueAsString(resp.getRestBody());
+            toSend = mapper.readValue(json_list, new TypeReference<List<VotingProcess>>(){});
+        }
+        resp.setRestBody(toSend);
         
         return resp;
     }
