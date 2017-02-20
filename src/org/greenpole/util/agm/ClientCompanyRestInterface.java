@@ -179,7 +179,7 @@ public class ClientCompanyRestInterface {
         List<HolderSplitVote> toSend = new ArrayList<>();
         if (resp.getRestBody() != null && !resp.getRestBody().isEmpty()) {
             String json_list = mapper.writeValueAsString(resp.getRestBody());
-            toSend = mapper.readValue(json_list, new TypeReference<List<VotingProcess>>(){});
+            toSend = mapper.readValue(json_list, new TypeReference<List<HolderSplitVote>>(){});
         }
         resp.setRestBody(toSend);
         
