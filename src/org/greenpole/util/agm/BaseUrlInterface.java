@@ -17,7 +17,7 @@ public class BaseUrlInterface {
     //private final GeneralMeetingProperties prop = GeneralMeetingProperties.getInstance();
     private final Client client;
     private WebTarget webTarget;
-    private final String BASE_URI = "http://192.168.1.2:7002/greenpole-engine-agm";
+    private final String BASE_URI = "http://192.168.1.1:7002/greenpole-engine-agm";
     //private final String BASE_URI = "http://192.168.10.219:7002/greenpole-engine-agm";
     //private static final String BASE_URI = "http://greensvr.africaprudentialregistrars.com:7002/greenpole-engine-agm";
 
