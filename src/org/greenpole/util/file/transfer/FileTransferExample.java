@@ -12,14 +12,14 @@ package org.greenpole.util.file.transfer;
 public class FileTransferExample {
 
     public static void main(String[] args) throws Exception {
-        /*String servername = "192.168.10.150";
+        String servername = "192.168.10.150";
         int port = 21;
         String username = "emmanuel.idoko";
-        String password = "Desterity8080&$";*/
-        String localFileName = "C:\\Users\\emmanuel.idoko\\Documents\\TowersOfHanoiSolution.txt";
+        String password = "Desterity8080&$";
+        String localFileName = "C:\\Users\\emmanuel.idoko\\Documents\\myoutput.txt";
         String hostDir = "/Tester";
 
-        FileTransfer ftpobj = new FileTransfer();
+        FileTransfer ftpobj = new FileTransfer(username, password, port, servername);
         ftpobj.uploadFTPFile(localFileName, hostDir);
     }
 }
