@@ -5,13 +5,15 @@ import java.io.IOException;
 import com.rabbitmq.client.MessageProperties;
 
 public class Producer extends EndPoint {
+    protected String endpointName;
 
-    public Producer(String endPointName) throws IOException {
-        super(endPointName);
+    public Producer(String endpointName, String host, String username, String password) throws IOException {
+        super(endpointName, host, username, password);
+        this.endpointName = endpointName;
     }
 
     public void sendMessage(String object) throws IOException {
-        channel.basicPublish("", endPointName, MessageProperties.PERSISTENT_TEXT_PLAIN, object.getBytes());
+        channel.basicPublish("", endpointName, MessageProperties.PERSISTENT_TEXT_PLAIN, object.getBytes());
     }
 
 }

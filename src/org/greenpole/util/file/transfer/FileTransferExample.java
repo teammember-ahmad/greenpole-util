@@ -19,7 +19,7 @@ public class FileTransferExample {
         String localFileName = "C:\\Users\\emmanuel.idoko\\Documents\\myoutput.txt";
         String hostDir = "/Tester";
 
-        FileTransfer ftpobj = new FileTransfer(username, password, port, servername);
+        FileTransfer ftpobj = new FileTransfer(username, password, servername, port);
         ftpobj.uploadFTPFile(localFileName, hostDir);
     }
 }

@@ -53,20 +53,6 @@ public class GreenpoleProperties extends Properties {
     private final String PRIVATE_KEY_FILE = "private.key.file";
     private final String LOGIN_TRIES = "login.tries";
     private final String PASSWORD_LENGTH = "password.length";
-    private final String FTP_HOST = "ftp.host";
-    private final String FTP_USERNAME = "ftp.username";
-    private final String FTP_PASSWORD = "ftp.password";
-    private final String FTP_PORT = "ftp.port";
-    private final String REPORT_HOST = "report.host";
-    private final String REPORT_PORT = "report.port";
-    private final String REPORT_DB = "report.db";
-    private final String REPORT_USERNAME = "report.username";
-    private final String REPORT_PASSWORD = "report.password";
-    private final String UBA_PROVIDER_IP = "uba.provider.ip";
-    private final String UBA_PROVIDER_USERNAME = "uba.provider.username";
-    private final String UBA_PROVIDER_PASSWORD = "uba.provider.password";
-    private final String UBA_ENDPOINT_NAME = "uba.endpoint.name";
-    private final String UBA_DATE_FORMAT = "uba.date.format";
     private static final Logger logger = LoggerFactory.getLogger(GreenpoleProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
 
@@ -192,20 +178,6 @@ public class GreenpoleProperties extends Properties {
             setProperty(PRIVATE_KEY_FILE, gq.getEngineProperty(PRIVATE_KEY_FILE).getPropertyValue());
             setProperty(LOGIN_TRIES, gq.getEngineProperty(LOGIN_TRIES).getPropertyValue());
             setProperty(PASSWORD_LENGTH, gq.getEngineProperty(PASSWORD_LENGTH).getPropertyValue());
-            setProperty(FTP_HOST, gq.getEngineProperty(FTP_HOST).getPropertyValue());
-            setProperty(FTP_PORT, gq.getEngineProperty(FTP_PORT).getPropertyValue());
-            setProperty(FTP_USERNAME, gq.getEngineProperty(FTP_USERNAME).getPropertyValue());
-            setProperty(FTP_PASSWORD, gq.getEngineProperty(FTP_PASSWORD).getPropertyValue());
-            setProperty(REPORT_HOST, gq.getEngineProperty(REPORT_HOST).getPropertyValue());
-            setProperty(REPORT_PORT, gq.getEngineProperty(REPORT_PORT).getPropertyValue());
-            setProperty(REPORT_DB, gq.getEngineProperty(REPORT_DB).getPropertyValue());
-            setProperty(REPORT_USERNAME, gq.getEngineProperty(REPORT_USERNAME).getPropertyValue());
-            setProperty(REPORT_PASSWORD, gq.getEngineProperty(REPORT_PASSWORD).getPropertyValue());
-            setProperty(UBA_PROVIDER_IP, gq.getEngineProperty(UBA_PROVIDER_IP).getPropertyValue());
-            setProperty(UBA_PROVIDER_USERNAME, gq.getEngineProperty(UBA_PROVIDER_USERNAME).getPropertyValue());
-            setProperty(UBA_PROVIDER_PASSWORD, gq.getEngineProperty(UBA_PROVIDER_PASSWORD).getPropertyValue());
-            setProperty(UBA_ENDPOINT_NAME, gq.getEngineProperty(UBA_ENDPOINT_NAME).getPropertyValue());
-            setProperty(UBA_DATE_FORMAT, gq.getEngineProperty(UBA_DATE_FORMAT).getPropertyValue());
 
             store(changestream, null);
             changestream.close();
@@ -366,48 +338,6 @@ public class GreenpoleProperties extends Properties {
 
     public String getPasswordLength() {
         return getProperty(PASSWORD_LENGTH);
-    }
-    public String getFtpHost() {
-        return getProperty(FTP_HOST);
-    }
-    public String getFtpPort() {
-        return getProperty(FTP_PORT);
-    }
-    public String getFtpUsername() {
-        return getProperty(FTP_USERNAME);
-    }
-    public String getFtpPassword() {
-        return getProperty(FTP_PASSWORD);
-    }
-    public String getReportHost() {
-        return getProperty(REPORT_HOST);
-    }
-    public String getReportPort() {
-        return getProperty(REPORT_PORT);
-    }
-    public String getReportDb() {
-        return getProperty(REPORT_DB);
-    }
-    public String getReportUsername() {
-        return getProperty(REPORT_USERNAME);
-    }
-    public String getReportPassword() {
-        return getProperty(REPORT_PASSWORD);
-    }
-    public String getUbaProviderIp() {
-        return getProperty(UBA_PROVIDER_IP);
-    }
-    public String getUbaProviderUsername() {
-        return getProperty(UBA_PROVIDER_USERNAME);
-    }
-    public String getUbaProviderPassword() {
-        return getProperty(UBA_PROVIDER_PASSWORD);
-    }
-    public String getUbaEndpointName() {
-        return getProperty(UBA_ENDPOINT_NAME);
-    }
-    public String getUbaDateFormat() {
-        return getProperty(UBA_DATE_FORMAT);
     }
 
     /**

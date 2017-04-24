@@ -26,14 +26,14 @@ public class FileTransfer {
     private final Logger logger = LoggerFactory.getLogger(FileTransfer.class);
     private final String username;
     private final String password;
-    private final int portNumber;
     private final String host;
+    private final int portNumber;
     
-    public FileTransfer(String username, String password, int portNumber, String host) {
+    public FileTransfer(String username, String password, String host, int portNumber) {
         this.username = username;
         this.password = password;
-        this.portNumber = portNumber;
         this.host = host;
+        this.portNumber = portNumber;
 
     }
 
