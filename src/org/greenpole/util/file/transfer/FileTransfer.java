@@ -12,7 +12,6 @@ import java.io.InputStream;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
-import org.greenpole.util.properties.GreenpoleProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,45 +20,47 @@ import org.slf4j.LoggerFactory;
  * @author emmanuel.idoko
  */
 public class FileTransfer {
+
     //Creating FTP Client instance
     private FTPClient ftp = null;
     private final Logger logger = LoggerFactory.getLogger(FileTransfer.class);
-    private final GreenpoleProperties greenProp = GreenpoleProperties.getInstance();
-
-    //Constructor to connect to the FTP Server
-    public FileTransfer() {
-        try {
-            int ftp_port = 0;
-            try {
-                ftp_port = Integer.valueOf(greenProp.getFtpPort());
-            } catch (NumberFormatException nex) {
-                logger.info("error thrown trying to retrieve ftp port");
-                logger.error("error thrown trying to retrieve ftp port", nex);
-            }
-            ftp = new FTPClient();
-            int reply;
-            ftp.connect(greenProp.getFtpHost(), ftp_port);
-
-            reply = ftp.getReplyCode();
-            if (!FTPReply.isPositiveCompletion(reply)) {
-                ftp.disconnect();
-                logger.info("Exception in connecting to FTP Server");
-                throw new Exception("Exception in connecting to FTP Server");
-            }
-            logger.info("Connected to ftp server successfully - {} ", greenProp.getFtpUsername());
-            ftp.login(greenProp.getFtpUsername(), greenProp.getFtpPassword());
-            ftp.setFileType(FTP.BINARY_FILE_TYPE);
-            ftp.enterLocalPassiveMode();
-        } catch (Exception ex) {
-            logger.info("error thrown trying to connect to ftp server");
-            logger.error("error thrown trying to connect to ftp server", ex);
-        }
+    private final String username;
+    private final String password;
+    private final int portNumber;
+    private final String host;
+    
+    public FileTransfer(String username, String password, int portNumber, String host) {
+        this.username = username;
+        this.password = password;
+        this.portNumber = portNumber;
+        this.host = host;
 
     }
 
     // Method to upload the File on the FTP Server
     public void uploadFTPFile(String localFileFullName, String dirToCreate) {
         try {
+
+            try {
+                ftp = new FTPClient();
+                int reply;
+                ftp.connect(host, portNumber);
+
+                reply = ftp.getReplyCode();
+                if (!FTPReply.isPositiveCompletion(reply)) {
+                    ftp.disconnect();
+                    logger.info("Exception in connecting to FTP Server");
+                    throw new Exception("Exception in connecting to FTP Server");
+                }
+                logger.info("Connected to ftp server successfully - {} ", username);
+                ftp.login(username, password);
+                ftp.setFileType(FTP.BINARY_FILE_TYPE);
+                ftp.enterLocalPassiveMode();
+            } catch (Exception ex) {
+                logger.info("error thrown trying to connect to ftp server");
+                logger.error("error thrown trying to connect to ftp server", ex);
+            }
+
             File sourceFile = new File(localFileFullName);
             //InputStream input = new FileInputStream(new File(localFileFullName));
             InputStream input = new FileInputStream(sourceFile);
