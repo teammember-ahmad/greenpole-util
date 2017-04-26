@@ -38,7 +38,7 @@ public class FileTransfer {
     }
 
     // Method to upload the File on the FTP Server
-    public void uploadFTPFile(String localFileFullName, String dirToCreate) {
+    public void uploadFTPFile(String localFileFullName) {
         try {
 
             try {
@@ -62,25 +62,8 @@ public class FileTransfer {
             }
 
             File sourceFile = new File(localFileFullName);
-            //InputStream input = new FileInputStream(new File(localFileFullName));
             InputStream input = new FileInputStream(sourceFile);
-            String filePathOnFtpServer = "";
-            boolean dirCreated;
-            if (dirToCreate != null && !dirToCreate.isEmpty()) {
-                dirCreated = ftp.makeDirectory(dirToCreate);
-                if (dirCreated) {
-                    System.out.println("Successfully created directory: " + dirToCreate);
-                    logger.info("Successfully created directory: - {} ", dirToCreate);
-                    filePathOnFtpServer = dirToCreate + "/" + sourceFile.getName();
-                } else {
-                    logger.info("Failed to create directory. See server's reply. - {} ", dirToCreate);
-                    System.out.println("Failed to create directory. See server's reply");
-                }
-            } else {
-                filePathOnFtpServer = sourceFile.getName();
-                logger.info("No directory name found for creation");
-            }
-
+            String filePathOnFtpServer = sourceFile.getName();
             boolean done = ftp.storeFile(filePathOnFtpServer, input);
             if (done) {
                 System.out.println("Transfer successful");

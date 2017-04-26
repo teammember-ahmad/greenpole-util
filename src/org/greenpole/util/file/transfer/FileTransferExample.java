@@ -20,7 +20,6 @@ public class FileTransferExample {
         //String hostDir = "/etc/Greenpole/Reports";
 
         FileTransfer ftpobj = new FileTransfer(username, password, servername, port);
-        ftpobj.uploadFTPFile(localFileName, "");
-        System.out.println("Done!!");
+        ftpobj.uploadFTPFile(localFileName);
     }
 }
