@@ -25,16 +25,22 @@ public class FileTransfer {
     //Creating FTP Client instance
     private FTPClient ftp = null;
     private final Logger logger = LoggerFactory.getLogger(FileTransfer.class);
-    private final String username;
-    private final String password;
-    private final String host;
-    private final int portNumber;
 
-    public FileTransfer(String username, String password, String host, int portNumber) {
-        this.username = username;
-        this.password = password;
-        this.host = host;
-        this.portNumber = portNumber;
+    public FileTransfer(String username, String password, String host, int portNumber) throws IOException, Exception {
+        ftp = new FTPClient();
+        int reply;
+        ftp.connect(host, portNumber);
+
+        reply = ftp.getReplyCode();
+        if (!FTPReply.isPositiveCompletion(reply)) {
+            ftp.disconnect();
+            logger.info("Exception in connecting to FTP Server");
+            throw new Exception("Exception in connecting to FTP Server");
+        }
+        logger.info("Connected to ftp server successfully - {} ", username);
+        ftp.login(username, password);
+        ftp.setFileType(FTP.BINARY_FILE_TYPE);
+        ftp.enterLocalPassiveMode();
 
     }
 
@@ -42,21 +48,6 @@ public class FileTransfer {
     public boolean uploadFTPFile(String localFileFullName) {
         boolean done = false;
         try {
-            ftp = new FTPClient();
-            int reply;
-            ftp.connect(host, portNumber);
-
-            reply = ftp.getReplyCode();
-            if (!FTPReply.isPositiveCompletion(reply)) {
-                ftp.disconnect();
-                logger.info("Exception in connecting to FTP Server");
-                throw new Exception("Exception in connecting to FTP Server");
-            }
-            logger.info("Connected to ftp server successfully - {} ", username);
-            ftp.login(username, password);
-            ftp.setFileType(FTP.BINARY_FILE_TYPE);
-            ftp.enterLocalPassiveMode();
-
             File sourceFile = new File(localFileFullName);
             InputStream input = new FileInputStream(sourceFile);
             String filePathOnFtpServer = sourceFile.getName();
@@ -78,17 +69,26 @@ public class FileTransfer {
     }
 
     // Download the FTP File from the FTP Server
-    public void downloadFTPFile(String source, String destination) {
-        try (FileOutputStream fos = new FileOutputStream(destination)) {
-            boolean downloaded = this.ftp.retrieveFile(source, fos);
+    public boolean downloadFTPFile(String source, String destination) throws Exception {
+        boolean downloaded = false;
+        String fullPath = "";
+        if (destination != null && !destination.trim().isEmpty() && destination.endsWith("//")) {
+            fullPath = destination + source;
+        } else if (destination != null && !destination.trim().isEmpty() && !destination.endsWith("//")) {
+            fullPath = destination + "//" + source;
+        }
+        System.out.println("Complete file name - " + fullPath);
+        try (FileOutputStream fos = new FileOutputStream(fullPath)) {
+            downloaded = ftp.retrieveFile(source, fos);
             if (downloaded) {
                 System.out.println("File downloaded successfully.");
             } else {
                 System.out.println("File download failed.");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error - " + e.getMessage());
         }
+        return downloaded;
     }
 
     // Disconnect the connection to FTP
