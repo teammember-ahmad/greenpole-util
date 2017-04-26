@@ -74,7 +74,7 @@ public class FileTransfer {
                     filePathOnFtpServer = dirToCreate + "/" + sourceFile.getName();
                 } else {
                     logger.info("Failed to create directory. See server's reply. - {} ", dirToCreate);
-                    System.out.println("Failed to create directory. See server's reply.");
+                    System.out.println("Failed to create directory. See server's reply");
                 }
             } else {
                 filePathOnFtpServer = sourceFile.getName();
