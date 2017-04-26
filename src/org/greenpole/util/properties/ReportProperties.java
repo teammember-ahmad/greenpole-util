@@ -34,6 +34,8 @@ public class ReportProperties extends Properties {
     private final String REPORT_USERNAME = "report.username";
     private final String REPORT_PASSWORD = "report.password";
     private final String REPORT_DEPOSITORY = "report.depository";
+    private final String REPORT_QUERY = "report.query";
+    private final String REPORT_DATE_FORMAT = "report.date.format";
     private static final Logger logger = LoggerFactory.getLogger(GreenpoleProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
 
@@ -140,6 +142,8 @@ public class ReportProperties extends Properties {
             setProperty(REPORT_USERNAME, gq.getEngineProperty(REPORT_USERNAME).getPropertyValue());
             setProperty(REPORT_PASSWORD, gq.getEngineProperty(REPORT_PASSWORD).getPropertyValue());
             setProperty(REPORT_DEPOSITORY, gq.getEngineProperty(REPORT_DEPOSITORY).getPropertyValue());
+            setProperty(REPORT_QUERY, gq.getEngineProperty(REPORT_QUERY).getPropertyValue());
+            setProperty(REPORT_DATE_FORMAT, gq.getEngineProperty(REPORT_DATE_FORMAT).getPropertyValue());
 
             store(changestream, null);
             changestream.close();
@@ -171,6 +175,14 @@ public class ReportProperties extends Properties {
     
     public String getReportDepository() {
         return getProperty(REPORT_DEPOSITORY);
+    }
+    
+    public String getReportQuery() {
+        return getProperty(REPORT_QUERY);
+    }
+    
+    public String getReportDateFormat() {
+        return getProperty(REPORT_DATE_FORMAT);
     }
     
     /**
