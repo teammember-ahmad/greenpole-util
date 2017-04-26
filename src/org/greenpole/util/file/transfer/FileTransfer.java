@@ -7,6 +7,7 @@ package org.greenpole.util.file.transfer;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import org.apache.commons.net.ftp.FTP;
@@ -38,7 +39,8 @@ public class FileTransfer {
     }
 
     // Method to upload the File on the FTP Server
-    public void uploadFTPFile(String localFileFullName) {
+    public boolean uploadFTPFile(String localFileFullName) {
+        boolean done = false;
         try {
             ftp = new FTPClient();
             int reply;
@@ -58,7 +60,7 @@ public class FileTransfer {
             File sourceFile = new File(localFileFullName);
             InputStream input = new FileInputStream(sourceFile);
             String filePathOnFtpServer = sourceFile.getName();
-            boolean done = ftp.storeFile(filePathOnFtpServer, input);
+            done = ftp.storeFile(filePathOnFtpServer, input);
             if (done) {
                 System.out.println("Transfer successful");
                 logger.info("Transfer successful with transfer status as - {} ", done);
@@ -71,6 +73,21 @@ public class FileTransfer {
             logger.info("error in transfering file to the server. See error log");
             logger.error("error in transfering file to the server", e);
 
+        }
+        return done;
+    }
+
+    // Download the FTP File from the FTP Server
+    public void downloadFTPFile(String source, String destination) {
+        try (FileOutputStream fos = new FileOutputStream(destination)) {
+            boolean downloaded = this.ftp.retrieveFile(source, fos);
+            if (downloaded) {
+                System.out.println("File downloaded successfully.");
+            } else {
+                System.out.println("File download failed.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
