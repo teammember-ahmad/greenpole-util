@@ -28,7 +28,7 @@ public class FileTransfer {
     private final String password;
     private final String host;
     private final int portNumber;
-    
+
     public FileTransfer(String username, String password, String host, int portNumber) {
         this.username = username;
         this.password = password;
@@ -40,26 +40,20 @@ public class FileTransfer {
     // Method to upload the File on the FTP Server
     public void uploadFTPFile(String localFileFullName) {
         try {
+            ftp = new FTPClient();
+            int reply;
+            ftp.connect(host, portNumber);
 
-            try {
-                ftp = new FTPClient();
-                int reply;
-                ftp.connect(host, portNumber);
-
-                reply = ftp.getReplyCode();
-                if (!FTPReply.isPositiveCompletion(reply)) {
-                    ftp.disconnect();
-                    logger.info("Exception in connecting to FTP Server");
-                    throw new Exception("Exception in connecting to FTP Server");
-                }
-                logger.info("Connected to ftp server successfully - {} ", username);
-                ftp.login(username, password);
-                ftp.setFileType(FTP.BINARY_FILE_TYPE);
-                ftp.enterLocalPassiveMode();
-            } catch (Exception ex) {
-                logger.info("error thrown trying to connect to ftp server");
-                logger.error("error thrown trying to connect to ftp server", ex);
+            reply = ftp.getReplyCode();
+            if (!FTPReply.isPositiveCompletion(reply)) {
+                ftp.disconnect();
+                logger.info("Exception in connecting to FTP Server");
+                throw new Exception("Exception in connecting to FTP Server");
             }
+            logger.info("Connected to ftp server successfully - {} ", username);
+            ftp.login(username, password);
+            ftp.setFileType(FTP.BINARY_FILE_TYPE);
+            ftp.enterLocalPassiveMode();
 
             File sourceFile = new File(localFileFullName);
             InputStream input = new FileInputStream(sourceFile);
