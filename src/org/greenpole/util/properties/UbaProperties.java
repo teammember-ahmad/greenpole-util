@@ -133,11 +133,11 @@ public class UbaProperties extends Properties {
 
             FileOutputStream changestream = new FileOutputStream(propFile);
             
-            setProperty(UBA_PROVIDER_IP, gq.getEngineProperty(UBA_PROVIDER_IP).getPropertyValue());
-            setProperty(UBA_PROVIDER_USERNAME, gq.getEngineProperty(UBA_PROVIDER_USERNAME).getPropertyValue());
-            setProperty(UBA_PROVIDER_PASSWORD, gq.getEngineProperty(UBA_PROVIDER_PASSWORD).getPropertyValue());
-            setProperty(UBA_ENDPOINT_NAME, gq.getEngineProperty(UBA_ENDPOINT_NAME).getPropertyValue());
-            setProperty(UBA_DATE_FORMAT, gq.getEngineProperty(UBA_DATE_FORMAT).getPropertyValue());
+            setProperty(UBA_PROVIDER_IP, gq.getUbaProperty(UBA_PROVIDER_IP).getPropertyValue());
+            setProperty(UBA_PROVIDER_USERNAME, gq.getUbaProperty(UBA_PROVIDER_USERNAME).getPropertyValue());
+            setProperty(UBA_PROVIDER_PASSWORD, gq.getUbaProperty(UBA_PROVIDER_PASSWORD).getPropertyValue());
+            setProperty(UBA_ENDPOINT_NAME, gq.getUbaProperty(UBA_ENDPOINT_NAME).getPropertyValue());
+            setProperty(UBA_DATE_FORMAT, gq.getUbaProperty(UBA_DATE_FORMAT).getPropertyValue());
 
             store(changestream, null);
             changestream.close();

@@ -132,10 +132,10 @@ public class FtpProperties extends Properties {
 
             FileOutputStream changestream = new FileOutputStream(propFile);
             
-            setProperty(FTP_HOST, gq.getEngineProperty(FTP_HOST).getPropertyValue());
-            setProperty(FTP_PORT, gq.getEngineProperty(FTP_PORT).getPropertyValue());
-            setProperty(FTP_USERNAME, gq.getEngineProperty(FTP_USERNAME).getPropertyValue());
-            setProperty(FTP_PASSWORD, gq.getEngineProperty(FTP_PASSWORD).getPropertyValue());
+            setProperty(FTP_HOST, gq.getFtpProperty(FTP_HOST).getPropertyValue());
+            setProperty(FTP_PORT, gq.getFtpProperty(FTP_PORT).getPropertyValue());
+            setProperty(FTP_USERNAME, gq.getFtpProperty(FTP_USERNAME).getPropertyValue());
+            setProperty(FTP_PASSWORD, gq.getFtpProperty(FTP_PASSWORD).getPropertyValue());
 
             store(changestream, null);
             changestream.close();

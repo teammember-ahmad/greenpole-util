@@ -136,14 +136,14 @@ public class ReportProperties extends Properties {
 
             FileOutputStream changestream = new FileOutputStream(propFile);
 
-            setProperty(REPORT_HOST, gq.getEngineProperty(REPORT_HOST).getPropertyValue());
-            setProperty(REPORT_PORT, gq.getEngineProperty(REPORT_PORT).getPropertyValue());
-            setProperty(REPORT_DB, gq.getEngineProperty(REPORT_DB).getPropertyValue());
-            setProperty(REPORT_USERNAME, gq.getEngineProperty(REPORT_USERNAME).getPropertyValue());
-            setProperty(REPORT_PASSWORD, gq.getEngineProperty(REPORT_PASSWORD).getPropertyValue());
-            setProperty(REPORT_DEPOSITORY, gq.getEngineProperty(REPORT_DEPOSITORY).getPropertyValue());
-            setProperty(REPORT_QUERY, gq.getEngineProperty(REPORT_QUERY).getPropertyValue());
-            setProperty(REPORT_DATE_FORMAT, gq.getEngineProperty(REPORT_DATE_FORMAT).getPropertyValue());
+            setProperty(REPORT_HOST, gq.getReportProperty(REPORT_HOST).getPropertyValue());
+            setProperty(REPORT_PORT, gq.getReportProperty(REPORT_PORT).getPropertyValue());
+            setProperty(REPORT_DB, gq.getReportProperty(REPORT_DB).getPropertyValue());
+            setProperty(REPORT_USERNAME, gq.getReportProperty(REPORT_USERNAME).getPropertyValue());
+            setProperty(REPORT_PASSWORD, gq.getReportProperty(REPORT_PASSWORD).getPropertyValue());
+            setProperty(REPORT_DEPOSITORY, gq.getReportProperty(REPORT_DEPOSITORY).getPropertyValue());
+            setProperty(REPORT_QUERY, gq.getReportProperty(REPORT_QUERY).getPropertyValue());
+            setProperty(REPORT_DATE_FORMAT, gq.getReportProperty(REPORT_DATE_FORMAT).getPropertyValue());
 
             store(changestream, null);
             changestream.close();
