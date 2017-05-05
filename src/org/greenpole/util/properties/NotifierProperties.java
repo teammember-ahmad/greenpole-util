@@ -34,6 +34,7 @@ public class NotifierProperties extends Properties {
     private final String REJECT_NOTIFIER_QUEUE_NAME = "reject.notifier.queue.name";
     private final String INFORMATION_NOTIFIER_QUEUE_NAME = "information.notifier.queue.name";
     private final String TEXT_NOTIFIER_QUEUE_NAME = "text.notifier.queue.name";
+    private final String CSCS_QUEUE_NAME = "cscs.queue.name";
     private static final Logger logger = LoggerFactory.getLogger(NotifierProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
     
@@ -138,6 +139,7 @@ public class NotifierProperties extends Properties {
             setProperty(REJECT_NOTIFIER_QUEUE_NAME, gq.getNotifiersProperty(REJECT_NOTIFIER_QUEUE_NAME).getPropertyValue());
             setProperty(INFORMATION_NOTIFIER_QUEUE_NAME, gq.getNotifiersProperty(INFORMATION_NOTIFIER_QUEUE_NAME).getPropertyValue());
             setProperty(TEXT_NOTIFIER_QUEUE_NAME, gq.getNotifiersProperty(TEXT_NOTIFIER_QUEUE_NAME).getPropertyValue());
+            setProperty(CSCS_QUEUE_NAME, gq.getNotifiersProperty(CSCS_QUEUE_NAME).getPropertyValue());
             
             store(changestream, null);
             changestream.close();
@@ -202,6 +204,14 @@ public class NotifierProperties extends Properties {
      */
     public String getInformationNotifierQueueName() {
         return getProperty(INFORMATION_NOTIFIER_QUEUE_NAME);
+    }
+    
+    /**
+     * Gets the queue name
+     * @return the cscs queue name
+     */
+    public String getCscsQueueName() {
+        return getProperty(CSCS_QUEUE_NAME);
     }
     
     /**
