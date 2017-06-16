@@ -53,6 +53,7 @@ public class GreenpoleProperties extends Properties {
     private final String PRIVATE_KEY_FILE = "private.key.file";
     private final String LOGIN_TRIES = "login.tries";
     private final String PASSWORD_LENGTH = "password.length";
+    private final String DOMAIN_NAME = "domain.name";
     private static final Logger logger = LoggerFactory.getLogger(GreenpoleProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
 
@@ -178,6 +179,7 @@ public class GreenpoleProperties extends Properties {
             setProperty(PRIVATE_KEY_FILE, gq.getEngineProperty(PRIVATE_KEY_FILE).getPropertyValue());
             setProperty(LOGIN_TRIES, gq.getEngineProperty(LOGIN_TRIES).getPropertyValue());
             setProperty(PASSWORD_LENGTH, gq.getEngineProperty(PASSWORD_LENGTH).getPropertyValue());
+            setProperty(DOMAIN_NAME, gq.getEngineProperty(DOMAIN_NAME).getPropertyValue());
 
             store(changestream, null);
             changestream.close();
@@ -338,6 +340,10 @@ public class GreenpoleProperties extends Properties {
 
     public String getPasswordLength() {
         return getProperty(PASSWORD_LENGTH);
+    }
+    
+    public String getDomainName() {
+        return getProperty(DOMAIN_NAME);
     }
 
     /**

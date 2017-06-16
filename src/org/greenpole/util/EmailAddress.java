@@ -25,4 +25,17 @@ public class EmailAddress {
         Matcher matcher = pattern.matcher(emailAddress);
         return matcher.matches();
     }
+    
+    /**
+     * checks if the email is valid as an APR email address
+     * @param emailAddress the email address to check
+     * @param domainName the domain name to check the email address against
+     * @return true, if email is valid
+     */
+    public static boolean AprEmailIsValid(String emailAddress, String domainName) {
+        String email_pattern = "[a-zA-Z0-9]+\\.[_a-zA-Z0-9]+@" + domainName;
+        Pattern pattern = Pattern.compile(email_pattern);
+        Matcher matcher = pattern.matcher(emailAddress);
+        return matcher.matches();
+    }
 }
