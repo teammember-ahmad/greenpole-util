@@ -55,6 +55,7 @@ public class GreenpoleProperties extends Properties {
     private final String PASSWORD_LENGTH = "password.length";
     private final String DOMAIN_NAME = "domain.name";
     private final String PASSWORD_VALID = "password.valid";
+    private final String PASSWORD_DAYS_REMINDER = "password.days.reminder";
     private static final Logger logger = LoggerFactory.getLogger(GreenpoleProperties.class);
     private final GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
 
@@ -182,6 +183,7 @@ public class GreenpoleProperties extends Properties {
             setProperty(PASSWORD_LENGTH, gq.getEngineProperty(PASSWORD_LENGTH).getPropertyValue());
             setProperty(DOMAIN_NAME, gq.getEngineProperty(DOMAIN_NAME).getPropertyValue());
             setProperty(PASSWORD_VALID, gq.getEngineProperty(PASSWORD_VALID).getPropertyValue());
+            setProperty(PASSWORD_DAYS_REMINDER, gq.getEngineProperty(PASSWORD_DAYS_REMINDER).getPropertyValue());
 
             store(changestream, null);
             changestream.close();
@@ -350,6 +352,10 @@ public class GreenpoleProperties extends Properties {
     
     public String getPasswordValid() {
         return getProperty(PASSWORD_VALID);
+    }
+    
+    public String getPasswordDaysReminder() {
+        return getProperty(PASSWORD_DAYS_REMINDER);
     }
 
     /**
