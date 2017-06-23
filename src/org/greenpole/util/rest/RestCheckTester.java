@@ -19,7 +19,8 @@ import org.greenpole.entity.response.Response;
  */
 public class RestCheckTester {
     public static void main(String[] args) throws IOException {
-        ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                .configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
         
         RestCheck check = new RestCheck();
         System.out.println("started running...");
@@ -33,10 +34,10 @@ public class RestCheckTester {
         
         System.out.println(mapper.writeValueAsString(resp));
         
-        List<UserAccess> ulist = (List<UserAccess>) resp.getRestBody();
+        /*List<UserAccess> ulist = (List<UserAccess>) resp.getRestBody();
         for (UserAccess a : ulist) {
             System.out.println("email: " + a.getEmail());
-        }
+        }*/
         
         /*String json = mapper.writeValueAsString(resp.getRestBody());
         List<UserAccess> ulist = mapper.readValue(json, new TypeReference<List<UserAccess>>(){});
