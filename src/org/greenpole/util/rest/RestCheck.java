@@ -25,11 +25,17 @@ public class RestCheck {
     }
     
     public Response doPost() {
-        Login login = new Login();
+        /*Login login = new Login();
         login.setUserId("akinwale.agbaje@africaprudentialregistrars.com");
         login.setPassword("ZOLHvWZMDck91zeog8SWTIdx2zjvK/Wry+N4BGZjRyYwCinsMrgM0OAj2trXcoVwfyeREE52lq5dWIPWcvEiVjevFdxSqRjFMgdXFJ6gJzCImjWtIF3A8VKLIbScsHlPY2ZdcPZSw8mt9V55PbeViRb/CbvU6RPQXJZzrid3ewE=");
         return webTarget//.queryParam("pagenumber", 1).queryParam("pagesize", 10)
                 .request(javax.ws.rs.core.MediaType.APPLICATION_JSON).accept(javax.ws.rs.core.MediaType.APPLICATION_XML)
-                .post(javax.ws.rs.client.Entity.entity(login, javax.ws.rs.core.MediaType.APPLICATION_JSON), Response.class);
+                .post(javax.ws.rs.client.Entity.entity(login, javax.ws.rs.core.MediaType.APPLICATION_JSON), Response.class);*/
+        Login login = new Login();
+        login.setUserId("akinwale.agbaje@africaprudentialregistrars.com");
+        login.setPassword("ZOLHvWZMDck91zeog8SWTIdx2zjvK/Wry+N4BGZjRyYwCinsMrgM0OAj2trXcoVwfyeREE52lq5dWIPWcvEiVjevFdxSqRjFMgdXFJ6gJzCImjWtIF3A8VKLIbScsHlPY2ZdcPZSw8mt9V55PbeViRb/CbvU6RPQXJZzrid3ewE=");
+        return webTarget//.queryParam("pagenumber", 1).queryParam("pagesize", 10)
+                .request(javax.ws.rs.core.MediaType.APPLICATION_XML)
+                .post(javax.ws.rs.client.Entity.entity(login, javax.ws.rs.core.MediaType.APPLICATION_XML), Response.class);
     }
 }

@@ -57,14 +57,14 @@ public class AuditLog {
      * @param referenceId the reference id
      * @return true, if activity is logged
      */
-    public static boolean logErsUserActivity(String userEmail, String userIpAddress, String functionPerformed, boolean approvalRequired, String designatedApprover, 
+    public static boolean logVendorUserActivity(String userEmail, String userIpAddress, String functionPerformed, boolean approvalRequired, String designatedApprover, 
             boolean isAuthorisation, String notificationCode, int responseCode, String responseDescription, String referenceId) {
         GeneralComponentQuery gq = ComponentQueryFactory.getGeneralComponentQuery();
         org.slf4j.Logger logger = LoggerFactory.getLogger(AuditLog.class);
         boolean result = false;
         try {
-            result = gq.logUserActivity(userEmail, userIpAddress, functionPerformed, approvalRequired, designatedApprover, isAuthorisation, 
-                    notificationCode, responseCode, responseDescription, referenceId, "ers");
+            result = gq.logVendorUserActivity(userEmail, userIpAddress, functionPerformed, approvalRequired, designatedApprover, isAuthorisation, 
+                    notificationCode, responseCode, responseDescription, referenceId, "vendor_application");
         } catch (Exception ex) {
             logger.info("error thrown while logging user activity for {}. See error log", userEmail);
             logger.error("error thrown while logging user activity for " + userEmail, ex);
