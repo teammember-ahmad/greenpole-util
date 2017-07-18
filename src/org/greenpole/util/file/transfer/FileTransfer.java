@@ -29,7 +29,6 @@ public class FileTransfer {
     public FileTransfer(String username, String password, String host, int portNumber) throws IOException, Exception {
         ftp = new FTPClient();
         int reply;
-        ftp.setConnectTimeout(50);
         ftp.connect(host, portNumber);
 
         reply = ftp.getReplyCode();
