@@ -29,6 +29,7 @@ public class FileTransfer {
     public FileTransfer(String username, String password, String host, int portNumber) throws IOException, Exception {
         ftp = new FTPClient();
         int reply;
+        ftp.setConnectTimeout(50);
         ftp.connect(host, portNumber);
 
         reply = ftp.getReplyCode();
@@ -59,11 +60,13 @@ public class FileTransfer {
                 System.out.println("Unable to transfer the file");
                 logger.info("Transfer successful with transfer status as - {} ", done);
             }
-
         } catch (Exception e) {
             logger.info("error in transfering file to the server. See error log");
             logger.error("error in transfering file to the server", e);
+            System.out.println(e);
 
+        } finally {
+            disconnect();
         }
         return done;
     }
@@ -87,12 +90,14 @@ public class FileTransfer {
             }
         } catch (IOException e) {
             System.out.println("Error - " + e.getMessage());
+        } finally {
+            disconnect();
         }
         return downloaded;
     }
 
     // Disconnect the connection to FTP
-    public void disconnect() {
+    private void disconnect() {
         if (this.ftp.isConnected()) {
             try {
                 this.ftp.logout();
